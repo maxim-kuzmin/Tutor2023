@@ -10,7 +10,7 @@ ISingleton secondStaticSingleton = StaticSingleton.Instance;
 
 Show(firstStaticSingleton, secondStaticSingleton);
 
-void Show(ISingleton firstSingleton, ISingleton secondSingleton)
+static void Show(ISingleton firstSingleton, ISingleton secondSingleton)
 {
     Console.WriteLine(firstSingleton.Name);
     Console.WriteLine(secondSingleton.Name);

@@ -1,8 +1,5 @@
 ﻿// Copyright (c) 2023 Maxim Kuzmin. All rights reserved. Licensed under the MIT License.
 
-using Prototype.Parts;
-using Prototype.Parts.Prototypes;
-
 var firstPrototypeData = new PrototypeData
 {
     Prop1 = "111",
@@ -19,18 +16,6 @@ var secondPrototypeData = new PrototypeData
 
 var secondPrototype = new SecondPrototype(secondPrototypeData);
 
-IPrototype firstPrototypeClone = firstPrototype.Clone();
-IPrototype secondPrototypeClone = secondPrototype.Clone();
+var client = new Client(firstPrototype, secondPrototype);
 
-Show("Originals:", firstPrototype, secondPrototype);
-Show("Clones:", firstPrototypeClone, secondPrototypeClone);
-
-void Show(string title, IPrototype firstPrototype, IPrototype secondPrototype)
-{
-    Console.WriteLine(title);
-
-    firstPrototype.Show();
-    secondPrototype.Show();
-    
-    Console.WriteLine();
-}
+client.Operation();
