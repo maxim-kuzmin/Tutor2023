@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singleton", "Singleton\Sing
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prototype", "Prototype\Prototype.csproj", "{C5812396-3EE2-4FFD-907D-1C77BDB1A191}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builder", "Builder\Builder.csproj", "{327EC496-99B0-4C56-92AB-B8285C51F619}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{C5812396-3EE2-4FFD-907D-1C77BDB1A191}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5812396-3EE2-4FFD-907D-1C77BDB1A191}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5812396-3EE2-4FFD-907D-1C77BDB1A191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327EC496-99B0-4C56-92AB-B8285C51F619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327EC496-99B0-4C56-92AB-B8285C51F619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327EC496-99B0-4C56-92AB-B8285C51F619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327EC496-99B0-4C56-92AB-B8285C51F619}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +136,7 @@ Global
 		{CBA4E0E4-15ED-4753-82AB-9EC35092B402} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
 		{81567838-59F3-49FD-BCCC-452A6A9B59FD} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
 		{C5812396-3EE2-4FFD-907D-1C77BDB1A191} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
+		{327EC496-99B0-4C56-92AB-B8285C51F619} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF8E045F-6C9F-48EC-971D-F765328C8221}
