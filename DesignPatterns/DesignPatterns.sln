@@ -32,19 +32,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateMethod", "TemplateM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command", "Command\Command.csproj", "{74CEC8E4-3219-402B-838D-445920FF8FFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Observer", "Observer\Observer.csproj", "{FB978B0D-527C-46C2-9C6E-02D4EA085E03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer", "Observer\Observer.csproj", "{FB978B0D-527C-46C2-9C6E-02D4EA085E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strategy", "Strategy\Strategy.csproj", "{E5C3B1D4-3C73-4031-B866-71AAA7130142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strategy", "Strategy\Strategy.csproj", "{E5C3B1D4-3C73-4031-B866-71AAA7130142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryMethod", "FactoryMethod\FactoryMethod.csproj", "{19B4C5CF-E21B-41AB-939A-E653E4F8D37C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryMethod", "FactoryMethod\FactoryMethod.csproj", "{19B4C5CF-E21B-41AB-939A-E653E4F8D37C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFactory", "AbstractFactory\AbstractFactory.csproj", "{CBA4E0E4-15ED-4753-82AB-9EC35092B402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractFactory", "AbstractFactory\AbstractFactory.csproj", "{CBA4E0E4-15ED-4753-82AB-9EC35092B402}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singleton", "Singleton\Singleton.csproj", "{81567838-59F3-49FD-BCCC-452A6A9B59FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Singleton", "Singleton\Singleton.csproj", "{81567838-59F3-49FD-BCCC-452A6A9B59FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prototype", "Prototype\Prototype.csproj", "{C5812396-3EE2-4FFD-907D-1C77BDB1A191}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prototype", "Prototype\Prototype.csproj", "{C5812396-3EE2-4FFD-907D-1C77BDB1A191}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builder", "Builder\Builder.csproj", "{327EC496-99B0-4C56-92AB-B8285C51F619}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Builder", "Builder\Builder.csproj", "{327EC496-99B0-4C56-92AB-B8285C51F619}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decorator", "Decorator\Decorator.csproj", "{F823304D-6CB6-445A-AF38-2E49A7B8D9B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,6 +118,10 @@ Global
 		{327EC496-99B0-4C56-92AB-B8285C51F619}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{327EC496-99B0-4C56-92AB-B8285C51F619}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{327EC496-99B0-4C56-92AB-B8285C51F619}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F823304D-6CB6-445A-AF38-2E49A7B8D9B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F823304D-6CB6-445A-AF38-2E49A7B8D9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F823304D-6CB6-445A-AF38-2E49A7B8D9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F823304D-6CB6-445A-AF38-2E49A7B8D9B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{81567838-59F3-49FD-BCCC-452A6A9B59FD} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
 		{C5812396-3EE2-4FFD-907D-1C77BDB1A191} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
 		{327EC496-99B0-4C56-92AB-B8285C51F619} = {40E9B90B-F40F-4946-BE47-3EFEDF09DE95}
+		{F823304D-6CB6-445A-AF38-2E49A7B8D9B9} = {23822CA7-D13B-4645-B77F-810B7C8C7E15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF8E045F-6C9F-48EC-971D-F765328C8221}
