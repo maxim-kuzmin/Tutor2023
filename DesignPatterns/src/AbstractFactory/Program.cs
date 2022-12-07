@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2023 Maxim Kuzmin. All rights reserved. Licensed under the MIT License.
 
-IFactory firstTypeFactory = new FirstTypeFactory();
-IFactory secondTypeFactory = new SecondTypeFactory();
+IFactory firstKindFactory = new FirstKindFactory();
+IFactory secondKindFactory = new SecondKindFactory();
 
-var firstTypeClient = new Client(firstTypeFactory);
-var secondTypeClient = new Client(secondTypeFactory);
+var firstKindClient = new Client(firstKindFactory);
+var secondKindClient = new Client(secondKindFactory);
 
-firstTypeClient.Run();
+firstKindClient.Run();
 
 Console.WriteLine();
 
-secondTypeClient.Run();
+secondKindClient.Run();

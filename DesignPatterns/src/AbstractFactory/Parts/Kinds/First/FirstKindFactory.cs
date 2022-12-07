@@ -1,24 +1,24 @@
 ﻿// Copyright (c) 2023 Maxim Kuzmin. All rights reserved. Licensed under the MIT License.
 
-namespace AbstractFactory.Parts.Types.Second;
+namespace AbstractFactory.Parts.Kinds.First;
 
 /// <summary>
-/// Фабрика второго типа.
+/// Фабрика первого типа.
 /// </summary>
-internal class SecondTypeFactory : IFactory
+internal class FirstKindFactory : IFactory
 {
     #region Public methods
 
     /// <inheritdoc/>
     public IFirstProduct CreateFirstProduct()
     {
-        return new SecondTypeFirstProduct();
+        return new FirstKindFirstProduct();
     }
 
     /// <inheritdoc/>
     public ISecondProduct CreateSecondProduct()
     {
-        return new SecondTypeSecondProduct();
+        return new FirstKindSecondProduct();
     }
 
     #endregion Public methods

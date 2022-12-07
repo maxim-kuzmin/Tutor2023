@@ -2,5 +2,5 @@
 
 global using AbstractFactory.Parts;
 global using AbstractFactory.Parts.Products;
-global using AbstractFactory.Parts.Types.First;
-global using AbstractFactory.Parts.Types.Second;
+global using AbstractFactory.Parts.Kinds.First;
+global using AbstractFactory.Parts.Kinds.Second;
