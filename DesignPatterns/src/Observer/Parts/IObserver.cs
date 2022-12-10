@@ -12,8 +12,7 @@ internal interface IObserver
     /// <summary>
     /// Обновить.
     /// </summary>
-    /// <param name="data">Данные.</param>
-    void Update(string data);
+    void Update();
 
     #endregion Methods
 }

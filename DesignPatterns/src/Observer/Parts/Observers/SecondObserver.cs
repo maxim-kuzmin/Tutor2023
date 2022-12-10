@@ -10,9 +10,9 @@ internal class SecondObserver : IObserver
     #region Public methods
 
     /// <inheritdoc/>
-    public void Update(string data)
+    public void Update()
     {
-        Console.WriteLine($"{nameof(SecondObserver)}: {data}");
+        Console.WriteLine($"{nameof(SecondObserver)}: updated");
     }
 
     #endregion Public methods

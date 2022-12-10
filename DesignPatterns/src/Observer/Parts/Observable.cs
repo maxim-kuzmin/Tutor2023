@@ -6,18 +6,9 @@ internal class Observable : IObservable
 {
     #region Fields
 
-    private readonly List<IObserver> _observers = new List<IObserver>();
+    private readonly List<IObserver> _observers = new();
 
     #endregion Fields
-
-    #region Properties
-
-    /// <summary>
-    /// Данные.
-    /// </summary>
-    public string Data { get; set; } = null!;
-
-    #endregion Properties
 
     #region Public methods
 
@@ -32,7 +23,7 @@ internal class Observable : IObservable
     {
         foreach (var observer in _observers)
         {
-            observer.Update(Data);
+            observer.Update();
         }
     }
 
