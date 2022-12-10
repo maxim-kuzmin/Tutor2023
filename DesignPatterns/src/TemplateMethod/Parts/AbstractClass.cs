@@ -15,6 +15,7 @@ internal abstract class AbstractClass
     public void TemplateMethod()
     {
         FirstOperation();
+
         SecondOperation();
     }
 
