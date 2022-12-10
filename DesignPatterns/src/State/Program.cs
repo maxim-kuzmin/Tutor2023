@@ -4,12 +4,6 @@ IState firstState = new FirstState();
 
 var context = new Context(firstState);
 
-Console.WriteLine(context.State);
-
 context.RequestTransferToSecondState();
 
-Console.WriteLine(context.State);
-
 context.RequestTransferToFirstState();
-
-Console.WriteLine(context.State);

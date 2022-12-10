@@ -10,16 +10,16 @@ internal interface IState
     #region Methods
 
     /// <summary>
-    /// Обработать запрос на перевод Контекста в первое состояние.
+    /// Обработать перевод в первое состояние.
     /// </summary>
     /// <param name="context">Контекст.</param>
-    void HandleTransferToFirstStateRequest(Context context);
+    void HandleTransferToFirstState(Context context);
 
     /// <summary>
-    /// Обработать запрос на перевод Контекста во второе состояние
+    /// Обработать перевод во второе состояние
     /// </summary>
     /// <param name="context">Контекст.</param>
-    void HandleTransferToSecondStateRequest(Context context);
+    void HandleTransferToSecondState(Context context);
 
     #endregion Methods
 }

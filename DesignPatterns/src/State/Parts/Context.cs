@@ -36,7 +36,7 @@ internal class Context
     /// </summary>
     public void RequestTransferToFirstState()
     {
-        State.HandleTransferToFirstStateRequest(this);
+        State.HandleTransferToFirstState(this);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ internal class Context
     /// </summary>
     public void RequestTransferToSecondState()
     {
-        State.HandleTransferToSecondStateRequest(this);
+        State.HandleTransferToSecondState(this);
     }
 
     #endregion Public methods

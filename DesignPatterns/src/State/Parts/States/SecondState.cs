@@ -10,13 +10,15 @@ internal class SecondState : IState
     #region Public methods
 
     /// <inheritdoc/>
-    public void HandleTransferToFirstStateRequest(Context context)
+    public void HandleTransferToFirstState(Context context)
     {
         context.State = new FirstState();
+
+        Console.WriteLine("State changed to first");
     }
 
     /// <inheritdoc/>
-    public void HandleTransferToSecondStateRequest(Context context)
+    public void HandleTransferToSecondState(Context context)
     {
     }
 
