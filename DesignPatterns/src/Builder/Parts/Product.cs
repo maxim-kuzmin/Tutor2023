@@ -10,19 +10,29 @@ internal class Product
     #region Properties
 
     /// <summary>
-    /// Свойство 1.
+    /// Первая часть.
     /// </summary>
-    public string Prop1 { get; set; } = null!;
+    public string FirstPart { get; set; } = null!;
 
     /// <summary>
-    /// Свойство 2.
+    /// Вторая часть.
     /// </summary>
-    public string Prop2 { get; set; } = null!;
-
-    /// <summary>
-    /// Свойство 3.
-    /// </summary>
-    public string Prop3 { get; set; } = null!;
+    public string SecondPart { get; set; } = null!;
 
     #endregion Properties
+
+    #region Public methods
+
+    /// <inheritdoc/>
+    public sealed override string ToString()
+    {
+        return $$"""
+            {
+                "FirstPart": "{{FirstPart}}",
+                "SecondPart": "{{SecondPart}}"
+            }
+            """;
+    }
+
+    #endregion Public methods
 }

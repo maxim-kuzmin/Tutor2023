@@ -19,19 +19,14 @@ internal interface IBuilder
     #region Methods
 
     /// <summary>
-    /// Шаг 1.
+    /// Построить первую часть.
     /// </summary>
-    void Step1();
+    void BuildFirstPart();
 
     /// <summary>
-    /// Шаг 2.
+    /// Построить вторую часть.
     /// </summary>
-    void Step2();
-
-    /// <summary>
-    /// Шаг 3.
-    /// </summary>
-    void Step3();
+    void BuildSecondPart();
 
     #endregion Methods
 }

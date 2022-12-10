@@ -29,13 +29,10 @@ internal abstract class Builder : IBuilder
     #region Public methods
 
     /// <inheritdoc/>
-    public abstract void Step1();
+    public abstract void BuildFirstPart();
 
     /// <inheritdoc/>
-    public abstract void Step2();
-
-    /// <inheritdoc/>
-    public abstract void Step3();
+    public abstract void BuildSecondPart();
 
     #endregion Public methods
 }

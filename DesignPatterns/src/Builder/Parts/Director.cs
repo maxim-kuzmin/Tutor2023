@@ -33,9 +33,8 @@ internal class Director
     /// </summary>
     public void Construct()
     {
-        _builder.Step1();
-        _builder.Step2();
-        _builder.Step3();
+        _builder.BuildFirstPart();
+        _builder.BuildSecondPart();
     }
 
     #endregion Public methods

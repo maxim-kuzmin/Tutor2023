@@ -10,21 +10,15 @@ internal class SecondBuilder : Builder
     #region Public methods
 
     /// <inheritdoc/>
-    public override void Step1()
+    public override void BuildFirstPart()
     {
-        Result.Prop1 = $"{nameof(SecondBuilder)}.{nameof(Product.Prop1)}";
+        Result.FirstPart = $"{nameof(SecondBuilder)} - {nameof(BuildFirstPart)}";
     }
 
     /// <inheritdoc/>
-    public override void Step2()
+    public override void BuildSecondPart()
     {
-        Result.Prop2 = $"{nameof(SecondBuilder)}.{nameof(Product.Prop2)}";
-    }
-
-    /// <inheritdoc/>
-    public override void Step3()
-    {
-        Result.Prop3 = $"{nameof(SecondBuilder)}.{nameof(Product.Prop3)}";
+        Result.SecondPart = $"{nameof(SecondBuilder)} - {nameof(BuildSecondPart)}";
     }
 
     #endregion Public methods
