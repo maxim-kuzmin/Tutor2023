@@ -53,8 +53,8 @@ internal class Client
     {
         Console.WriteLine(title);
 
-        firstPrototype.Show();
-        secondPrototype.Show();
+        Console.WriteLine(firstPrototype);
+        Console.WriteLine(secondPrototype);
 
         Console.WriteLine();
     }

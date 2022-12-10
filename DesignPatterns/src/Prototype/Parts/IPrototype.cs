@@ -15,11 +15,6 @@ namespace Prototype.Parts
         /// <returns>Клон.</returns>
         IPrototype Clone();
 
-        /// <summary>
-        /// Показать.
-        /// </summary>
-        void Show();
-
         #endregion Methods
     }
 }

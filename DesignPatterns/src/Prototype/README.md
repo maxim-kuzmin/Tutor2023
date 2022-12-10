@@ -2,6 +2,70 @@
 
 ## Описание
 
+Создание нового объекта путём клонирования существующего.
+
 ## Участники
 
+**Prototype**
+
+	(+) Clone()
+
+**FirstPrototype: Prototype**
+
+	(+) Clone(): Prototype
+
+		return new FirstPrototype()
+
+	(+) ToString(): string
+
+		return "FirstPrototype"
+
+**SecondPrototype: Prototype**
+
+	(+) Clone(): Prototype
+
+		return new SecondPrototype()
+
+	(+) ToString(): string
+
+		return "SecondPrototype"
+
+**Client**
+
+	(-) firstPrototype: Prototype
+
+	(-) secondPrototype: Prototype
+
+	(+) (firstPrototype: Prototype, secondPrototype: Prototype)
+		
+		.firstPrototype = firstPrototype
+
+		.secondPrototype = secondPrototype
+		
+	(+) Operation()
+
+		Prototype firstPrototypeClone = firstPrototype.Clone()
+
+		Prototype secondPrototypeClone = secondPrototype.Clone()
+
+		Console.WriteLine(firstPrototypeClone)
+
+		Console.WriteLine(secondPrototypeClone)
+
+**Program**
+
+	(-) Main()
+
+		Prototype firstPrototype = new FirstPrototype()
+
+		Prototype secondPrototype = new SecondPrototype()
+
+		Client client = new Client(firstPrototype, secondPrototype)
+
+		client.Operation()
+
 ## Пример
+
+На фабрике (Client) есть образцы продукции (Prototype).
+
+Создание новых образцов осуществляется путём копирования имеющихся - FirstPrototype и SecondPrototype.

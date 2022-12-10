@@ -31,9 +31,9 @@ internal class FirstPrototype : Prototype
     }
 
     /// <inheritdoc/>
-    public sealed override void Show()
+    public sealed override string ToString()
     {
-        Console.WriteLine($"{nameof(FirstPrototype)}: {Data.Prop1}, {Data.Prop2}");
+        return $"{nameof(FirstPrototype)}: {Data.Prop1}, {Data.Prop2}";
     }
 
     #endregion Public methods

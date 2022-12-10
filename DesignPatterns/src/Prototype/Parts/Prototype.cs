@@ -32,8 +32,5 @@ internal abstract class Prototype : IPrototype
     /// <inheritdoc/>
     public abstract IPrototype Clone();
 
-    /// <inheritdoc/>
-    public abstract void Show();
-
     #endregion Public methods
 }
