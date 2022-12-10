@@ -3,7 +3,7 @@
 namespace Memento.Parts;
 
 /// <summary>
-/// Инициатор.
+/// Создатель (автор).
 /// </summary>
 internal class Originator
 {
@@ -39,6 +39,14 @@ internal class Originator
     public void SetMemento(Memento memento)
     {
         _state = memento.State;
+    }
+
+    /// <summary>
+    /// Показать состояние.
+    /// </summary>
+    public void ShowState()
+    {
+        Console.WriteLine(_state);
     }
 
     #endregion Public methods

@@ -3,7 +3,7 @@
 namespace Memento.Parts;
 
 /// <summary>
-/// Хранитель.
+/// Хранитель (напоминание).
 /// </summary>
 internal class Memento
 {
