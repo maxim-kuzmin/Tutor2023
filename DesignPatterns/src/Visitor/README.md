@@ -1,49 +1,97 @@
 ﻿# Паттерн "Посетитель" (Visitor)
 
-Позволяет хранить операции отдельно от объектов по отношению к которым они применяются.
+## Описание
 
-В случае, если нет желания или возможности изменять классы объектов для добавления к ним новых методов,
-выполняющих определённые операции над ними, можно для каждой из операций создать по одному классу, который
-будет выполнять операцию над каждым из классов объектов в отдельном методе. Эти классы будут называться
-Посетителями, а классы объектов, над которыми будут совершаться операции, будут называться Элементами.
-Каждый Посетитель будет иметь по одному методу на каждый Элемент.
+Добавление объекту новой операции без внесения в него изменений.
 
-Методы для совершения операции над Элементами будут называться Visit<Имя класса Элемента>. Эти методы
-будут принимать экземпляр Элемента того класса, для обработки которого они предназначены.
-Все Посетители реализуют один и тот же интерфейс, содержащий все эти методы.
+## Участники
 
-Для того, чтобы можно было выполнить операцию над Элементом, нужно добавить в него метод Accept,
-принимающий экземпляр интерфейса Посетителя. Внутри этого метода должен вызываться тот метод интерфейса
-Посетителя, который предназначен для выполнения операции над экземпляром класса этого Элемента. Этот метод
-обычно размещается в интерфейсе, который реализуется каждым Посетителем. Это позволяет хранить все экземпляры
-Посетителей в одном списке или любой другой структуре данных, чтобы иметь возможность единообразно в цикле
-применять к ним операции, вызывая их метод Accept.
+**Element** // Элемент
 
-Экземпляры Элементов обычно хранятся внутри класса с условным названием "Структура объектов". Этот класс обычно содержит
-как минимум два метода. Первый метод с именем AddElement предназначен для добавления экземпляра интерфейса Элемента,
-а второй с именем Accept предназначен для вызова метода Accept каждого из добавленных Элементов.
+    (+) Accept(visitor: Visitor)
 
-Для создания Структуры объектов, Посредников и Элементов служит класс с условным названием "Клиент". Созданные им экземпляры
-элементов добавляются в Структуру объектов, а затем вызывается метод Accept этой Структуры объектов с передачей в него
-экземпляров Посредников.
+**FirstElement: Element** // Первый элемент
 
-## Задача
+    (+) Accept(visitor: Visitor)
 
-Имеется два Элемента: FirstElement и SecondElement. Необходимо обеспечить их представление в форматах JSON и XML без
-добавления соответствующих методов внутрь этих Элементов.
+        visitor.VisitFirstElement(.)
 
-## Решение
+**SecondElement: Element** // Второй элемент
 
-Создаётся интерфейс Посредника с именем IVisitor и двумя методами: VisitFirstElement и VisitSecondElement,
-принимающими экземпляры классов FirstElement и SecondElement соответственно. 
+    (+) Accept(visitor: Visitor)
 
-Создаётся интерфейс Элемента с именем IElement и методом Accept, принимающий экземпляр интерфейса Посредника.
-Все классы элемента должны реализовать этот интерфейс так, чтобы внутри метода Accept вызывать соответствующий
-метод Посредника с передачей в него себя самого.
+        visitor.VisitSecondElement(.)
 
-Создаётся класс Структуры объектов с именем ObjectStructure с двумя методами: AddElement и Accept. Первый из них принимает экземпляр
-интерфейса IElement, а второй - экземпляр интерфейса IVisitor. Метод AddElement добавляет Элемент в список, а метод Accept в цикле
-выполняет метод Accept каждого из Элементов, добавленных в этот список, с передачей в него Посредника.
+**Visitor** // Посетитель
 
-Для того, чтобы можно было обработать результат операции, выполняемой Посредником над каждым из элементов, в конструктор Посредника
-передаётся функция, принимающая на входе результат операции. Внутри этой функции результат операции выводится в консоль. 
+    (+) VisitFirstElement(element: FirstElement)
+
+    (+) VisitSecondElement(element: SecondElement)
+
+**FirstVisitor: Visitor** // Первый посетитель
+
+    (+) VisitFirstElement(element: FirstElement)
+
+        Console.WriteLine("FirstVisitor - FirstElement")
+
+    (+) VisitSecondElement(element: SecondElement)
+
+        Console.WriteLine("FirstVisitor - SecondElement")
+
+**SecondVisitor: Visitor** // Второй посетитель
+
+    (+) VisitFirstElement(element: FirstElement)
+
+        Console.WriteLine("SecondVisitor - FirstElement")
+
+    (+) VisitSecondElement(element: SecondElement)
+
+        Console.WriteLine("SecondVisitor - SecondElement")
+
+**ObjectStructure** // Структура объектов
+
+    (-) elements: List<Element> = new()
+
+    (+) Accept(visitor: AbstractVisitor)
+
+        (foreach element in elements).Accept(visitor)
+
+    (+) Add(element: Element)
+
+        .elements.Add(element)
+
+    (+) Remove(element: Element)
+
+        .elements.Remove(element)
+
+**Client** // Клиент
+
+    (-) Main()
+
+        ObjectStructure objectStructure = new ObjectStructure()
+
+        Element firstElement = new FirstElement()
+
+        Element secondElement = new SecondElement()
+
+        Visitor firstVisitor = new FirstVisitor()
+
+        Visitor secondVisitor = new SecondVisitor()
+
+        objectStructure.Add(firstElement)
+
+        objectStructure.Add(secondElement)
+
+        objectStructure.Accept(firstVisitor)
+
+        objectStructure.Accept(secondVisitor)
+
+        objectStructure.Remove(firstElement)
+
+        objectStructure.Accept(firstVisitor)
+
+        objectStructure.Accept(secondVisitor)
+
+## Пример
+
+Для двух типов документов (Element) - кассовый чек (FirstElement) и товарный чек (SecondElement), хранящихся в архиве (ObjectStructure), нужно получить представление (Visitor) в двух форматах - XML (FirstVisitor) и JSON (SecondVisitor).

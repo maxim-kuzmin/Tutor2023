@@ -17,16 +17,7 @@ internal class ObjectStructure
     #region Public methods
 
     /// <summary>
-    /// Добавить элемент.
-    /// </summary>
-    /// <param name="element">Элемент.</param>
-    public void AddElement(IElement element)
-    {
-        _elements.Add(element);
-    }
-
-    /// <summary>
-    /// Принять посетителя.
+    /// Принять.
     /// </summary>
     /// <param name="visitor">Посетитель.</param>
     public void Accept(IVisitor visitor)
@@ -35,6 +26,24 @@ internal class ObjectStructure
         {
             element.Accept(visitor);
         }
+    }
+
+    /// <summary>
+    /// Добавить.
+    /// </summary>
+    /// <param name="element">Элемент.</param>
+    public void Add(IElement element)
+    {
+        _elements.Add(element);
+    }
+
+    /// <summary>
+    /// Удалить.
+    /// </summary>
+    /// <param name="element">Элемент.</param>
+    public void Remove(IElement element)
+    {
+        _elements.Remove(element);
     }
 
     #endregion Public methods

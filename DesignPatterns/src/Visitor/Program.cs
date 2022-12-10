@@ -2,25 +2,21 @@
 
 using Visitor.Parts.Visitors;
 
-var structure = new ObjectStructure();
+ObjectStructure objectStructure = new ObjectStructure();
 
-structure.AddElement(new FirstElement("1.1", "1.2"));
-structure.AddElement(new SecondElement("2.1", "2.2"));
+IElement firstElement = new FirstElement();
+IElement secondElement = new SecondElement();
 
-var jsonVisitor = new JsonVisitor(HandleVisitResult);
-var xmlVisitor = new XmlVisitor(HandleVisitResult);
+IVisitor firstVisitor = new FirstVisitor();
+IVisitor secondVisitor = new SecondVisitor();
 
-Console.WriteLine("Visit results:");
+objectStructure.Add(firstElement);
+objectStructure.Add(secondElement);
 
-structure.Accept(jsonVisitor);
-structure.Accept(xmlVisitor);
+objectStructure.Accept(firstVisitor);
+objectStructure.Accept(secondVisitor);
 
-#region Methods
+objectStructure.Remove(firstElement);
 
-static void HandleVisitResult(string visitResult)
-{
-    Console.WriteLine();
-    Console.WriteLine(visitResult);
-}
-
-#endregion Methods
+objectStructure.Accept(firstVisitor);
+objectStructure.Accept(secondVisitor);
