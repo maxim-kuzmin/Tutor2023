@@ -1,73 +1,74 @@
 ﻿# Паттерн "Абстрактная фабрика" (Abstract Factory)
 
-
 ## Описание
 
 Создание семейства взаимосвязанных объектов в виде экземпляров их интерфейсов.
 
 ## Участники
 
-**AbstractProductA** // Абстрактный продукт А
+**FirstProduct** // Первый продукт
 
-**FirstKindProductA: AbstractProductA** // Продукт А первого семейства
+**FirstKindFirstProduct: FirstProduct** // Первый продукт первого семейства
 
-**SecondKindProductA: AbstractProductA** // Продукт А второго семейства
+**SecondKindFirstProduct: FirstProduct** // Первый продукт второго семейства
 
-**AbstractProductB** // Абстрактный продукт Б
+**SecondProduct** // Второй продукт
 
-**FirstKindProductB: AbstractProductB** // Продукт Б первого семейства
+**FirstKindSecondProduct: SecondProduct** // Второй продукт первого семейства
 
-**SecondKindProductB: AbstractProductB** // Продукт Б второго семейства
+**SecondKindSecondProduct: SecondProduct** // Второй продукт второго семейства
 
 **AbstractFactory** // Абстрактная фабрика
 
-	(+) CreateProductA(): AbstractProductA
+	(+) CreateFirstProduct(): FirstProduct
 
-	(+) CreateProductB(): AbstractProductB
+	(+) CreateSecondProduct(): SecondProduct
 
-**FirstKindConcreteFactory: AbstractFactory** // Конкретная фабрика для создания первого семейства продуктов
+**FirstKindFactory: AbstractFactory** // Фабрика для создания первого семейства продуктов
 
-	(+) CreateProductA(): AbstractProductA
+	(+) CreateFirstProduct(): FirstProduct
 
-		return new FirstKindProductA()
+		return new FirstKindFirstProduct()
 
-	(+) CreateProductB(): AbstractProductB
+	(+) CreateSecondProduct(): SecondProduct
 
-		return new FirstKindProductB()
+		return new FirstKindSecondProduct()
 
-**SecondKindConcreteFactory: AbstractFactory** // Конкретная фабрика для создания второго семейства продуктов
+**SecondKindFactory: AbstractFactory** // Фабрика для создания второго семейства продуктов
 
-	(+) CreateProductA(): AbstractProductA
+	(+) CreateFirstProduct(): FirstProduct
 
-		return new SecondKindProductA()
+		return new SecondKindFirstProduct()
 
-	(+) CreateProductB(): AbstractProductB
+	(+) CreateSecondProduct(): SecondProduct
 
-		return new SecondKindProductB()
+		return new SecondKindSecondProduct()
 
 **Client**
 
-	(-) productA: AbstractProductA
+	(-) firstProduct: FirstProduct
 
-	(-) productB: AbstractProductB
+	(-) secondProduct: SecondProduct
 
 	(+) (factory: AbstractFactory)
 
-		.productA = factory.CreateProductA()
+		.firstProduct = factory.CreateFirstProduct()
 
-		.productB = factory.CreateProductB()
+		.secondProduct = factory.CreateSecondProduct()
 
 	(+) Run()
 
-		use .productA and .productB
+		Console.WriteLine(.firstProduct)
+
+		Console.WriteLine(.secondProduct)
 
 ## Пример
 
-Автомобильный завод (AbstractFactory) может выпускать грузовые (AbstractProductA) и легковые (AbstractProductA) автомобили.
+Автомобильный завод (AbstractFactory) может выпускать грузовые (FirstProduct) и легковые (SecondProduct) автомобили.
 
-Автомобильные заводы могут принадлежать разным компаниям: FirstKindConcreteFactory и SecondKindConcreteFactory.
+Автомобильные заводы могут принадлежать разным компаниям: FirstKindFactory и SecondKindFactory.
 
-Автомобильный завод компании FirstKindConcreteFactory выпускает свои грузовые (FirstKindProductA) и легковые (FirstKindProductB) автомобили, а автомобильный завод компании SecondKindConcreteFactory свои: SecondKindProductA и SecondKindProductB.
+Автомобильный завод компании FirstKindFactory выпускает свои грузовые (FirstKindFirstProduct) и легковые (FirstKindSecondProduct) автомобили, а автомобильный завод компании SecondKindFactory свои: SecondKindFirstProduct и SecondKindSecondProduct.
 
 Официальный дилер компании (Client) получает автомобили с её автомобильного завода (AbstractFactory).
 

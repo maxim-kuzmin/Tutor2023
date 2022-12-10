@@ -3,8 +3,8 @@
 IFactory firstKindFactory = new FirstKindFactory();
 IFactory secondKindFactory = new SecondKindFactory();
 
-var firstKindClient = new Client(firstKindFactory);
-var secondKindClient = new Client(secondKindFactory);
+Client firstKindClient = new Client(firstKindFactory);
+Client secondKindClient = new Client(secondKindFactory);
 
 firstKindClient.Run();
 
