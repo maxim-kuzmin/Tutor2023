@@ -8,21 +8,17 @@
 
 **FirstProduct** // Первый продукт
 
-**FirstKindFirstProduct: FirstProduct** // Первый продукт первого семейства
-
-**SecondKindFirstProduct: FirstProduct** // Первый продукт второго семейства
-
 **SecondProduct** // Второй продукт
-
-**FirstKindSecondProduct: SecondProduct** // Второй продукт первого семейства
-
-**SecondKindSecondProduct: SecondProduct** // Второй продукт второго семейства
 
 **AbstractFactory** // Абстрактная фабрика
 
 	(+) CreateFirstProduct(): FirstProduct
 
 	(+) CreateSecondProduct(): SecondProduct
+
+**FirstKindFirstProduct: FirstProduct** // Первый продукт первого семейства
+
+**FirstKindSecondProduct: SecondProduct** // Второй продукт первого семейства
 
 **FirstKindFactory: AbstractFactory** // Фабрика для создания первого семейства продуктов
 
@@ -33,6 +29,10 @@
 	(+) CreateSecondProduct(): SecondProduct
 
 		return new FirstKindSecondProduct()
+
+**SecondKindFirstProduct: FirstProduct** // Первый продукт второго семейства
+
+**SecondKindSecondProduct: SecondProduct** // Второй продукт второго семейства
 
 **SecondKindFactory: AbstractFactory** // Фабрика для создания второго семейства продуктов
 
