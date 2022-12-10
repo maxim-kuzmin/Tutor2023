@@ -6,11 +6,11 @@
 
 ## Участники
 
-**Prototype**
+**Prototype** // Прототип
 
 	(+) Clone()
 
-**FirstPrototype: Prototype**
+**FirstPrototype: Prototype** // Первый прототип
 
 	(+) Clone(): Prototype
 
@@ -20,7 +20,7 @@
 
 		return "FirstPrototype"
 
-**SecondPrototype: Prototype**
+**SecondPrototype: Prototype** // Второй прототип
 
 	(+) Clone(): Prototype
 
@@ -30,7 +30,7 @@
 
 		return "SecondPrototype"
 
-**Client**
+**Client** // Клиент
 
 	(-) firstPrototype: Prototype
 
