@@ -5,13 +5,11 @@ namespace Bridge.Parts;
 /// <summary>
 /// Абстракция.
 /// </summary>
-internal abstract class Abstraction
+internal abstract class Abstraction : IAbstraction
 {
     #region Properties
 
-    /// <summary>
-    /// Исполнитель.
-    /// </summary>
+    /// <inheritdoc/>
     public IImplementor Implementor { get; set; }
 
     #endregion Properties
@@ -27,9 +25,7 @@ internal abstract class Abstraction
 
     #region Public methods
 
-    /// <summary>
-    /// Операция.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract void Operation();
 
     #endregion Public methods

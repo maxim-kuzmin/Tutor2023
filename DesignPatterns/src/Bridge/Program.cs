@@ -3,15 +3,18 @@
 IImplementor firstImplementor = new FirstImplementor();
 IImplementor secondImplementor = new SecondImplementor();
 
-Show(new FirstAbstraction(firstImplementor), secondImplementor);
+IAbstraction firstAbstraction = new FirstAbstraction(firstImplementor);
+IAbstraction secondAbstraction = new SecondAbstraction(firstImplementor);
+
+Show(firstAbstraction, secondImplementor);
 
 Console.WriteLine();
 Console.WriteLine("----------");
 Console.WriteLine();
 
-Show(new SecondAbstraction(firstImplementor), secondImplementor);
+Show(secondAbstraction, secondImplementor);
 
-static void Show(Abstraction abstraction, IImplementor secondImplementor)
+static void Show(IAbstraction abstraction, IImplementor secondImplementor)
 {
     abstraction.Operation();
 
