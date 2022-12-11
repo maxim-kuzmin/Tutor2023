@@ -6,7 +6,7 @@
 
 ## Участники
 
-**FirstSubsystem**
+**FirstSubsystem** // Первая подсистема
 
 	(+) Operation1()
 
@@ -16,7 +16,7 @@
 
 		Console.WriteLine("FirstSubsystem - Operation2")
 
-**SecondSubsystem**
+**SecondSubsystem** // Вторая подсистема
 
 	(+) Operation1()
 
@@ -26,7 +26,7 @@
 
 		Console.WriteLine("SecondSubsystem - Operation2")
 
-**Facade**
+**Facade** // Фасад
 
 	(-) firstSubsystem: FirstSubsystem
 
@@ -46,7 +46,7 @@
 
 		secondSubsystem.Operation()
 
-**Client**
+**Client** // Клиент
 
 	(-) Main()
 

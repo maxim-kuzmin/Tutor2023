@@ -7,20 +7,23 @@ namespace Flyweight.Parts.Flyweights;
 /// </summary>
 internal class UnsharedFlyweight : IFlyweight
 {
-    #region Fields
+    #region Properties
 
-    private string? _allState;
+    /// <summary>
+    /// Всё состояние.
+    /// </summary>
+    public string? AllState { get; private set; }
 
-    #endregion Fields
+    #endregion Properties
 
     #region Public methods
 
     /// <inheritdoc/>
     public void Operation(string extrinsicState)
     {
-        _allState = extrinsicState;
+        AllState = extrinsicState;
 
-        Console.WriteLine($"{nameof(UnsharedFlyweight)}.{_allState}");
+        Console.WriteLine($"{nameof(UnsharedFlyweight)}.{AllState}");
     }
 
     #endregion Public methods
