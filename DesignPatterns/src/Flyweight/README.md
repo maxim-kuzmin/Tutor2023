@@ -6,11 +6,11 @@
 
 ## Участники
 
-**Flyweight**
+**Flyweight** // Приспособленец
 
 	(+) Operation(extrinsicState: string)
 
-**SharedFlyweight**
+**SharedFlyweight** // Pазделяемый приспособленец
 
 	(+) get IntrinsicState: string
 
@@ -22,7 +22,7 @@
 
 		Console.WriteLine("SharedFlyweight: " + IntrinsicState + ": " + extrinsicState)
 
-**UnsharedFlyweight**
+**UnsharedFlyweight** // Неразделяемый приспособленец
 
 	(+) get AllState: string
 
@@ -32,15 +32,15 @@
 
 		Console.WriteLine("UnsharedFlyweight: " + .AllState)
 
-**FirstSharedFlyweight: SharedFlyweight**
+**FirstSharedFlyweight: SharedFlyweight** // Первый разделяемый приспособленец
 
 	(+) () : ("First")
 
-**SecondSharedFlyweight: Flyweight**
+**SecondSharedFlyweight: Flyweight** // Второй разделяемый приспособленец
 
 	(+) () : ("Second")
 
-**FlyweightFactory**
+**FlyweightFactory** // Фабрика приспособленцев
 
 	(-) flyweightLookup: Dictionary<string, SharedFlyweight> = new()
 
@@ -60,7 +60,7 @@
 
 		return .flyweightLookup[key]
 	
-**Client**
+**Client** // Клиент
 
 	(-) Main()
 

@@ -3,7 +3,7 @@
 namespace Flyweight.Parts;
 
 /// <summary>
-/// Фабрика Приспособленцев.
+/// Фабрика приспособленцев.
 /// </summary>
 internal class FlyweightFactory
 {

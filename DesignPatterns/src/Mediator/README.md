@@ -46,7 +46,7 @@
 
         (one of .Colleague1 or .Colleague2 which != colleague).Notify(message)
 
-**Client**
+**Client** // Клиент
 
     (-) Main()
 

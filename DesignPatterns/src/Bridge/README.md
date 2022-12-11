@@ -62,7 +62,7 @@
 
 		Console.WriteLine("SecondImplementation - Operation2")
 
-**Client**
+**Client** // Клиент
 
 	(-) Main()
 

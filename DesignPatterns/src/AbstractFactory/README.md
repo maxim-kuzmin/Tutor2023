@@ -44,7 +44,7 @@
 
 		return new SecondKindSecondProduct()
 
-**Client**
+**Client** // Клиент
 
 	(-) firstProduct: FirstProduct
 

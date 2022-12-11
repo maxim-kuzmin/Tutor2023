@@ -50,7 +50,7 @@
 
 		empty
 
-**Client**
+**Client** // Клиент
 
 	(-) Main()
 

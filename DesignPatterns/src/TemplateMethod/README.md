@@ -6,7 +6,7 @@
 
 ## Участники
 
-**AbstractClass**
+**AbstractClass** // Абстрактный класс
 
     (+) TemplateMethod()
 
@@ -18,7 +18,7 @@
 
     (-) SecondOperation()
 
-**ConcreteClass: AbstractClass**
+**ConcreteClass: AbstractClass** // Конкретный класс
 
     (-) FirstOperation()
 

@@ -6,23 +6,23 @@
 
 ## Участники
 
-**Component**
+**Component** // Компонент
 
 	(+) Operation()
 
-**FirstComponent: Component**
+**FirstComponent: Component** // Первый  компонент
 
 	(+) Operation()
 
 		Console.WriteLine("FirstComponent")
 
-**SecondComponent: Component**
+**SecondComponent: Component** // Второй компонент
 
 	(+) Operation()
 
 		Console.WriteLine("SecondComponent")
 
-**Decorator: Component**
+**Decorator: Component** // Декоратор
 
 	(-) component: Component
 
@@ -38,7 +38,7 @@
 
 		.component = component
 
-**FirstDecorator: Decorator**
+**FirstDecorator: Decorator** // Первый декоратор
 
 	(+) Operation()
 
@@ -46,7 +46,7 @@
 
 		Console.WriteLine("FirstDecorator")
 
-**SecondDecorator: Decorator**
+**SecondDecorator: Decorator** // Второй декоратор
 
 	(+) Operation()
 
