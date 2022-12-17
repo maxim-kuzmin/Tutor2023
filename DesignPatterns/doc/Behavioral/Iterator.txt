@@ -24,15 +24,23 @@
 
     (+) Next(): object
 
+**Aggregate** // Агрегат (составной объект)
+
+    (+) get Count: int
+        
+    (+) GetItemByIndex(index: int): object
+
+    (+) GetIterator(): Iterator
+
 **ConcreteIterator** // Конкретный итератор
 
     (-) aggregate: Aggregate
 
     (-) currentIndex: int
 
-    (+) (items: object[])
+    (+) (aggregate: Aggregate)
 
-        .items = items
+        .aggregate = aggregate
 
         .currentIndex = 0
 
@@ -51,14 +59,6 @@
     (+) Next(): object
 
         return .aggregate.GetItemByIndex(++.currentIndex)
-
-**Aggregate** // Агрегат (составной объект)
-
-    (+) get Count: int
-        
-    (+) GetItemByIndex(index: int): object
-
-    (+) GetIterator(): Iterator
 
 **ConcreteAggregate: Aggregate** // Конкретный агрегат
 
@@ -86,14 +86,14 @@
 
         Iterator iterator = aggregate.GetIterator();
 
-        iterator.Next()
+        object firstItem = iterator.First()
 
-        while (!iterator.IsDone)
+        while (!iterator.IsDone())
         {
-            iterator.Next()
+            object nextItem = iterator.Next()
         }
 
-        iterator.Current()
+        object lastItem = iterator.Current()
 
 ## Пример
 
