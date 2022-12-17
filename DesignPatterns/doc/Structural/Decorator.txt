@@ -54,6 +54,30 @@
 
 		Console.WriteLine("SecondDecorator")
 
+**Program**
+
+	(-) Main()
+
+		Component firstComponent = new FirstComponent()
+
+		Component secondComponent = new SecondComponent()
+
+		Decorator firstDecorator = new FirstDecorator(firstComponent)
+
+		Decorator secondDecorator = new SecondDecorator(firstComponent)
+
+		firstDecorator.Operation()
+
+		secondDecorator.Operation()
+
+		firstDecorator.SetComponent(secondComponent)
+
+		secondDecorator.SetComponent(secondComponent)
+
+		firstDecorator.Operation()
+
+		secondDecorator.Operation()
+
 ## Пример
 
 Воинское подразделение (Component) может быть сводным (Decorator), то есть укомплектованным под определённую задачу другими воинскими подразделениями.

@@ -8,7 +8,7 @@
 
 **Prototype** // Прототип
 
-	(+) Clone()
+	(+) Clone(): Prototype
 
 **FirstPrototype: Prototype** // Первый прототип
 

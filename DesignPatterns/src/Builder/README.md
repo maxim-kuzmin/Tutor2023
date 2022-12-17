@@ -14,27 +14,21 @@
 
 **Builder** // Строитель
 
+    (+) get Result: Product = new()
+
     (+) BuildFirstPart()
 
     (+) BuildSecondPart()
-
-    (+) GetResult(): Product
 
 **ConcreteBuilder: Builder** // Конкретный строитель
     
-    (-) result: Product = new()
-
     (+) BuildFirstPart()
 
-        .result.FirstPart = "ConcreteBuilder - BuildFirstPart"
+        .Result.FirstPart = "ConcreteBuilder - BuildFirstPart"
 
     (+) BuildSecondPart()
 
-        .result.SecondPart = "ConcreteBuilder - BuildSecondPart"
-
-    (+) GetResult(): Product
-
-        return .result
+        .Result.SecondPart = "ConcreteBuilder - BuildSecondPart"
 
 **Director** // Распорядитель
 
@@ -64,6 +58,6 @@
 
 ## Пример
 
-Строитель (Builder) строит дом (Product) на фабрике (Director) по частям.
+Строитель (Builder) строит дом (Product) на стройплощадке (Director) по частям.
 
 Каждый строитель (ConcreteBuilder) строит каждую из частей дома так, как умеет.
