@@ -52,7 +52,7 @@
 
     (-) elements: List<Element> = new()
 
-    (+) Accept(visitor: AbstractVisitor)
+    (+) Accept(visitor: Visitor)
 
         (foreach element in elements).Accept(visitor)
 

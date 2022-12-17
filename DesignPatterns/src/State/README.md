@@ -8,7 +8,7 @@
 
 **State** // Состояние
 
-    (+) RequestTransferToFirstState(context: Context)
+    (+) HandleTransferToFirstState(context: Context)
 
     (+) HandleTransferToSecondState(context: Context)
 
@@ -67,5 +67,3 @@
 ## Пример
 
 Переход задачи (Context) из одного статуса (State) в другой.
-
-
