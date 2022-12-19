@@ -26,7 +26,7 @@
 
     (+) Strategy: Strategy
 
-    (+) SetStrategy(strategy: Strategy)
+    (+) (strategy: Strategy)
 
         .Strategy = strategy
 
@@ -52,4 +52,4 @@
         
 ## Пример
 
-Коллекция (Context) может использовать разные алгоритмы сотрировки (Strategy).
+Коллекция (Context) может использовать разные алгоритмы сотрировки (Strategy): по возрастанию (FirstStrategy) и по убыванию (SecondStrategy).
