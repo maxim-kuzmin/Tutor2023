@@ -19,11 +19,11 @@ export function AddPostForm() {
   const onSavePostClicked = () => {
     if (title && content) {
       dispatch(
-        postAdded({
+        postAdded(
           title,
           content,
           userId,
-        }),
+        ),
       );
 
       setTitle('');
