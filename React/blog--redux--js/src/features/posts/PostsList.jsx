@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Spinner } from '../../components/Spinner';
@@ -8,23 +8,21 @@ import { ReactionButtons } from './ReactionButtons';
 import { selectAllPosts, fetchPosts } from './postsSlice';
 import propTypes from './propTypes';
 
-function PostExcerpt({ post }) {
-  return (
-    <article className="post-excerpt">
-      <h3>{post.title}</h3>
-      <div>
-        <PostAuthor userId={post.user} />
-        <TimeAgo timestamp={post.date} />
-      </div>
-      <p className="post-content">{post.content.substring(0, 100)}</p>
+const PostExcerpt = memo(({ post }) => (
+  <article className="post-excerpt">
+    <h3>{post.title}</h3>
+    <div>
+      <PostAuthor userId={post.user} />
+      <TimeAgo timestamp={post.date} />
+    </div>
+    <p className="post-content">{post.content.substring(0, 100)}</p>
 
-      <ReactionButtons post={post} />
-      <Link to={`/posts/${post.id}`} className="button muted-button">
-        View Post
-      </Link>
-    </article>
-  );
-}
+    <ReactionButtons post={post} />
+    <Link to={`/posts/${post.id}`} className="button muted-button">
+      View Post
+    </Link>
+  </article>
+));
 
 PostExcerpt.propTypes = {
   post: propTypes.post,
