@@ -14,6 +14,10 @@ import { AddPostForm } from './features/posts/AddPostForm';
 import { PostsList } from './features/posts/PostsList';
 import { SinglePostPage } from './features/posts/SinglePostPage';
 import { EditPostForm } from './features/posts/EditPostForm';
+import { fetchUsers } from './features/users/usersSlice';
+import { UsersList } from './features/users/UsersList';
+import { UserPage } from './features/users/UserPage';
+import { NotificationsList } from './features/notifications/NotificationsList';
 
 const router = createBrowserRouter([{
   path: '/',
@@ -36,6 +40,18 @@ const router = createBrowserRouter([{
       path: 'editPost/:postId',
       element: <EditPostForm />,
     },
+    {
+      path: 'users',
+      element: <UsersList />,
+    },
+    {
+      path: 'users/:userId',
+      element: <UserPage />,
+    },
+    {
+      path: 'notifications',
+      element: <NotificationsList />,
+    },
   ],
 },
 ]);
@@ -47,6 +63,8 @@ async function start() {
 
   const container = document.getElementById('root');
   const root = createRoot(container);
+
+  store.dispatch(fetchUsers());
 
   root.render(
     <React.StrictMode>

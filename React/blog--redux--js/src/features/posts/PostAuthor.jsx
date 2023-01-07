@@ -8,6 +8,7 @@ export function PostAuthor({ userId }) {
   return (
     <span>
       by
+      {' '}
       {author ? author.name : 'Unknown author'}
     </span>
   );

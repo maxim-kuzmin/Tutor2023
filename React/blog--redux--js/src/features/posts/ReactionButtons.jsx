@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { reactionAdded } from './postsSlice';
+import propTypes from './propTypes';
 
 const reactionEmoji = {
   thumbsUp: '👍',
@@ -32,8 +32,5 @@ export function ReactionButtons({ post }) {
 }
 
 ReactionButtons.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.string,
-    reactions: PropTypes.objectOf(PropTypes.number),
-  }),
+  post: propTypes.post,
 };
