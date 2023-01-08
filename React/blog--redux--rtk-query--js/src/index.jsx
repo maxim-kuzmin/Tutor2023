@@ -14,10 +14,10 @@ import { AddPostForm } from './features/posts/AddPostForm';
 import { PostsList } from './features/posts/PostsList';
 import { SinglePostPage } from './features/posts/SinglePostPage';
 import { EditPostForm } from './features/posts/EditPostForm';
-import { fetchUsers } from './features/users/usersSlice';
 import { UsersList } from './features/users/UsersList';
 import { UserPage } from './features/users/UserPage';
 import { NotificationsList } from './features/notifications/NotificationsList';
+import { extendedApiSlice } from './features/users/usersSlice';
 
 const router = createBrowserRouter([{
   path: '/',
@@ -64,7 +64,7 @@ async function start() {
   const container = document.getElementById('root');
   const root = createRoot(container);
 
-  store.dispatch(fetchUsers());
+  store.dispatch(extendedApiSlice.endpoints.getUsers.initiate());
 
   root.render(
     <React.StrictMode>
