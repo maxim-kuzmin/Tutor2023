@@ -158,8 +158,14 @@ static void HandlePublishConfirmsAsynchronously(GlobalConfig globalConfig)
     for (int i = 0; i < messageCount; i++)
     {
         string body = i.ToString();
+
         outstandingConfirms.TryAdd(channel.NextPublishSeqNo, i.ToString());
-        channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: Encoding.UTF8.GetBytes(body));
+
+        channel.BasicPublish(
+            exchange: "",
+            routingKey: queueName,
+            basicProperties: null,
+            body: Encoding.UTF8.GetBytes(body));
     }
 
     if (!WaitUntil(60, () => outstandingConfirms.IsEmpty))
@@ -175,9 +181,11 @@ static void HandlePublishConfirmsAsynchronously(GlobalConfig globalConfig)
 static bool WaitUntil(int numberOfSeconds, Func<bool> condition)
 {
     int waited = 0;
+
     while (!condition() && waited < numberOfSeconds * 1000)
     {
         Thread.Sleep(100);
+
         waited += 100;
     }
 
