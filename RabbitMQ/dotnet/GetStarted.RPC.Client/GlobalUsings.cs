@@ -1,0 +1,9 @@
+﻿// Copyright (c) 2023 Maxim Kuzmin. All rights reserved. Licensed under the MIT License.
+
+global using System.Collections.Concurrent;
+global using System.Text;
+global using GetStarted.RPC.Client;
+global using RabbitMQ.Client;
+global using RabbitMQ.Client.Events;
+global using GlobalConfig = GetStarted.Common.Config;
+global using LocalConfig = GetStarted.RPC.Common.Config;
