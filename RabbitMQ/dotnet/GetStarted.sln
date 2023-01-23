@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetStarted.RPC.Client", "Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetStarted.RPC.Server", "GetStarted.RPC.Server\GetStarted.RPC.Server.csproj", "{D500C5D6-B660-46FD-B5DA-C643145AAB95}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7-PublisherConfirms", "7-PublisherConfirms", "{70950251-C681-476A-8AC2-1E8C4989B036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetStarted.PublisherConfirms", "GetStarted.PublisherConfirms\GetStarted.PublisherConfirms.csproj", "{8EF88822-4671-4F0D-B49F-2F090D0F5D13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +144,10 @@ Global
 		{D500C5D6-B660-46FD-B5DA-C643145AAB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D500C5D6-B660-46FD-B5DA-C643145AAB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D500C5D6-B660-46FD-B5DA-C643145AAB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EF88822-4671-4F0D-B49F-2F090D0F5D13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF88822-4671-4F0D-B49F-2F090D0F5D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF88822-4671-4F0D-B49F-2F090D0F5D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF88822-4671-4F0D-B49F-2F090D0F5D13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +171,7 @@ Global
 		{5F6381C3-7CB0-458B-ACEA-A9FFF60D4C4E} = {FFF4A18F-9B20-4543-97B4-9D99D13A05E6}
 		{17F87F83-AD68-4A75-8AF1-E1B0B52E39CA} = {FFF4A18F-9B20-4543-97B4-9D99D13A05E6}
 		{D500C5D6-B660-46FD-B5DA-C643145AAB95} = {FFF4A18F-9B20-4543-97B4-9D99D13A05E6}
+		{8EF88822-4671-4F0D-B49F-2F090D0F5D13} = {70950251-C681-476A-8AC2-1E8C4989B036}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E374BE0-891D-4068-AFFD-18C190DA8D1B}
