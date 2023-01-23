@@ -12,7 +12,7 @@ public class Config
     /// <summary>
     /// Очередь.
     /// </summary>
-    public string Queue { get; } = "task_queue";
+    public string Queue { get; } = "get_started__task_queue";
 
     #endregion Properties
 }

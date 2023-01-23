@@ -22,7 +22,7 @@ public class Config
     /// <summary>
     /// Пароль.
     /// </summary>
-    public string Password { get; } = "makc";
+    public string Password { get; } = "Makc2023";
 
     #endregion Properties
 }
