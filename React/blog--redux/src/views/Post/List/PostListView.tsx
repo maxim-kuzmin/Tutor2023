@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../../app/store';
+import { useAppInstance } from '../../../app';
 
 export const PostListView: React.FC = memo(
 function PostListView (): React.ReactElement | null {
-  const posts = useSelector((state: RootState) => state.posts)
+  const { hooks } = useAppInstance();
+
+  const posts = hooks.Views.Post.List.useStoreState();
 
   const { payloadOfSetAction } = posts;
 

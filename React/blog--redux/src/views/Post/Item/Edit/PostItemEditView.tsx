@@ -1,27 +1,27 @@
-import { nanoid } from '@reduxjs/toolkit';
 import React, { memo, useState, type ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
-import { actionOfPostListAddCompleted } from '../../../../stores/Post/List/Slice/PostListStoreSliceDefinition';
+import { useAppInstance } from '../../../../app';
+import { createPostTypeEntity } from '../../../../data';
 
 export const PostItemEditView: React.FC = memo(
 function PostItemEditView (): React.ReactElement | null {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-  const dispatch = useDispatch()
+  const { hooks } = useAppInstance();
+
+  const { dispatchOfAddCompletedAction } = hooks.Views.Post.List.useStoreAddCompletedActionOutput();
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => { setTitle(e.target.value); }
   const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => { setContent(e.target.value); }
 
   const onSavePostClicked = () => {
     if (title && content) {
-      dispatch(
-        actionOfPostListAddCompleted({
-          id: Number(nanoid()),
-          title,
-          content,
-        })
-      );
+      const payload = createPostTypeEntity({
+        title,
+        content,
+      });
+
+      dispatchOfAddCompletedAction.run(payload);
 
       setTitle('');
       setContent('');

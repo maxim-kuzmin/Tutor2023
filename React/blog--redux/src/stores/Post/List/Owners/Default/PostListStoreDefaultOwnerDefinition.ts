@@ -1,21 +1,21 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { createPostTypeEntity } from '../../../../data';
+import { createPostTypeEntity } from '../../../../../data';
 import {
   type PostListStoreAddCompletedActionPayload,
   type PostListStoreState,
-} from '../../../../features';
+} from '../../../../../features';
 
 const initialState: PostListStoreState = {
   payloadOfSetAction: [
-    createPostTypeEntity({ id: 1, title: 'Title 1', content: 'Content 1', }),
-    createPostTypeEntity({ id: 2, title: 'Title 2', content: 'Content 2', }),
-    createPostTypeEntity({ id: 3, title: 'Title 3', content: 'Content 3', }),
+    createPostTypeEntity({ id: '1', title: 'Title 1', content: 'Content 1', }),
+    createPostTypeEntity({ id: '2', title: 'Title 2', content: 'Content 2', }),
+    createPostTypeEntity({ id: '3', title: 'Title 3', content: 'Content 3', }),
   ]
 };
 
 const slice = createSlice({
-  name: 'PostList',
+  name: 'PostListView',
   initialState,
   reducers: {
     actionOfPostListAddCompleted (

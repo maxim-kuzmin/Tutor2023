@@ -1,12 +1,15 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from './app/store';
+import { store } from './stores/App/AppStoreDefinition';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { AppRootView } from './views';
+import { ContextProvider, createAppInstance } from './app';
 
 import './index.css';
+
+const instanceOfApp = createAppInstance();
 
 const router = createBrowserRouter([{
   path: '/',
@@ -19,9 +22,11 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <ReduxProvider store={store}>
-      <RouterProvider router={router} />
-    </ReduxProvider>
+    <ContextProvider instanceOfApp={instanceOfApp}>
+      <ReduxProvider store={store}>
+        <RouterProvider router={router} />
+      </ReduxProvider>
+    </ContextProvider>
   </React.StrictMode>
 );
 

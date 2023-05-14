@@ -1,11 +1,11 @@
 export interface PostTypeEntityForList {
-  id: number;
+  id: string;
   title: string;
 }
 
 export function createPostTypeEntityForList (options?: Partial<PostTypeEntityForList>): PostTypeEntityForList {
   return {
-    id: options?.id ?? 0,
+    id: options?.id ?? '',
     title: options?.title ?? '',
   }
 }
