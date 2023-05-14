@@ -14,8 +14,8 @@ const initialState: PostListStoreState = {
   ]
 };
 
-const slice = createSlice({
-  name: 'PostListView',
+const sliceName = createSlice({
+  name: 'PostList/Default',
   initialState,
   reducers: {
     actionOfPostListAddCompleted (
@@ -31,6 +31,6 @@ const slice = createSlice({
   }
 });
 
-export const { actionOfPostListAddCompleted } = slice.actions;
+export const { actionOfPostListAddCompleted } = sliceName.actions;
 
-export default slice.reducer;
+export default sliceName.reducer;

@@ -2,7 +2,7 @@ import {
   type PostListStoreHooks,
   type PostListStoreAddCompletedActionOutput,
   type PostListStoreState,
-  PostListStoreSlice
+  PostListStoreSliceName
 } from '../../../features';
 
 export interface PostListViewHooks {
@@ -17,14 +17,14 @@ interface Options {
 export function createPostListViewHooks ({
   hooksOfPostListStore
 }: Options): PostListViewHooks {
-  const slice = PostListStoreSlice.Default;
+  const sliceName = PostListStoreSliceName.Default;
 
   function useStoreAddCompletedActionOutput (): PostListStoreAddCompletedActionOutput {
-    return hooksOfPostListStore.useStoreAddCompletedActionOutput(slice);
+    return hooksOfPostListStore.useStoreAddCompletedActionOutput(sliceName);
   }
 
   function useStoreState (): PostListStoreState {
-    return hooksOfPostListStore.useStoreState(slice);
+    return hooksOfPostListStore.useStoreState(sliceName);
   }
 
   return {

@@ -1,8 +1,8 @@
 import { type PostListStoreAddCompletedActionOutput } from './Actions';
-import { type PostListStoreSlice } from './PostListStoreSlice';
+import { type PostListStoreSliceName } from './Slice/PostListStoreSliceName';
 import { type PostListStoreState } from './PostListStoreState';
 
 export interface PostListStoreHooks {
-  readonly useStoreAddCompletedActionOutput: (slice: PostListStoreSlice) => PostListStoreAddCompletedActionOutput;
-  readonly useStoreState: (slice: PostListStoreSlice) => PostListStoreState;
+  readonly useStoreAddCompletedActionOutput: (sliceName: PostListStoreSliceName) => PostListStoreAddCompletedActionOutput;
+  readonly useStoreState: (sliceName: PostListStoreSliceName) => PostListStoreState;
 }

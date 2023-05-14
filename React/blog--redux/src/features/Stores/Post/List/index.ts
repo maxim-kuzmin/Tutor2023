@@ -1,4 +1,4 @@
 export * from './Actions';
+export * from './Slice';
 export { type PostListStoreHooks } from './PostListStoreHooks';
-export { PostListStoreSlice } from './PostListStoreSlice';
 export { type PostListStoreState } from './PostListStoreState';

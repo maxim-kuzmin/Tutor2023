@@ -5,16 +5,12 @@ import {
   type PostListStoreAddCompletedActionPayload,
   type PostListStoreAddCompletedActionOutput,
   type PostListStoreState,
+  type PostListStoreSliceHooks,
 } from '../../../../../features';
 import type { AppStoreRootState } from '../../../../App';
-import { actionOfPostListAddCompleted } from './PostListStoreDefaultOwnerDefinition';
+import { actionOfPostListAddCompleted } from './PostListStoreDefaultSliceDefinition';
 
-export interface PostListStoreDefaultOwnerHooks {
-  readonly useStoreAddCompletedActionOutput: () => PostListStoreAddCompletedActionOutput;
-  readonly useStoreState: () => PostListStoreState;
-}
-
-export function createPostListStoreDefaultOwnerHooks (): PostListStoreDefaultOwnerHooks {
+export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks {
   function useStoreAddCompletedActionOutput (): PostListStoreAddCompletedActionOutput {
     const dispatch = useDispatch();
 
@@ -35,7 +31,7 @@ export function createPostListStoreDefaultOwnerHooks (): PostListStoreDefaultOwn
   }
 
   function useStoreState (): PostListStoreState {
-    return useSelector((state: AppStoreRootState) => state.viewOfPostList)
+    return useSelector((state: AppStoreRootState) => state.sliceNameOfPostListStoreDefault)
   }
 
   return {

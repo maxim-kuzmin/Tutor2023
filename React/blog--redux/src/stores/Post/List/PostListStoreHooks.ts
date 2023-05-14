@@ -2,25 +2,26 @@ import {
   type PostListStoreHooks,
   type PostListStoreAddCompletedActionOutput,
   type PostListStoreState,
-  PostListStoreSlice
+  PostListStoreSliceName,
+  type PostListStoreSliceHooks
 } from '../../../features';
-import { createPostListStoreDefaultOwnerHooks } from './Owners';
+import { createPostListStoreDefaultSliceHooks } from './Slices';
 
 export function createPostListStoreHooks (): PostListStoreHooks {
-  const hooksOfPostListViewOwner = createPostListStoreDefaultOwnerHooks();
+  const hooks = new Map<PostListStoreSliceName, PostListStoreSliceHooks>([
+    [PostListStoreSliceName.Default, createPostListStoreDefaultSliceHooks()]
+  ]);
 
-  function useStoreAddCompletedActionOutput (slice: PostListStoreSlice): PostListStoreAddCompletedActionOutput {
-    switch (slice) {
-      case PostListStoreSlice.Default:
-        return hooksOfPostListViewOwner.useStoreAddCompletedActionOutput();
-    }
+  function getHook (sliceName: PostListStoreSliceName): PostListStoreSliceHooks {
+    return hooks.get(sliceName)!;
   }
 
-  function useStoreState (slice: PostListStoreSlice): PostListStoreState {
-    switch (slice) {
-      case PostListStoreSlice.Default:
-        return hooksOfPostListViewOwner.useStoreState();
-    }
+  function useStoreAddCompletedActionOutput (sliceName: PostListStoreSliceName): PostListStoreAddCompletedActionOutput {
+    return getHook(sliceName).useStoreAddCompletedActionOutput();
+  }
+
+  function useStoreState (sliceName: PostListStoreSliceName): PostListStoreState {
+    return getHook(sliceName).useStoreState();
   }
 
   return {
