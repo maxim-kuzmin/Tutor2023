@@ -6,15 +6,18 @@ export interface InstanceHooks {
   readonly Views: ViewsHooks;
 }
 
+class Implementation implements InstanceHooks {
+  readonly Features: FeaturesHooks;
+  readonly Views: ViewsHooks;
+
+  constructor () {
+    this.Features = createFeaturesHooks();
+
+    this.Views = createViewsHooks({
+      hooksOfPostListStore: this.Features.Stores.Post.List,
+    });
+  }
+}
 export function createInstanceHooks (): InstanceHooks {
-  const hooksOfFeatures = createFeaturesHooks();
-
-  const hooksOfViews = createViewsHooks({
-    hooksOfPostListStore: hooksOfFeatures.Stores.Post.List,
-  });
-
-  return {
-    Features: hooksOfFeatures,
-    Views: hooksOfViews,
-  };
+  return new Implementation();
 }

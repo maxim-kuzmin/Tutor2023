@@ -1,14 +1,17 @@
-import { type PostTypeEntityForList, createPostTypeEntityForList } from './PostTypeEntityForList';
-
-export interface PostTypeEntity extends PostTypeEntityForList {
+export interface PostTypeEntity {
+  id: string;
+  title: string;
   content: string;
+  date: string;
+  userId: string;
 }
 
 export function createPostTypeEntity (options?: Partial<PostTypeEntity>): PostTypeEntity {
-  const entityForList = createPostTypeEntityForList(options);
-
   return {
-    ...entityForList,
+    id: options?.id ?? '',
+    title: options?.title ?? '',
     content: options?.content ?? '',
+    date: options?.date ?? '',
+    userId: options?.userId ?? '',
   }
 }

@@ -1,14 +1,17 @@
 import { type PostStoreHooks } from '../features';
-import { createPostStoreHooks } from './Post';
+import { createPostStoreHooks } from '.';
 
 export interface StoresHooks {
   readonly Post: PostStoreHooks;
 }
 
-export function createStoresHooks (): StoresHooks {
-  const hooksOfPost = createPostStoreHooks();
+class Implementation implements StoresHooks {
+  readonly Post: PostStoreHooks;
 
-  return {
-    Post: hooksOfPost,
+  constructor () {
+    this.Post = createPostStoreHooks();
   }
+}
+export function createStoresHooks (): StoresHooks {
+  return new Implementation();
 }

@@ -1,5 +1,5 @@
 import { type PostListStoreHooks } from '../features';
-import { createPostViewHooks, type PostViewHooks } from './Post';
+import { type PostViewHooks, createPostViewHooks } from '.';
 
 export interface ViewsHooks {
   readonly Post: PostViewHooks;
@@ -9,12 +9,16 @@ interface Options {
   readonly hooksOfPostListStore: PostListStoreHooks;
 }
 
-export function createViewsHooks ({
-  hooksOfPostListStore
-}: Options): ViewsHooks {
-  const hooksOfPost = createPostViewHooks({ hooksOfPostListStore });
+class Implementation implements ViewsHooks {
+  readonly Post: PostViewHooks;
 
-  return {
-    Post: hooksOfPost,
-  };
+  constructor ({
+    hooksOfPostListStore
+  }: Options) {
+    this.Post = createPostViewHooks({ hooksOfPostListStore });
+  }
+}
+
+export function createViewsHooks (options: Options): ViewsHooks {
+  return new Implementation(options);
 }

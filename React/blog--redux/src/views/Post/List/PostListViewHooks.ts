@@ -1,14 +1,13 @@
 import {
   type PostListStoreHooks,
   type PostListStoreAddCompletedActionOutput,
+  type PostListStoreUpdateCompletedActionOutput,
   type PostListStoreState,
-  PostListStoreSliceName
+  PostListStoreSliceName,
+  type PostListStoreSliceHooks,
 } from '../../../features';
 
-export interface PostListViewHooks {
-  readonly useStoreAddCompletedActionOutput: () => PostListStoreAddCompletedActionOutput;
-  readonly useStoreState: () => PostListStoreState;
-}
+export interface PostListViewHooks extends PostListStoreSliceHooks {}
 
 interface Options {
   readonly hooksOfPostListStore: PostListStoreHooks;
@@ -23,12 +22,17 @@ export function createPostListViewHooks ({
     return hooksOfPostListStore.useStoreAddCompletedActionOutput(sliceName);
   }
 
+  function useStoreUpdateCompletedActionOutput (): PostListStoreUpdateCompletedActionOutput {
+    return hooksOfPostListStore.useStoreUpdateCompletedActionOutput(sliceName);
+  }
+
   function useStoreState (): PostListStoreState {
     return hooksOfPostListStore.useStoreState(sliceName);
   }
 
   return {
     useStoreAddCompletedActionOutput,
+    useStoreUpdateCompletedActionOutput,
     useStoreState,
   }
 }

@@ -5,17 +5,17 @@ export const PostListView: React.FC = memo(
 function PostListView (): React.ReactElement | null {
   const { hooks } = useAppInstance();
 
-  const posts = hooks.Views.Post.List.useStoreState();
+  const stateOfPostList = hooks.Views.Post.List.useStoreState();
 
-  const { payloadOfSetAction } = posts;
+  const { payloadOfSetAction } = stateOfPostList;
 
   let renderedPosts: React.ReactElement[] | null = null;
 
   if (payloadOfSetAction) {
-    renderedPosts = payloadOfSetAction.map((post) => (
-      <article className="post-excerpt" key={post.id}>
-        <h3>{post.title}</h3>
-        <p className="post-content">{post.content.substring(0, 100)}</p>
+    renderedPosts = payloadOfSetAction.map((item) => (
+      <article className="post-excerpt" key={item.data.id}>
+        <h3>{item.data.title}</h3>
+        <p className="post-content">{item.data.content.substring(0, 100)}</p>
       </article>
     ));
   }

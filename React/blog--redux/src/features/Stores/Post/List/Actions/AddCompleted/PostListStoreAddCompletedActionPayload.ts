@@ -1,3 +1,3 @@
-import { type PostTypeEntity } from '../../../../../../data';
+import { type PostDomainEntity } from '../../../../../../domains';
 
-export type PostListStoreAddCompletedActionPayload = PostTypeEntity;
+export type PostListStoreAddCompletedActionPayload = PostDomainEntity;

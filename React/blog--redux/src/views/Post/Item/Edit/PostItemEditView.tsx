@@ -1,42 +1,68 @@
-import React, { memo, useState, type ChangeEvent } from 'react';
+import React, { memo, useState, type ChangeEvent, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppInstance } from '../../../../app';
 import { createPostTypeEntity } from '../../../../data';
+import { createPostDomainEntity } from '../../../../domains';
+import { type PostItemEditViewProps } from './PostItemEditViewProps';
 
-export const PostItemEditView: React.FC = memo(
-function PostItemEditView (): React.ReactElement | null {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-
+export const PostItemEditView: React.FC<PostItemEditViewProps> = memo(
+function PostItemEditView ({
+  postId,
+  displayPageUrl,
+}: PostItemEditViewProps): React.ReactElement<PostItemEditViewProps> | null {
   const { hooks } = useAppInstance();
 
-  const { dispatchOfAddCompletedAction } = hooks.Views.Post.List.useStoreAddCompletedActionOutput();
+  const stateOfPostList = hooks.Views.Post.List.useStoreState();
+
+  const { payloadOfSetAction } = stateOfPostList;
+
+  const entity = useMemo(
+    () => payloadOfSetAction?.find(
+        (item) => item.data.id === postId
+      ) ?? createPostDomainEntity({
+        data: createPostTypeEntity({ id: postId })
+      }),
+    [payloadOfSetAction, postId]
+  );
+
+  const { data } = entity;
+
+  const [title, setTitle] = useState(data.title);
+  const [content, setContent] = useState(data.content);
+
+  const navigate = useNavigate()
+
+  const { dispatchOfUpdateCompletedAction } = hooks.Views.Post.List.useStoreUpdateCompletedActionOutput();
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => { setTitle(e.target.value); }
   const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => { setContent(e.target.value); }
 
   const onSavePostClicked = () => {
     if (title && content) {
-      const payload = createPostTypeEntity({
-        title,
-        content,
+      const payload = createPostDomainEntity({
+        data: createPostTypeEntity({
+          id: postId,
+          title,
+          content,
+        }),
       });
 
-      dispatchOfAddCompletedAction.run(payload);
+      dispatchOfUpdateCompletedAction.run(payload);
 
-      setTitle('');
-      setContent('');
+      navigate(displayPageUrl);
     }
   }
 
   return (
     <section>
-      <h2>Add a New Post</h2>
+      <h2>Edit Post</h2>
       <form>
         <label htmlFor="postTitle">Post Title:</label>
         <input
           type="text"
           id="postTitle"
           name="postTitle"
+          placeholder="What's on your mind?"
           value={title}
           onChange={onTitleChanged}
         />
@@ -47,10 +73,10 @@ function PostItemEditView (): React.ReactElement | null {
           value={content}
           onChange={onContentChanged}
         />
-        <button type="button" onClick={onSavePostClicked}>
-          Save Post
-        </button>
       </form>
+      <button type="button" onClick={onSavePostClicked}>
+        Save Post
+      </button>
     </section>
   );
 });

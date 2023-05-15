@@ -1,1 +1,2 @@
-export { type InstanceHooks } from './InstanceHooks';
+export { type InstanceHooks, createInstanceHooks } from './InstanceHooks';
+export { type InstanceModules, createInstanceModules } from './InstanceModules';

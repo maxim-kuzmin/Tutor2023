@@ -1,14 +1,17 @@
-import { createStoresHooks } from '../stores/StoresHooks';
-import { type StoresHooks } from './Stores';
+import { createStoresHooks } from '../stores';
+import { type StoresHooks } from '.';
 
 export interface FeaturesHooks {
   readonly Stores: StoresHooks;
 }
 
-export function createFeaturesHooks (): FeaturesHooks {
-  const hooksOfStores = createStoresHooks();
+class Implementation implements FeaturesHooks {
+  readonly Stores: StoresHooks;
 
-  return {
-    Stores: hooksOfStores,
-  };
+  constructor () {
+    this.Stores = createStoresHooks();
+  }
+}
+export function createFeaturesHooks (): FeaturesHooks {
+  return new Implementation();
 }
