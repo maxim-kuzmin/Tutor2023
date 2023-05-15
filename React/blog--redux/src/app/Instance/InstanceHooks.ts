@@ -15,6 +15,7 @@ class Implementation implements InstanceHooks {
 
     this.Views = createViewsHooks({
       hooksOfPostListStore: this.Features.Stores.Post.List,
+      hooksOfUserListStore: this.Features.Stores.User.List,
     });
   }
 }

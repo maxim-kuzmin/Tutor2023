@@ -7,14 +7,14 @@ import { type PostItemPageProps } from './PostItemPageProps';
 export const PostItemPage: React.FC<PostItemPageProps> = memo(
 function PostItemPage ({
   mode
-}: PostItemPageProps): React.ReactElement<PostItemPageProps> {
-  const urlParams = useParams();
-
-  const postId = urlParams.postId ?? '';
-
+}: PostItemPageProps): React.ReactElement<PostItemPageProps> | null {
   const { modules } = useAppInstance();
 
   const serviceOfPostItemPage = modules.Pages.Post.Item.getService();
+
+  const urlParams = useParams();
+
+  const postId = urlParams.postId ?? '';
 
   const displayPageUrl = useMemo(
     () => serviceOfPostItemPage.createUrl({

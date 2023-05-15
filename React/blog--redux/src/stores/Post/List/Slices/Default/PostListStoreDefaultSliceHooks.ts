@@ -1,15 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
   type PostListStoreAddCompletedActionDispatch,
-  type PostListStoreAddCompletedActionPayload,
   type PostListStoreAddCompletedActionOutput,
+  type PostListStoreAddCompletedActionPayload,
+  type PostListStoreAddReactionCompletedActionDispatch,
+  type PostListStoreAddReactionCompletedActionOutput,
+  type PostListStoreAddReactionCompletedActionPayload,
+  type PostListStoreUpdateCompletedActionDispatch,
+  type PostListStoreUpdateCompletedActionOutput,
+  type PostListStoreUpdateCompletedActionPayload,
   type PostListStoreState,
   type PostListStoreSliceHooks,
-  type PostListStoreUpdateCompletedActionOutput,
-  type PostListStoreUpdateCompletedActionDispatch,
 } from '../../../../../features';
-import type { AppStoreRootState } from '../../../../App';
-import { actionOfPostListAddCompleted } from './PostListStoreDefaultSliceDefinition';
+import { type AppStoreRootState } from '../../../../App';
+import {
+  actionOfPostListAddCompleted,
+  actionOfPostListAddReactionCompleted,
+  actionOfPostListUpdateCompleted,
+} from './PostListStoreDefaultSliceDefinition';
 
 export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks {
   function useStoreAddCompletedActionOutput (): PostListStoreAddCompletedActionOutput {
@@ -28,11 +36,27 @@ export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks
     };
   }
 
+  function useStoreAddReactionCompletedActionOutput (): PostListStoreAddReactionCompletedActionOutput {
+    const dispatch = useDispatch();
+
+    function run (payload: PostListStoreAddReactionCompletedActionPayload) {
+      dispatch(actionOfPostListAddReactionCompleted(payload));
+    }
+
+    const dispatchOfAddReactionCompletedAction: PostListStoreAddReactionCompletedActionDispatch = {
+      run
+    };
+
+    return {
+      dispatchOfAddReactionCompletedAction
+    };
+  }
+
   function useStoreUpdateCompletedActionOutput (): PostListStoreUpdateCompletedActionOutput {
     const dispatch = useDispatch();
 
-    function run (payload: PostListStoreAddCompletedActionPayload) {
-      dispatch(actionOfPostListAddCompleted(payload));
+    function run (payload: PostListStoreUpdateCompletedActionPayload) {
+      dispatch(actionOfPostListUpdateCompleted(payload));
     }
 
     const dispatchOfUpdateCompletedAction: PostListStoreUpdateCompletedActionDispatch = {
@@ -50,6 +74,7 @@ export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks
 
   return {
     useStoreAddCompletedActionOutput,
+    useStoreAddReactionCompletedActionOutput,
     useStoreUpdateCompletedActionOutput,
     useStoreState,
   }

@@ -1,4 +1,4 @@
-import type { PostListStoreUpdateCompletedActionDispatch } from './PostListStoreUpdateCompletedActionDispatch';
+import { type PostListStoreUpdateCompletedActionDispatch } from './PostListStoreUpdateCompletedActionDispatch';
 
 export interface PostListStoreUpdateCompletedActionOutput {
   readonly dispatchOfUpdateCompletedAction: PostListStoreUpdateCompletedActionDispatch;

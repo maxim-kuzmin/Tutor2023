@@ -1,10 +1,11 @@
-import { type ThunkAction, type Action } from '@reduxjs/toolkit';
-import { configureStore } from '@reduxjs/toolkit';
+import { type ThunkAction, type Action, configureStore } from '@reduxjs/toolkit';
 import defaultPostList from '../Post/List/Slices/Default/PostListStoreDefaultSliceDefinition'
+import defaultUserList from '../User/List/Slices/Default/UserListStoreDefaultSliceDefinition'
 
 export const store = configureStore({
   reducer: {
-    defaultPostList
+    defaultPostList,
+    defaultUserList
   }
 });
 

@@ -5,8 +5,9 @@ import { createPostDomainEntity } from '../../../../../domains';
 import {
   PostListStoreSliceName,
   type PostListStoreAddCompletedActionPayload,
-  type PostListStoreState,
+  type PostListStoreAddReactionCompletedActionPayload,
   type PostListStoreUpdateCompletedActionPayload,
+  type PostListStoreState,
 } from '../../../../../features';
 
 const initialState: PostListStoreState = {
@@ -14,8 +15,8 @@ const initialState: PostListStoreState = {
     createPostDomainEntity({
       data: createPostTypeEntity({
         id: '1',
-        title: 'Title 1',
-        content: 'Content 1',
+        title: 'First Post!',
+        content: 'Hello!',
         date: sub(new Date(), { minutes: 10 }).toISOString(),
         userId: '0',
       }),
@@ -23,18 +24,9 @@ const initialState: PostListStoreState = {
     createPostDomainEntity({
       data: createPostTypeEntity({
         id: '2',
-        title: 'Title 2',
-        content: 'Content 2',
+        title: 'Second Post',
+        content: 'More text',
         date: sub(new Date(), { minutes: 5 }).toISOString(),
-        userId: '1',
-      }),
-    }),
-    createPostDomainEntity({
-      data: createPostTypeEntity({
-        id: '3',
-        title: 'Title 3',
-        content: 'Content 3',
-        date: sub(new Date(), { minutes: 1 }).toISOString(),
         userId: '2',
       }),
     }),
@@ -72,6 +64,18 @@ const slice = createSlice({
         };
       },
     },
+    actionOfPostListAddReactionCompleted (
+      state: PostListStoreState,
+      action: PayloadAction<PostListStoreAddReactionCompletedActionPayload>
+    ) {
+      const { postId, reaction } = action.payload;
+
+      const entity = state.payloadOfSetAction?.find((item) => item.data.id === postId);
+
+      if (entity) {
+        entity.reactions[reaction]++;
+      }
+    },
     actionOfPostListUpdateCompleted (
       state: PostListStoreState,
       action: PayloadAction<PostListStoreUpdateCompletedActionPayload>
@@ -92,6 +96,7 @@ const slice = createSlice({
 
 export const {
   actionOfPostListAddCompleted,
+  actionOfPostListAddReactionCompleted,
   actionOfPostListUpdateCompleted,
 } = slice.actions;
 

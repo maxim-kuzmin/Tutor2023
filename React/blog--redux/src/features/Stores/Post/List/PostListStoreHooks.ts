@@ -1,5 +1,6 @@
 import {
   type PostListStoreAddCompletedActionOutput,
+  type PostListStoreAddReactionCompletedActionOutput,
   type PostListStoreUpdateCompletedActionOutput,
 } from './Actions';
 import { type PostListStoreSliceName } from './Slice/PostListStoreSliceName';
@@ -9,6 +10,10 @@ export interface PostListStoreHooks {
   readonly useStoreAddCompletedActionOutput: (
     sliceName: PostListStoreSliceName
   ) => PostListStoreAddCompletedActionOutput;
+
+  readonly useStoreAddReactionCompletedActionOutput: (
+    sliceName: PostListStoreSliceName
+  ) => PostListStoreAddReactionCompletedActionOutput;
 
   readonly useStoreUpdateCompletedActionOutput: (
     sliceName: PostListStoreSliceName

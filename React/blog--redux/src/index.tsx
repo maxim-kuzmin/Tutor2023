@@ -2,9 +2,9 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { AppRootView, PostItemViewMode } from './views';
+import { PostItemViewMode } from './views';
 import { ContextProvider, createAppInstance } from './app';
-import { PostItemPage, PostListPage } from './pages';
+import { AppPage, PostItemPage, PostListPage } from './pages';
 import { store } from './stores/App/AppStoreDefinition';
 import reportWebVitals from './reportWebVitals';
 
@@ -14,7 +14,7 @@ const instanceOfApp = createAppInstance();
 
 const router = createBrowserRouter([{
   path: '/',
-  element: <AppRootView />,
+  element: <AppPage />,
   children: [
     {
       path: '',

@@ -1,6 +1,7 @@
 import {
   type PostListStoreHooks,
   type PostListStoreAddCompletedActionOutput,
+  type PostListStoreAddReactionCompletedActionOutput,
   type PostListStoreUpdateCompletedActionOutput,
   type PostListStoreState,
   PostListStoreSliceName,
@@ -22,6 +23,10 @@ export function createPostListViewHooks ({
     return hooksOfPostListStore.useStoreAddCompletedActionOutput(sliceName);
   }
 
+  function useStoreAddReactionCompletedActionOutput (): PostListStoreAddReactionCompletedActionOutput {
+    return hooksOfPostListStore.useStoreAddReactionCompletedActionOutput(sliceName);
+  }
+
   function useStoreUpdateCompletedActionOutput (): PostListStoreUpdateCompletedActionOutput {
     return hooksOfPostListStore.useStoreUpdateCompletedActionOutput(sliceName);
   }
@@ -32,7 +37,8 @@ export function createPostListViewHooks ({
 
   return {
     useStoreAddCompletedActionOutput,
+    useStoreAddReactionCompletedActionOutput,
     useStoreUpdateCompletedActionOutput,
     useStoreState,
-  }
+  };
 }

@@ -5,7 +5,7 @@ import { type PostTimeAgoViewProps } from './PostTimeAgoViewProps';
 export const PostTimeAgoView: React.FC<PostTimeAgoViewProps> = memo(
 function PostTimeAgoView ({
   timestamp,
-}: PostTimeAgoViewProps): React.ReactElement<PostTimeAgoViewProps> {
+}: PostTimeAgoViewProps): React.ReactElement<PostTimeAgoViewProps> | null {
   let timeAgo = '';
 
   if (timestamp) {
