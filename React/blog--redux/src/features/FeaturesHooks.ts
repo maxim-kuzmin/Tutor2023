@@ -1,17 +1,37 @@
-import { createStoresHooks } from '../stores';
-import { type StoresHooks } from '.';
+import {
+  type PostHooks,
+  type PostListStoreHooks,
+  createPostHooks,
+} from './Post';
+import {
+  type UserHooks,
+  type UserListStoreHooks,
+  createUserHooks,
+} from './User';
 
 export interface FeaturesHooks {
-  readonly Stores: StoresHooks;
+  readonly Post: PostHooks;
+  readonly User: UserHooks;
+}
+
+interface Options {
+  readonly createPostListStoreHooks: () => PostListStoreHooks;
+  readonly createUserListStoreHooks: () => UserListStoreHooks;
 }
 
 class Implementation implements FeaturesHooks {
-  readonly Stores: StoresHooks;
+  readonly Post: PostHooks;
+  readonly User: UserHooks;
 
-  constructor () {
-    this.Stores = createStoresHooks();
+  constructor ({
+    createPostListStoreHooks,
+    createUserListStoreHooks,
+  }: Options) {
+    this.Post = createPostHooks({ createPostListStoreHooks });
+    this.User = createUserHooks({ createUserListStoreHooks });
   }
 }
-export function createFeaturesHooks (): FeaturesHooks {
-  return new Implementation();
+
+export function createFeaturesHooks (options: Options): FeaturesHooks {
+  return new Implementation(options);
 }

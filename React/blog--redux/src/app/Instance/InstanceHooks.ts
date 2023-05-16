@@ -1,4 +1,8 @@
 import { type FeaturesHooks, createFeaturesHooks } from '../../features';
+import {
+  createPostListStoreHooks,
+  createUserListStoreHooks,
+} from '../../stores';
 import { type ViewsHooks, createViewsHooks } from '../../views';
 
 export interface InstanceHooks {
@@ -11,11 +15,14 @@ class Implementation implements InstanceHooks {
   readonly Views: ViewsHooks;
 
   constructor () {
-    this.Features = createFeaturesHooks();
+    this.Features = createFeaturesHooks({
+      createPostListStoreHooks,
+      createUserListStoreHooks,
+    });
 
     this.Views = createViewsHooks({
-      hooksOfPostListStore: this.Features.Stores.Post.List,
-      hooksOfUserListStore: this.Features.Stores.User.List,
+      hooksOfPostListStore: this.Features.Post.List.Store,
+      hooksOfUserListStore: this.Features.User.List.Store,
     });
   }
 }
