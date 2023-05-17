@@ -3,14 +3,13 @@ import { createRoot } from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { PostItemViewMode } from './views';
-import { ContextProvider, createAppInstance } from './app';
+import { ContextProvider } from './app';
+import { instanceOfApp } from './app/AppDefinition';
 import { AppPage, PostItemPage, PostListPage } from './pages';
 import { store } from './stores/App/AppStoreDefinition';
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
-
-const instanceOfApp = createAppInstance();
 
 const router = createBrowserRouter([{
   path: '/',
