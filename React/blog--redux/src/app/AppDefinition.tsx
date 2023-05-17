@@ -1,8 +1,10 @@
-import React, { type PropsWithChildren, createContext, memo } from 'react';
+import React, { createContext, memo } from 'react';
+import { RouterProvider } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 import { type ThunkAction, type Action, configureStore } from '@reduxjs/toolkit';
 import { reducer } from '../stores/StoresDefinition';
 import { type AppInstance, createAppInstance } from './AppInstance';
+import { createAppRouter } from './AppRouter';
 
 const instanceOfApp = createAppInstance();
 
@@ -27,15 +29,15 @@ export type AppStoreThunk<ReturnType = void> = ThunkAction<
 
 export const AppContext = createContext<AppInstance | null>(null);
 
-export const AppContextProvider: React.FC<PropsWithChildren> = memo(
-function ContextProvider ({
-  children,
-}: PropsWithChildren): React.ReactElement<PropsWithChildren> | null {
+export const AppComponent: React.FC = memo(
+function AppComponent (): React.ReactElement | null {
   return (
-    <AppContext.Provider value={instanceOfApp}>
-      <ReduxProvider store={store}>
-        {children}
-      </ReduxProvider>
-    </AppContext.Provider>
+    <React.StrictMode>
+      <AppContext.Provider value={instanceOfApp}>
+        <ReduxProvider store={store}>
+          <RouterProvider router={createAppRouter()} />
+        </ReduxProvider>
+      </AppContext.Provider>
+    </React.StrictMode>
   )
 });
