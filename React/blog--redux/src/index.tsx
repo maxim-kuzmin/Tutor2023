@@ -1,12 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider as ReduxProvider } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { AppContextProvider } from './app';
 import { PostItemViewMode } from './views';
-import { ContextProvider } from './app';
-import { instanceOfApp } from './app/AppDefinition';
 import { AppPage, PostItemPage, PostListPage } from './pages';
-import { store } from './stores/App/AppStoreDefinition';
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
@@ -35,11 +32,9 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <ContextProvider instanceOfApp={instanceOfApp}>
-      <ReduxProvider store={store}>
-        <RouterProvider router={router} />
-      </ReduxProvider>
-    </ContextProvider>
+    <AppContextProvider>
+      <RouterProvider router={router} />
+    </AppContextProvider>
   </React.StrictMode>
 );
 

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { type AppStoreRootState } from '../../../../../app';
 import {
   type PostListStoreAddCompletedActionDispatch,
   type PostListStoreAddCompletedActionOutput,
@@ -12,7 +13,6 @@ import {
   type PostListStoreState,
   type PostListStoreSliceHooks,
 } from '../../../../../features';
-import { type AppStoreRootState } from '../../../../App';
 import {
   actionOfPostListAddCompleted,
   actionOfPostListAddReactionCompleted,

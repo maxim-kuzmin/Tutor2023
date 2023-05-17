@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
+import { type AppStoreRootState } from '../../../../../app';
 import {
   type UserListStoreState,
   type UserListStoreSliceHooks,
 } from '../../../../../features';
-import { type AppStoreRootState } from '../../../../App';
 
 export function createUserListStoreDefaultSliceHooks (): UserListStoreSliceHooks {
   function useStoreState (): UserListStoreState {
