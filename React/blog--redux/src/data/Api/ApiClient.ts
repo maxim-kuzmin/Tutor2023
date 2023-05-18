@@ -132,7 +132,7 @@ class Implementation implements ApiClient {
 
       errorOfApiResponse = createApiResponseError({ message: statusText, responseStatus: status });
     } catch (error: any) {
-      errorOfApiResponse = createApiResponseError({ message: error.message });
+      errorOfApiResponse = createApiResponseError({ message: String(error.message ?? '') });
     }
 
     return await Promise.reject(createApiOperationResponse({ error: errorOfApiResponse }));
@@ -154,7 +154,7 @@ class Implementation implements ApiClient {
 
       errorOfApiResponse = createApiResponseError({ message: statusText, responseStatus: status });
     } catch (error: any) {
-      errorOfApiResponse = createApiResponseError({ message: error.message });
+      errorOfApiResponse = createApiResponseError({ message: String(error.message ?? '') });
     }
 
     return await Promise.reject(createApiOperationResponse({ error: errorOfApiResponse }));
