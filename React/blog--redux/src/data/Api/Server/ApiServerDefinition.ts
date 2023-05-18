@@ -6,20 +6,26 @@ import { type Client, Server as MockSocketServer } from 'mock-socket';
 import { rest, setupWorker } from 'msw';
 import seedrandom from 'seedrandom';
 import {
-  type ApiServerPostTypeEntity,
-  type ApiServerUserTypeEntity,
-  createApiServerPostTypeEntity,
-  createApiServerUserTypeEntity,
-  type ApiServerNotificationTypeEntity,
-  createApiServerNotificationTypeEntity,
-} from './Types';
-import {
   type PostDomainReactionType,
   type PostDomainEntity,
+  type UserDomainEntity,
+  createUserDomainEntity,
   createPostDomainEntity,
   createPostDomainReactionsValueObject,
 } from '../../../domains';
-import { type PostTypeEntity, createPostTypeEntity } from '../../Types';
+import {
+  type PostTypeEntity,
+  createPostTypeEntity,
+  createUserTypeEntity
+} from '../../Types';
+import {
+  type ApiServerPostTypeEntity,
+  type ApiServerUserTypeEntity,
+  type ApiServerNotificationTypeEntity,
+  createApiServerPostTypeEntity,
+  createApiServerUserTypeEntity,
+  createApiServerNotificationTypeEntity,
+} from './Types';
 
 const NUM_USERS = 3;
 const POSTS_PER_USER = 3;
@@ -175,6 +181,20 @@ function convertToPostDomainEntity (dbEntity: ApiServerPostTypeEntity): PostDoma
   });
 }
 
+function convertToUserDomainEntity (dbEntity: ApiServerUserTypeEntity): UserDomainEntity {
+  const {
+    id,
+    firstName,
+    lastName,
+    name,
+    username,
+  } = dbEntity;
+
+  return createUserDomainEntity({
+    data: createUserTypeEntity({ id, firstName, lastName, name, username }),
+  });
+}
+
 /* MSW REST API Handlers */
 
 export const handlers = [
@@ -271,7 +291,9 @@ export const handlers = [
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(notifications))
   }),
   rest.get('/fakeApi/users', async (req, res, ctx) => {
-    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(db.user.getAll()))
+    const users = db.user.getAll();
+
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(users.map(convertToUserDomainEntity)))
   }),
 ];
 

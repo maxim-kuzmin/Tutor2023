@@ -1,3 +1,5 @@
-import { type UserDomainEntity } from '../../../../../../domains';
+import {
+  type UserDomainListGetOperationResponse
+} from '../../../../../../domains/User/Operations/List/Get/UserDomainListGetOperationResponse';
 
-export type UserListStoreSetActionPayload = UserDomainEntity[] | null;
+export type UserListStoreSetActionPayload = UserDomainListGetOperationResponse | null;

@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { type AppStoreRootState } from '../../../../../app';
+import { useAppStoreDispatch, useAppStoreSelector } from '../../../../../app';
 import {
   type PostListStoreAddCompletedActionDispatch,
   type PostListStoreAddCompletedActionOutput,
@@ -21,7 +20,7 @@ import {
 
 export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks {
   function useStoreAddCompletedActionOutput (): PostListStoreAddCompletedActionOutput {
-    const dispatch = useDispatch();
+    const dispatch = useAppStoreDispatch();
 
     function run (payload: PostListStoreAddCompletedActionPayload) {
       dispatch(actionOfPostListAddCompleted(payload));
@@ -37,7 +36,7 @@ export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks
   }
 
   function useStoreAddReactionCompletedActionOutput (): PostListStoreAddReactionCompletedActionOutput {
-    const dispatch = useDispatch();
+    const dispatch = useAppStoreDispatch();
 
     function run (payload: PostListStoreAddReactionCompletedActionPayload) {
       dispatch(actionOfPostListAddReactionCompleted(payload));
@@ -53,7 +52,7 @@ export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks
   }
 
   function useStoreUpdateCompletedActionOutput (): PostListStoreUpdateCompletedActionOutput {
-    const dispatch = useDispatch();
+    const dispatch = useAppStoreDispatch();
 
     function run (payload: PostListStoreUpdateCompletedActionPayload) {
       dispatch(actionOfPostListUpdateCompleted(payload));
@@ -69,7 +68,7 @@ export function createPostListStoreDefaultSliceHooks (): PostListStoreSliceHooks
   }
 
   function useStoreState (): PostListStoreState {
-    return useSelector((state: AppStoreRootState) => state.defaultPostList)
+    return useAppStoreSelector((state) => state.defaultPostList)
   }
 
   return {

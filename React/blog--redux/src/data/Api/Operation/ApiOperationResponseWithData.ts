@@ -1,19 +1,16 @@
 import { type ApiOperationResponse, createApiOperationResponse } from './ApiOperationResponse';
 
 export interface ApiOperationResponseWithData<TData> extends ApiOperationResponse {
-  readonly data: TData;
-}
-
-interface Options<TData> extends Partial<ApiOperationResponse> {
-  data: TData;
+  data?: TData | null;
 }
 
 export function createApiOperationResponseWithData<TData> (
-  options: Options<TData>
+  options?: ApiOperationResponseWithData<TData>
 ): ApiOperationResponseWithData<TData> {
   const base = createApiOperationResponse(options);
 
-  const { data } = options;
-
-  return { ...base, data };
+  return {
+    ...base,
+    data: options?.data
+  };
 }

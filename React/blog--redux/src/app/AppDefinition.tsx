@@ -1,10 +1,11 @@
 import React, { createContext, memo } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
-import { type ThunkAction, type Action, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from '../stores/StoresDefinition';
 import { type AppInstance, createAppInstance } from './AppInstance';
 import { createAppRouter } from './AppRouter';
+import { type ApiOperationResponse } from '../data';
 
 const instanceOfApp = createAppInstance();
 
@@ -13,19 +14,20 @@ const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: { instanceOfApp }
+        extraArgument: instanceOfApp
       }
     })
 });
 
 export type AppStoreDispatch = typeof store.dispatch;
 export type AppStoreRootState = ReturnType<typeof store.getState>;
-export type AppStoreThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppStoreRootState,
-  unknown,
-  Action<string>
->;
+
+export interface AppStoreThunkApiConfig {
+  state: AppStoreRootState;
+  dispatch: AppStoreDispatch;
+  rejectValue: ApiOperationResponse;
+  extra: AppInstance;
+}
 
 export const AppContext = createContext<AppInstance | null>(null);
 

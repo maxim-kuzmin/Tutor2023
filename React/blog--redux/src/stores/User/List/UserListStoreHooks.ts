@@ -1,4 +1,5 @@
 import {
+  type UserListStoreLoadActionOutput,
   type UserListStoreHooks,
   type UserListStoreState,
   UserListStoreSliceName,
@@ -15,11 +16,16 @@ export function createUserListStoreHooks (): UserListStoreHooks {
     return hooks.get(sliceName)!;
   }
 
+  function useStoreLoadActionOutput (sliceName: UserListStoreSliceName): UserListStoreLoadActionOutput {
+    return getHook(sliceName).useStoreLoadActionOutput();
+  }
+
   function useStoreState (sliceName: UserListStoreSliceName): UserListStoreState {
     return getHook(sliceName).useStoreState();
   }
 
   return {
+    useStoreLoadActionOutput,
     useStoreState,
   }
 }

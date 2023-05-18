@@ -10,7 +10,7 @@ function PostAuthorView ({
 
   const { payloadOfSetAction } = hooks.Views.User.List.useStoreState();
 
-  const entity = payloadOfSetAction?.find((item) => item.data.id === userId);
+  const entity = payloadOfSetAction?.data?.find((item) => item.data.id === userId);
 
   return (
     <span>by {entity ? entity.data.name : 'Unknown author'}</span>

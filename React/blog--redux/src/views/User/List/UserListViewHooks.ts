@@ -1,5 +1,6 @@
 import {
   type UserListStoreHooks,
+  type UserListStoreLoadActionOutput,
   type UserListStoreState,
   UserListStoreSliceName,
   type UserListStoreSliceHooks,
@@ -16,11 +17,16 @@ export function createUserListViewHooks ({
 }: Options): UserListViewHooks {
   const sliceName = UserListStoreSliceName.Default;
 
+  function useStoreLoadActionOutput (): UserListStoreLoadActionOutput {
+    return hooksOfUserListStore.useStoreLoadActionOutput(sliceName);
+  }
+
   function useStoreState (): UserListStoreState {
     return hooksOfUserListStore.useStoreState(sliceName);
   }
 
   return {
+    useStoreLoadActionOutput,
     useStoreState,
   };
 }
