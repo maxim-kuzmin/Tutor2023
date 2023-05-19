@@ -23,7 +23,18 @@ export const actionOfUserListLoad = createAsyncAction<UserDomainListGetOperation
   async (_, { extra: { modules } }) => {
     const clientOfApi = modules.Data.Api.getClient();
 
-    const response = await clientOfApi.get<UserDomainListGetOperationOutput>({ endpoint: '/fakeApi/users' });
+    const response = await clientOfApi.get<UserDomainListGetOperationOutput>({
+      endpoint: '/fakeApi/users',
+      resourceOfApiResponse: {
+        getErrorMessageForDefault: () => 'tErrorMessageForDefault',
+        getErrorMessageForHttp400: () => 'tErrorMessageForHttp400',
+        getErrorMessageForHttp404: () => 'tErrorMessageForHttp404',
+        getErrorMessageForHttp500: () => 'tErrorMessageForHttp500',
+        language: 'ru',
+      },
+      operationCode: '',
+      operationName: `${name}/actionOfUserListLoad`
+    });
 
     return createUserDomainListGetOperationResponse(response);
   }

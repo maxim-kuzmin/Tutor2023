@@ -1,7 +1,7 @@
 import { type ApiOperationResponse, createApiOperationResponse } from './ApiOperationResponse';
 
 export interface ApiOperationResponseWithData<TData> extends ApiOperationResponse {
-  data?: TData | null;
+  readonly data?: TData | null;
 }
 
 export function createApiOperationResponseWithData<TData> (

@@ -13,6 +13,8 @@ export function createInstanceOptions (): InstanceOptions {
     },
     Data: {
       Api: {
+        queryStringKeyForCulture: process.env.REACT_APP_API_QUERY_STRING_KEY_FOR_CULTURE ?? 'lng',
+        queryStringKeyForUICulture: process.env.REACT_APP_API_QUERY_STRING_KEY_FOR_UI_CULTURE ?? 'ui-lng',
         url: process.env.REACT_APP_API_URL ?? '',
       }
     }
