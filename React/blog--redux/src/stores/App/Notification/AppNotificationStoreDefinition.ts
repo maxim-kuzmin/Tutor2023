@@ -1,15 +1,15 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { type StoreStateMap, createStoreStateMap } from '../../../common';
+import { createStoreStateMap } from '../../../common';
 import {
-  type AppNotificationStoreSetActionPayload,
   AppNotificationStoreSliceName,
-  type AppNotificationStoreState,
+  type AppNotificationStoreSetActionPayload,
+  type AppNotificationStoreStateMap,
   createAppNotificationStoreState,
 } from '../../../features';
 
 const name = 'AppNotification';
 
-type StateMap = StoreStateMap<AppNotificationStoreState>;
+type StateMap = AppNotificationStoreStateMap;
 type SetAction = PayloadAction<AppNotificationStoreSetActionPayload>;
 
 const initialState: StateMap = createStoreStateMap({
