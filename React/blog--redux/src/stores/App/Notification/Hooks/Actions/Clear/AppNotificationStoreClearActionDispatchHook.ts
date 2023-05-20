@@ -1,35 +1,12 @@
-import { type Dispatch, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { StoreDispatchType } from '../../../../../../common';
 import {
-  type AppNotificationStoreSliceName,
-  type AppNotificationStoreClearActionCallback,
   type AppNotificationStoreClearActionDispatch,
   type AppNotificationStoreClearActionOptions,
+  AppNotificationStoreSliceName,
 } from '../../../../../../features';
-import { AppNotificationStoreActionType } from '../../../AppNotificationStoreActionType';
-import { type AppNotificationStoreActionUnion } from '../../../AppNotificationStoreActionUnion';
-import { useAppNotificationStoreDispatch } from '../../../AppNotificationStoreHooks';
-
-interface Options {
-  readonly callback?: AppNotificationStoreClearActionCallback;
-  readonly dispatch: Dispatch<AppNotificationStoreActionUnion>;
-  readonly sliceName: string;
-}
-
-function runClearAction ({
-  callback,
-  dispatch,
-  sliceName
-}: Options) {
-  dispatch({
-    sliceName,
-    type: AppNotificationStoreActionType.Clear
-  });
-
-  if (callback) {
-    callback();
-  }
-}
+import { useAppStoreDispatch } from '../../../../../../app';
+import { defaultAppNotificationStoreClearAction } from '../../../AppNotificationStoreDefinition';
 
 export function useStoreClearActionDispatch (
   sliceName: AppNotificationStoreSliceName,
@@ -38,45 +15,37 @@ export function useStoreClearActionDispatch (
     dispatchType
   }: AppNotificationStoreClearActionOptions = {}
 ): AppNotificationStoreClearActionDispatch {
-  const dispatch = useAppNotificationStoreDispatch();
+  const dispatch = useAppStoreDispatch();
+
+  const run = useCallback(
+    () => {
+      switch (sliceName) {
+        case AppNotificationStoreSliceName.Default:
+          dispatch(defaultAppNotificationStoreClearAction());
+          break;
+      }
+
+      if (callback) {
+        callback();
+      }
+    },
+    [callback, dispatch, sliceName]
+  );
 
   useEffect(
     () => {
       if (dispatchType === StoreDispatchType.MountOrUpdate) {
-        runClearAction({
-          callback,
-          dispatch,
-          sliceName
-        });
+        run();
       };
 
       return () => {
         if (dispatchType === StoreDispatchType.Unmount) {
-          runClearAction({
-            callback,
-            dispatch,
-            sliceName
-          });
+          run();
         }
       };
     },
-    [
-      callback,
-      dispatch,
-      dispatchType,
-      sliceName
-    ]
+    [dispatchType, run]
   );
 
-  function run () {
-    runClearAction({
-      callback,
-      dispatch,
-      sliceName
-    });
-  }
-
-  return useRef({
-    run
-  }).current;
+  return useMemo<AppNotificationStoreClearActionDispatch>(() => ({ run }), [run]);
 }

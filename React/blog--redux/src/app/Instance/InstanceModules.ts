@@ -1,12 +1,14 @@
 import { type CommonModules, createCommonModules } from '../../common';
 import { type DataModules, createDataModules } from '../../data';
 import { type PagesModules, createPagesModules } from '../../pages';
+import { type TestsModules, createTestsModules } from '../../tests';
 import { type InstanceOptions } from './InstanceOptions';
 
 export interface InstanceModules {
   readonly Common: CommonModules;
   readonly Data: DataModules;
   readonly Pages: PagesModules;
+  readonly Tests: TestsModules;
 }
 
 interface Options {
@@ -17,6 +19,7 @@ class Implementation implements InstanceModules {
   readonly Common: CommonModules;
   readonly Data: DataModules;
   readonly Pages: PagesModules;
+  readonly Tests: TestsModules;
 
   constructor ({
     options,
@@ -29,6 +32,8 @@ class Implementation implements InstanceModules {
     });
 
     this.Pages = createPagesModules();
+
+    this.Tests = createTestsModules();
   }
 }
 

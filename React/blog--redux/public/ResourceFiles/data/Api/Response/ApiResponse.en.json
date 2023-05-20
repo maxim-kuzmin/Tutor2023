@@ -1,0 +1,6 @@
+{
+  "@@ErrorMessageForDefault": "Unknown error",
+  "@@ErrorMessageForHttp400": "Bad request",
+  "@@ErrorMessageForHttp404": "Not found",
+  "@@ErrorMessageForHttp500": "Internal Server Error"
+}
