@@ -9,16 +9,13 @@ import {
 
 const name = 'AppNotification';
 
-type StateMap = AppNotificationStoreStateMap;
-type SetAction = PayloadAction<AppNotificationStoreSetActionPayload>;
-
-const initialState: StateMap = createStoreStateMap({
+const initialState: AppNotificationStoreStateMap = createStoreStateMap({
   functionToCreateState: () => createAppNotificationStoreState(),
   sliceNames: [AppNotificationStoreSliceName.Default],
 });
 
 function createClearActionReducer (sliceName: AppNotificationStoreSliceName) {
-  return (stateMap: StateMap) => {
+  return (stateMap: AppNotificationStoreStateMap) => {
     const state = initialState[sliceName];
 
     stateMap[sliceName] = state;
@@ -26,7 +23,10 @@ function createClearActionReducer (sliceName: AppNotificationStoreSliceName) {
 }
 
 function createSetActionReducer (sliceName: AppNotificationStoreSliceName) {
-  return (stateMap: StateMap, action: SetAction) => {
+  return (
+    stateMap: AppNotificationStoreStateMap,
+    action: PayloadAction<AppNotificationStoreSetActionPayload>
+  ) => {
     const state = stateMap[sliceName];
 
     state.payloadOfSetAction = action.payload;
