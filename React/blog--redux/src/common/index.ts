@@ -5,7 +5,7 @@ export * from './Localization';
 export * from './Operation';
 export * from './Operations';
 export * from './Store';
-export { type SetNotification, type ShouldBeCanceled } from './CommonFunctions';
+export type { FunctionToSetNotification } from './CommonFunctions';
 export { type CommonHooks, createCommonHooks } from './CommonHooks';
 export { type CommonModules, createCommonModules } from './CommonModules';
 export { type CommonOptions } from './CommonOptions';
