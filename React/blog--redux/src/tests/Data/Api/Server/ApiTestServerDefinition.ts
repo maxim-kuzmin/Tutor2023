@@ -197,12 +197,16 @@ function convertToUserDomainEntity (dbEntity: ApiTestServerUserTypeEntity): User
 
 /* MSW REST API Handlers */
 
+function createUrl (endpoint: string) {
+  return `/fakeApi/${endpoint}`
+}
+
 const handlers = [
-  rest.get('/fakeApi/posts', async function (req, res, ctx) {
+  rest.get(createUrl('posts'), async function (req, res, ctx) {
     const posts = db.post.getAll().map(convertToPostDomainEntity);
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(posts));
   }),
-  rest.post('/fakeApi/posts', async function (req, res, ctx) {
+  rest.post(createUrl('posts'), async function (req, res, ctx) {
     const data: PostTypeEntity = await req.json();
 
     if (data.content === 'error') {
@@ -229,7 +233,7 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(domainEntity));
   }),
-  rest.get('/fakeApi/posts/:postId', async function (req, res, ctx) {
+  rest.get(createUrl('posts/:postId'), async function (req, res, ctx) {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
 
     const post = db.post.findFirst({
@@ -238,7 +242,7 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostDomainEntity(post)));
   }),
-  rest.patch('/fakeApi/posts/:postId', async (req, res, ctx) => {
+  rest.patch(createUrl('posts/:postId'), async (req, res, ctx) => {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
 
     const { id, ...data }: PostTypeEntity = await req.json();
@@ -250,7 +254,7 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostDomainEntity(post)));
   }),
-  rest.get('/fakeApi/posts/:postId/comments', async (req, res, ctx) => {
+  rest.get(createUrl('posts/:postId/comments'), async (req, res, ctx) => {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
 
     const post = db.post.findFirst({
@@ -262,7 +266,7 @@ const handlers = [
       ctx.json({ comments: post.comments })
     )
   }),
-  rest.post('/fakeApi/posts/:postId/reactions', async (req, res, ctx) => {
+  rest.post(createUrl('posts/:postId/reactions'), async (req, res, ctx) => {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
 
     const reaction: PostDomainReactionType = (await req.json()).reaction;
@@ -283,14 +287,14 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostDomainEntity(updatedPost)));
   }),
-  rest.get('/fakeApi/notifications', async (req, res, ctx) => {
+  rest.get(createUrl('notifications'), async (req, res, ctx) => {
     const numNotifications = getRandomInt(1, 5);
 
     const notifications = generateRandomNotifications('', numNotifications);
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(notifications))
   }),
-  rest.get('/fakeApi/users', async (req, res, ctx) => {
+  rest.get(createUrl('users'), async (req, res, ctx) => {
     const users = db.user.getAll();
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(users.map(convertToUserDomainEntity)))

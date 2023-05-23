@@ -1,4 +1,4 @@
-import React, { createContext, memo, useEffect } from 'react';
+import React, { createContext, memo } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -38,17 +38,6 @@ export const AppContext = createContext<AppInstance | null>(null);
 
 export const AppRoot: React.FC = memo(
 function AppRoot (): React.ReactElement | null {
-  const { modules } = instanceOfApp;
-
-  const serverOfApi = modules.Tests.Data.Api.getServer();
-
-  useEffect(
-    () => {
-      serverOfApi.start();
-    },
-    [serverOfApi]
-  );
-
   return (
     <React.StrictMode>
       <AppContext.Provider value={instanceOfApp}>

@@ -22,7 +22,7 @@ class Implementation implements AppSetup {
     this.instanceOfApp = instanceOfApp;
   }
 
-  run () {
+  async run () {
     const setupOfLocalization = createAppLocalizationSetup({
       paths: [
         getApiResponseResourcePath(),
@@ -31,6 +31,12 @@ class Implementation implements AppSetup {
     });
 
     setupOfLocalization.run();
+
+    const { modules } = this.instanceOfApp;
+
+    const serverOfApi = modules.Tests.Data.Api.getServer();
+
+    await serverOfApi.start();
   }
 }
 
