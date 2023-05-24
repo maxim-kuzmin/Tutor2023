@@ -89,6 +89,8 @@
 		invoker.Cancel()
 	
 		Command macroCommand = new MacroCommand([command])
+
+		invoker.SetCommand(macroCommand)
 	
 		invoker.Run()
 	
