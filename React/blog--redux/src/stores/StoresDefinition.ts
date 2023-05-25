@@ -1,9 +1,9 @@
 import storeOfAppNotification from './App/Notification/AppNotificationStoreDefinition';
 import defaultPostList from './Post/List/Slices/Default/PostListStoreDefaultSliceDefinition';
-import defaultUserList from './User/List/Slices/Default/UserListStoreDefaultSliceDefinition';
+import storeOfUserList from './User/List/UserListStoreDefinition';
 
 export const reducer = {
   storeOfAppNotification,
   defaultPostList,
-  defaultUserList,
+  storeOfUserList,
 };

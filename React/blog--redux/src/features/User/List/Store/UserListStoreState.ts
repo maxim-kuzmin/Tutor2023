@@ -1,8 +1,14 @@
 import { OperationStatus } from '../../../../common';
-import { type UserListStoreSetActionPayload } from './Actions';
+import {
+  type UserListStoreLoadActionResult,
+  type UserListStoreLoadCompletedActionResult,
+  type UserListStoreSetActionResult
+} from './Actions';
 
 export interface UserListStoreState {
-  payloadOfSetAction: UserListStoreSetActionPayload;
+  resultOfLoadAction: UserListStoreLoadActionResult;
+  resultOfLoadCompletedAction: UserListStoreLoadCompletedActionResult;
+  resultOfSetAction: UserListStoreSetActionResult;
   statusOfLoadAction: OperationStatus;
 }
 
@@ -10,7 +16,9 @@ export function createUserListStoreState (
   options?: Partial<UserListStoreState>
 ): UserListStoreState {
   return {
-    payloadOfSetAction: options?.payloadOfSetAction ?? null,
+    resultOfLoadAction: options?.resultOfLoadAction ?? null,
+    resultOfLoadCompletedAction: options?.resultOfLoadCompletedAction ?? null,
+    resultOfSetAction: options?.resultOfSetAction ?? null,
     statusOfLoadAction: options?.statusOfLoadAction ?? OperationStatus.Initial,
   };
 }

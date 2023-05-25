@@ -1,5 +1,13 @@
-import {
-  type UserDomainListGetOperationResponse
-} from '../../../../../../domains/User/Operations/List/Get/UserDomainListGetOperationResponse';
+import { type UserListStoreSetActionResult } from './UserListStoreSetActionResult';
 
-export type UserListStoreSetActionPayload = UserDomainListGetOperationResponse | null;
+export interface UserListStoreSetActionPayload {
+  actionResult: UserListStoreSetActionResult;
+}
+
+export function createUserListStoreSetActionPayload (
+  options: Partial<UserListStoreSetActionPayload>
+): UserListStoreSetActionPayload {
+  return {
+    actionResult: options?.actionResult ?? null,
+  };
+}

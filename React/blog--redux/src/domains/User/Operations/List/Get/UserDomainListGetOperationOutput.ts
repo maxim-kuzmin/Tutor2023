@@ -1,3 +1,5 @@
+import { type ListGetOperationOutput } from '../../../../../common';
 import { type UserDomainEntity } from '../../../UserDomainEntity';
 
-export type UserDomainListGetOperationOutput = UserDomainEntity[];
+export interface UserDomainListGetOperationOutput extends ListGetOperationOutput<UserDomainEntity> {
+}

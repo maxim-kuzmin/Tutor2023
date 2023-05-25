@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { useAppStoreDispatch } from '../../../../../../app';
 import { StoreDispatchType } from '../../../../../../common';
 import {
   type AppNotificationStoreClearActionDispatch,
   type AppNotificationStoreClearActionOptions,
   AppNotificationStoreSliceName,
 } from '../../../../../../features';
-import { useAppStoreDispatch } from '../../../../../../app';
 import { defaultAppNotificationStoreClearAction } from '../../../AppNotificationStoreDefinition';
 
 export function useStoreClearActionDispatch (

@@ -1,5 +1,6 @@
 import { type CommonModules, createCommonModules } from '../../common';
 import { type DataModules, createDataModules } from '../../data';
+import { type DomainsModules, createDomainsModules } from '../../domains';
 import { type PagesModules, createPagesModules } from '../../pages';
 import { type TestsModules, createTestsModules } from '../../tests';
 import { type InstanceOptions } from './InstanceOptions';
@@ -7,6 +8,7 @@ import { type InstanceOptions } from './InstanceOptions';
 export interface InstanceModules {
   readonly Common: CommonModules;
   readonly Data: DataModules;
+  readonly Domains: DomainsModules;
   readonly Pages: PagesModules;
   readonly Tests: TestsModules;
 }
@@ -18,6 +20,7 @@ interface Options {
 class Implementation implements InstanceModules {
   readonly Common: CommonModules;
   readonly Data: DataModules;
+  readonly Domains: DomainsModules;
   readonly Pages: PagesModules;
   readonly Tests: TestsModules;
 
@@ -29,6 +32,10 @@ class Implementation implements InstanceModules {
     this.Data = createDataModules({
       httpClient: this.Common.Http.getClient(),
       optionsOfApi: options.Data.Api,
+    });
+
+    this.Domains = createDomainsModules({
+      clientOfApi: this.Data.Api.getClient(),
     });
 
     this.Pages = createPagesModules();

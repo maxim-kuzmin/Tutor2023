@@ -6,7 +6,7 @@ import {
 } from '../../common';
 import { createControlsHooks } from '../../controls';
 import { type DataHooks, createDataHooks } from '../../data';
-// import { type DomainsHooks, createDomainsHooks } from '../../domains';
+import { type DomainsHooks, createDomainsHooks } from '../../domains';
 import {
   AppNotificationStoreSliceName,
   type FeaturesHooks,
@@ -25,7 +25,7 @@ export interface InstanceHooks {
   readonly Common: CommonHooks;
   readonly Controls: ControlsHooks;
   readonly Data: DataHooks;
-  // readonly Domains: DomainsHooks;
+  readonly Domains: DomainsHooks;
   readonly Features: FeaturesHooks;
   readonly Views: ViewsHooks;
 }
@@ -39,7 +39,7 @@ class Implementation implements InstanceHooks {
   readonly Common: CommonHooks;
   readonly Controls: ControlsHooks;
   readonly Data: DataHooks;
-  // readonly Domains: DomainsHooks;
+  readonly Domains: DomainsHooks;
   readonly Features: FeaturesHooks;
   readonly Views: ViewsHooks;
 
@@ -82,11 +82,10 @@ class Implementation implements InstanceHooks {
       hooksOfOperation: this.Common.Operation
     });
 
-    // this.Domains = createDomainsHooks({
-    //   hooksOfApiRequest: this.Data.Api.Request,
-    //   moduleOfArticleDomain: modules.Domains.Article,
-    //   moduleOfTopicDomain: modules.Domains.Topic,
-    // });
+    this.Domains = createDomainsHooks({
+      hooksOfApiRequest: this.Data.Api.Request,
+      moduleOfUserDomain: modules.Domains.User,
+    });
   }
 }
 

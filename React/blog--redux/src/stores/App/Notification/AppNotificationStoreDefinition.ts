@@ -29,7 +29,7 @@ function createSetActionReducer (sliceName: AppNotificationStoreSliceName) {
   ) => {
     const state = stateMap[sliceName];
 
-    state.payloadOfSetAction = action.payload;
+    state.resultOfSetAction = action.payload.actionResult;
   };
 }
 

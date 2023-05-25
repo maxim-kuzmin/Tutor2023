@@ -1,31 +1,56 @@
+import { useMemo } from 'react';
+import { useAppInstance } from '../../../app';
 import {
-  type UserListStoreLoadActionOutput,
+  type UserListStoreResource,
   type UserListStoreHooks,
-  type UserListStoreState,
-  UserListStoreSliceName,
-  type UserListStoreSliceHooks,
 } from '../../../features';
-import { createUserListStoreDefaultSliceHooks } from './Slices';
+import { useStoreClearActionDispatch } from './Hooks/Actions/Clear/UserListStoreClearActionDispatchHook';
+import { useStoreClearActionOutput } from './Hooks/Actions/Clear/UserListStoreClearActionOutputHook';
+import { useStoreLoadActionDispatch } from './Hooks/Actions/Load/UserListStoreLoadActionDispatchHook';
+import { useStoreLoadActionOutput } from './Hooks/Actions/Load/UserListStoreLoadActionOutputHook';
+import {
+  useStoreLoadCompletedActionDispatch
+} from './Hooks/Actions/LoadCompleted/UserListStoreLoadCompletedActionDispatchHook';
+import { useStoreSetActionDispatch } from './Hooks/Actions/Set/UserListStoreSetActionDispatchHook';
+import { useStoreSetActionOutput } from './Hooks/Actions/Set/UserListStoreSetActionOutputHook';
+import { useStoreState } from './Hooks/UserListStoreStateHook';
+import { getUserListStoreResourcePath } from '.';
 
 export function createUserListStoreHooks (): UserListStoreHooks {
-  const hooks = new Map<UserListStoreSliceName, UserListStoreSliceHooks>([
-    [UserListStoreSliceName.Default, createUserListStoreDefaultSliceHooks()]
-  ]);
+  function useResource (): UserListStoreResource {
+    const { hooks } = useAppInstance();
 
-  function getHook (sliceName: UserListStoreSliceName): UserListStoreSliceHooks {
-    return hooks.get(sliceName)!;
-  }
+    const translator = hooks.Features.App.Localization.useTranslator(getUserListStoreResourcePath());
 
-  function useStoreLoadActionOutput (sliceName: UserListStoreSliceName): UserListStoreLoadActionOutput {
-    return getHook(sliceName).useStoreLoadActionOutput();
-  }
+    const tOperationNameForGet = translator.translate('@@OperationNameForGet');
 
-  function useStoreState (sliceName: UserListStoreSliceName): UserListStoreState {
-    return getHook(sliceName).useStoreState();
+    const { language } = translator;
+
+    return useMemo(
+      () => {
+        const result: UserListStoreResource = {
+          getOperationNameForGet: () => tOperationNameForGet,
+          language
+        };
+
+        return result;
+      },
+      [
+        tOperationNameForGet,
+        language
+      ]
+    );
   }
 
   return {
+    useResource,
+    useStoreClearActionDispatch,
+    useStoreClearActionOutput,
+    useStoreLoadActionDispatch,
     useStoreLoadActionOutput,
-    useStoreState,
-  }
+    useStoreLoadCompletedActionDispatch,
+    useStoreSetActionDispatch,
+    useStoreSetActionOutput,
+    useStoreState
+  };
 }
