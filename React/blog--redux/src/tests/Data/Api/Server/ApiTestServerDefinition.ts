@@ -12,11 +12,15 @@ import {
   createUserDomainEntity,
   createPostDomainEntity,
   createPostDomainReactionsValueObject,
+  type UserDomainListGetOperationOutput,
+  createUserDomainListGetOperationOutput,
 } from '../../../../domains';
 import {
   type PostTypeEntity,
   createPostTypeEntity,
-  createUserTypeEntity
+  createUserTypeEntity,
+  type ApiResponseWithData,
+  createApiResponseWithData
 } from '../../../../data';
 import {
   type ApiTestServerPostTypeEntity,
@@ -195,6 +199,19 @@ function convertToUserDomainEntity (dbEntity: ApiTestServerUserTypeEntity): User
   });
 }
 
+function convertToUserListApiResponse (
+  dbEntities: ApiTestServerUserTypeEntity[]
+): ApiResponseWithData<UserDomainListGetOperationOutput> {
+  const items = dbEntities.map(dbEntity => convertToUserDomainEntity(dbEntity));
+
+  const data = createUserDomainListGetOperationOutput({
+    items,
+    totalCount: items.length
+  });
+
+  return createApiResponseWithData({ data });
+}
+
 /* MSW REST API Handlers */
 
 function createUrl (endpoint: string) {
@@ -297,7 +314,7 @@ const handlers = [
   rest.get(createUrl('users'), async (req, res, ctx) => {
     const users = db.user.getAll();
 
-    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(users.map(convertToUserDomainEntity)))
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToUserListApiResponse(users)))
   }),
 ];
 
