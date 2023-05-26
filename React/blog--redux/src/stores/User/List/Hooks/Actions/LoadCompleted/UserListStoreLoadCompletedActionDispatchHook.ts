@@ -9,6 +9,7 @@ import {
   type UserListStoreLoadCompletedActionResult,
   createUserListStoreLoadCompletedActionPayload,
 } from '../../../../../../features';
+import { createUserListStoreLoadCompletedAction } from '../../../UserListStoreDefinition';
 
 export function useStoreLoadCompletedActionDispatch (
   sliceName: UserListStoreSliceName,
@@ -23,23 +24,20 @@ export function useStoreLoadCompletedActionDispatch (
   const payloadOfLoadCompletedAction = useMemo(
     () => createUserListStoreLoadCompletedActionPayload({
       actionResult: resultOfLoadCompletedAction,
+      sliceName,
     }),
-    [resultOfLoadCompletedAction]
+    [resultOfLoadCompletedAction, sliceName]
   );
 
   const run = useCallback(
     (payload: UserListStoreLoadCompletedActionPayload) => {
-      dispatch({
-        payload,
-        sliceName,
-        type: UserListStoreActionType.LoadCompleted
-      });
+      dispatch(createUserListStoreLoadCompletedAction(payload));
 
       if (callback) {
         callback(payload.actionResult);
       }
     },
-    [callback, dispatch, sliceName]
+    [callback, dispatch]
   );
 
   useEffect(

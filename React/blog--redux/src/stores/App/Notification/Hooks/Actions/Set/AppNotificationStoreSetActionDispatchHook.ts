@@ -6,10 +6,10 @@ import {
   type AppNotificationStoreSetActionOptions,
   type AppNotificationStoreSetActionPayload,
   type AppNotificationStoreSetActionResult,
-  AppNotificationStoreSliceName,
+  type AppNotificationStoreSliceName,
   createAppNotificationStoreSetActionPayload,
 } from '../../../../../../features';
-import { defaultAppNotificationStoreSetAction } from '../../../AppNotificationStoreDefinition';
+import { createAppNotificationStoreSetAction } from '../../../AppNotificationStoreDefinition';
 
 export function useStoreSetActionDispatch (
   sliceName: AppNotificationStoreSliceName,
@@ -22,23 +22,19 @@ export function useStoreSetActionDispatch (
   const dispatch = useAppStoreDispatch();
 
   const payloadOfSetAction = useMemo(
-    () => createAppNotificationStoreSetActionPayload({ actionResult: resultOfSetAction }),
-    [resultOfSetAction]
+    () => createAppNotificationStoreSetActionPayload({ actionResult: resultOfSetAction, sliceName }),
+    [resultOfSetAction, sliceName]
   );
 
   const run = useCallback(
     (payload: AppNotificationStoreSetActionPayload) => {
-      switch (sliceName) {
-        case AppNotificationStoreSliceName.Default:
-          dispatch(defaultAppNotificationStoreSetAction(payload));
-          break;
-      }
+      dispatch(createAppNotificationStoreSetAction(payload));
 
       if (callback) {
         callback(payload.actionResult);
       }
     },
-    [callback, dispatch, sliceName]
+    [callback, dispatch]
   );
 
   useEffect(

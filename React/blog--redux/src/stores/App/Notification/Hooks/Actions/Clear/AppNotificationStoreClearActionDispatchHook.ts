@@ -4,9 +4,10 @@ import { StoreDispatchType } from '../../../../../../common';
 import {
   type AppNotificationStoreClearActionDispatch,
   type AppNotificationStoreClearActionOptions,
-  AppNotificationStoreSliceName,
+  createAppNotificationStoreClearActionPayload,
+  type AppNotificationStoreSliceName,
 } from '../../../../../../features';
-import { defaultAppNotificationStoreClearAction } from '../../../AppNotificationStoreDefinition';
+import { createAppNotificationStoreClearAction } from '../../../AppNotificationStoreDefinition';
 
 export function useStoreClearActionDispatch (
   sliceName: AppNotificationStoreSliceName,
@@ -17,19 +18,20 @@ export function useStoreClearActionDispatch (
 ): AppNotificationStoreClearActionDispatch {
   const dispatch = useAppStoreDispatch();
 
+  const payloadOfClearAction = useMemo(
+    () => createAppNotificationStoreClearActionPayload({ sliceName }),
+    [sliceName]
+  );
+
   const run = useCallback(
     () => {
-      switch (sliceName) {
-        case AppNotificationStoreSliceName.Default:
-          dispatch(defaultAppNotificationStoreClearAction());
-          break;
-      }
+      dispatch(createAppNotificationStoreClearAction(payloadOfClearAction));
 
       if (callback) {
         callback();
       }
     },
-    [callback, dispatch, sliceName]
+    [callback, dispatch, payloadOfClearAction]
   );
 
   useEffect(

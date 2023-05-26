@@ -1,13 +1,25 @@
+import { type StoreActionPayload, createStoreActionPayload } from '../../../../../../common';
+import { type UserListStoreSliceName } from '../../Slice';
 import { type UserListStoreLoadCompletedActionResult } from './UserListStoreLoadCompletedActionResult';
 
-export interface UserListStoreLoadCompletedActionPayload {
+export interface UserListStoreLoadCompletedActionPayload
+  extends StoreActionPayload<UserListStoreSliceName> {
   actionResult: UserListStoreLoadCompletedActionResult;
 }
 
+interface Options extends Omit<UserListStoreLoadCompletedActionPayload, 'actionResult'> {
+  readonly actionResult?: UserListStoreLoadCompletedActionResult;
+}
+
 export function createUserListStoreLoadCompletedActionPayload (
-  options: Partial<UserListStoreLoadCompletedActionPayload>
+  options: Options
 ): UserListStoreLoadCompletedActionPayload {
+  const { actionResult } = options;
+
+  const base = createStoreActionPayload(options);
+
   return {
-    actionResult: options?.actionResult ?? null,
+    ...base,
+    actionResult: actionResult ?? null,
   };
 }

@@ -6,10 +6,10 @@ import {
   type UserListStoreSetActionOptions,
   type UserListStoreSetActionPayload,
   type UserListStoreSetActionResult,
+  type UserListStoreSliceName,
   createUserListStoreSetActionPayload,
-  UserListStoreSliceName,
 } from '../../../../../../features';
-import { defaultUserListStoreSetAction } from '../../../UserListStoreDefinition';
+import { createUserListStoreSetAction } from '../../../UserListStoreDefinition';
 
 export function useStoreSetActionDispatch (
   sliceName: UserListStoreSliceName,
@@ -22,23 +22,19 @@ export function useStoreSetActionDispatch (
   const dispatch = useAppStoreDispatch();
 
   const payloadOfSetAction = useMemo(
-    () => createUserListStoreSetActionPayload({ actionResult: resultOfSetAction }),
-    [resultOfSetAction]
+    () => createUserListStoreSetActionPayload({ actionResult: resultOfSetAction, sliceName }),
+    [resultOfSetAction, sliceName]
   );
 
   const run = useCallback(
     (payload: UserListStoreSetActionPayload) => {
-      switch (sliceName) {
-        case UserListStoreSliceName.Default:
-          dispatch(defaultUserListStoreSetAction(payload));
-          break;
-      }
+      dispatch(createUserListStoreSetAction(payload));
 
       if (callback) {
         callback(payload.actionResult);
       }
     },
-    [callback, dispatch, sliceName]
+    [callback, dispatch]
   );
 
   useEffect(

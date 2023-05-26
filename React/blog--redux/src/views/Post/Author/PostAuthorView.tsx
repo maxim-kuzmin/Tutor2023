@@ -8,9 +8,9 @@ function PostAuthorView ({
 }: PostAuthorViewProps): React.ReactElement<PostAuthorViewProps> | null {
   const { hooks } = useAppInstance();
 
-  const { payloadOfSetAction } = hooks.Views.User.List.useStoreState();
+  const { resultOfSetAction } = hooks.Views.User.List.useStoreState();
 
-  const entity = payloadOfSetAction?.data?.find((item) => item.data.id === userId);
+  const entity = resultOfSetAction?.data?.items.find((item) => item.data.id === userId);
 
   return (
     <span>by {entity ? entity.data.name : 'Unknown author'}</span>

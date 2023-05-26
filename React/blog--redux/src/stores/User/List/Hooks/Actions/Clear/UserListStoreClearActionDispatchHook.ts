@@ -4,9 +4,10 @@ import { StoreDispatchType } from '../../../../../../common';
 import {
   type UserListStoreClearActionDispatch,
   type UserListStoreClearActionOptions,
-  UserListStoreSliceName,
+  createUserListStoreClearActionPayload,
+  type UserListStoreSliceName,
 } from '../../../../../../features';
-import { defaultUserListStoreClearAction } from '../../../UserListStoreDefinition';
+import { createUserListStoreClearAction } from '../../../UserListStoreDefinition';
 
 export function useStoreClearActionDispatch (
   sliceName: UserListStoreSliceName,
@@ -17,19 +18,20 @@ export function useStoreClearActionDispatch (
 ): UserListStoreClearActionDispatch {
   const dispatch = useAppStoreDispatch();
 
+  const payloadOfClearAction = useMemo(
+    () => createUserListStoreClearActionPayload({ sliceName }),
+    [sliceName]
+  );
+
   const run = useCallback(
     () => {
-      switch (sliceName) {
-        case UserListStoreSliceName.Default:
-          dispatch(defaultUserListStoreClearAction());
-          break;
-      }
+      dispatch(createUserListStoreClearAction(payloadOfClearAction));
 
       if (callback) {
         callback();
       }
     },
-    [callback, dispatch, sliceName]
+    [callback, dispatch, payloadOfClearAction]
   );
 
   useEffect(

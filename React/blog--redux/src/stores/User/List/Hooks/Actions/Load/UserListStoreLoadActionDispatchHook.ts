@@ -10,6 +10,7 @@ import {
   type UserListStoreSliceName,
   createUserListStoreLoadActionPayload,
 } from '../../../../../../features';
+import { createUserListStoreLoadAction } from '../../../UserListStoreDefinition';
 
 export function useStoreLoadActionDispatch (
   sliceName: UserListStoreSliceName,
@@ -33,9 +34,10 @@ export function useStoreLoadActionDispatch (
       actionResult: resultOfLoadAction,
       resourceOfApiResponse,
       resourceOfUserListStore,
-      requestHandler
+      requestHandler,
+      sliceName,
     }),
-    [resultOfLoadAction, requestHandler, resourceOfApiResponse, resourceOfUserListStore]
+    [resultOfLoadAction, requestHandler, resourceOfApiResponse, resourceOfUserListStore, sliceName]
   );
 
   const { run: complete } = hooks.Features.User.List.Store.useStoreLoadCompletedActionDispatch(
@@ -57,7 +59,7 @@ export function useStoreLoadActionDispatch (
         return;
       }
 
-      dispatch({ payload, sliceName, type: UserListStoreActionType.Load });
+      dispatch(createUserListStoreLoadAction(payload));
 
       const response = actionResult
         ? await requestHandler.handle(
@@ -78,7 +80,7 @@ export function useStoreLoadActionDispatch (
 
       complete(response);
     },
-    [complete, dispatch, sliceName]
+    [complete, dispatch]
   );
 
   useEffect(

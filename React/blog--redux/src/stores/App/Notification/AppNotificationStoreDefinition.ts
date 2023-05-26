@@ -2,6 +2,7 @@ import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { createStoreStateMap } from '../../../common';
 import {
   AppNotificationStoreSliceName,
+  type AppNotificationStoreClearActionPayload,
   type AppNotificationStoreSetActionPayload,
   type AppNotificationStoreStateMap,
   createAppNotificationStoreState,
@@ -14,37 +15,36 @@ const initialState: AppNotificationStoreStateMap = createStoreStateMap({
   sliceNames: [AppNotificationStoreSliceName.Default],
 });
 
-function createClearActionReducer (sliceName: AppNotificationStoreSliceName) {
-  return (stateMap: AppNotificationStoreStateMap) => {
-    const state = initialState[sliceName];
-
-    stateMap[sliceName] = state;
-  };
-}
-
-function createSetActionReducer (sliceName: AppNotificationStoreSliceName) {
-  return (
-    stateMap: AppNotificationStoreStateMap,
-    action: PayloadAction<AppNotificationStoreSetActionPayload>
-  ) => {
-    const state = stateMap[sliceName];
-
-    state.resultOfSetAction = action.payload.actionResult;
-  };
-}
-
 const slice = createSlice({
   name,
   initialState,
   reducers: {
-    defaultAppNotificationStoreClearAction: createClearActionReducer(AppNotificationStoreSliceName.Default),
-    defaultAppNotificationStoreSetAction: createSetActionReducer(AppNotificationStoreSliceName.Default),
+    createAppNotificationStoreClearAction: (
+      stateMap: AppNotificationStoreStateMap,
+      action: PayloadAction<AppNotificationStoreClearActionPayload>
+    ) => {
+      const { payload: { sliceName } } = action;
+
+      const state = initialState[sliceName];
+
+      stateMap[sliceName] = state;
+    },
+    createAppNotificationStoreSetAction: (
+      stateMap: AppNotificationStoreStateMap,
+      action: PayloadAction<AppNotificationStoreSetActionPayload>
+    ) => {
+      const { payload: { sliceName }, payload } = action;
+
+      const state = stateMap[sliceName];
+
+      state.resultOfSetAction = payload.actionResult;
+    },
   },
 });
 
 export const {
-  defaultAppNotificationStoreClearAction,
-  defaultAppNotificationStoreSetAction,
+  createAppNotificationStoreClearAction,
+  createAppNotificationStoreSetAction,
 } = slice.actions;
 
 export default slice.reducer;

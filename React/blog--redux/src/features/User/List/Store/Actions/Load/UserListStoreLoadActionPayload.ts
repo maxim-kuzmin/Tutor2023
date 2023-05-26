@@ -1,9 +1,12 @@
+import { type StoreActionPayload, createStoreActionPayload } from '../../../../../../common';
 import { type ApiResponseResource } from '../../../../../../data';
 import { type UserDomainListGetOperationRequestHandler } from '../../../../../../domains';
 import { type UserListStoreResource } from '../../UserListStoreResource';
+import { type UserListStoreSliceName } from '../../Slice';
 import { type UserListStoreLoadActionResult } from './UserListStoreLoadActionResult';
 
-export interface UserListStoreLoadActionPayload {
+export interface UserListStoreLoadActionPayload
+  extends StoreActionPayload<UserListStoreSliceName> {
   readonly abortSignal?: AbortSignal;
   readonly actionResult: UserListStoreLoadActionResult;
   readonly resourceOfApiResponse: ApiResponseResource;
@@ -11,26 +14,29 @@ export interface UserListStoreLoadActionPayload {
   readonly requestHandler: UserDomainListGetOperationRequestHandler;
 }
 
+interface Options extends Omit<UserListStoreLoadActionPayload, 'actionResult'> {
+  readonly actionResult?: UserListStoreLoadActionResult;
+}
+
 export function createUserListStoreLoadActionPayload (
-  options?: Partial<UserListStoreLoadActionPayload>
+  options: Options
 ): UserListStoreLoadActionPayload {
-  if (!options?.resourceOfApiResponse) {
-    throw new Error('resourceOfApiResponse is undefined');
-  }
+  const {
+    abortSignal,
+    actionResult,
+    resourceOfApiResponse,
+    resourceOfUserListStore,
+    requestHandler,
+  } = options;
 
-  if (!options?.resourceOfUserListStore) {
-    throw new Error('resourceOfUserListStore is undefined');
-  }
-
-  if (!options?.requestHandler) {
-    throw new Error('requestHandler is undefined');
-  }
+  const base = createStoreActionPayload(options);
 
   return {
-    abortSignal: options?.abortSignal,
-    actionResult: options?.actionResult ?? null,
-    resourceOfApiResponse: options?.resourceOfApiResponse,
-    resourceOfUserListStore: options?.resourceOfUserListStore,
-    requestHandler: options?.requestHandler,
+    ...base,
+    abortSignal,
+    actionResult: actionResult ?? null,
+    resourceOfApiResponse,
+    resourceOfUserListStore,
+    requestHandler,
   };
 }

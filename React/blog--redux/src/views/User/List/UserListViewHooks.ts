@@ -1,12 +1,18 @@
 import {
-  type UserListStoreHooks,
+  type UserListStoreClearActionInput,
+  type UserListStoreClearActionOutput,
+  type UserListStoreLoadActionInput,
   type UserListStoreLoadActionOutput,
-  type UserListStoreState,
-  UserListStoreSliceName,
+  type UserListStoreSetActionInput,
+  type UserListStoreSetActionOutput,
+  type UserListStoreHooks,
   type UserListStoreSliceHooks,
+  UserListStoreSliceName,
+  type UserListStoreState,
 } from '../../../features';
 
-export interface UserListViewHooks extends UserListStoreSliceHooks {}
+export interface UserListViewHooks extends UserListStoreSliceHooks {
+}
 
 interface Options {
   readonly hooksOfUserListStore: UserListStoreHooks;
@@ -17,8 +23,16 @@ export function createUserListViewHooks ({
 }: Options): UserListViewHooks {
   const sliceName = UserListStoreSliceName.Default;
 
-  function useStoreLoadActionOutput (): UserListStoreLoadActionOutput {
-    return hooksOfUserListStore.useStoreLoadActionOutput(sliceName);
+  function useStoreClearActionOutput (input: UserListStoreClearActionInput): UserListStoreClearActionOutput {
+    return hooksOfUserListStore.useStoreClearActionOutput(sliceName, input);
+  }
+
+  function useStoreLoadActionOutput (input: UserListStoreLoadActionInput): UserListStoreLoadActionOutput {
+    return hooksOfUserListStore.useStoreLoadActionOutput(sliceName, input);
+  }
+
+  function useStoreSetActionOutput (input: UserListStoreSetActionInput): UserListStoreSetActionOutput {
+    return hooksOfUserListStore.useStoreSetActionOutput(sliceName, input);
   }
 
   function useStoreState (): UserListStoreState {
@@ -26,7 +40,9 @@ export function createUserListViewHooks ({
   }
 
   return {
+    useStoreClearActionOutput,
     useStoreLoadActionOutput,
-    useStoreState,
+    useStoreSetActionOutput,
+    useStoreState
   };
 }

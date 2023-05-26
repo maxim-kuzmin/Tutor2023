@@ -3,3 +3,7 @@ export { type UserListStoreClearActionDispatch } from './UserListStoreClearActio
 export { type UserListStoreClearActionInput } from './UserListStoreClearActionInput';
 export { type UserListStoreClearActionOptions } from './UserListStoreClearActionOptions';
 export { type UserListStoreClearActionOutput } from './UserListStoreClearActionOutput';
+export {
+  type UserListStoreClearActionPayload,
+  createUserListStoreClearActionPayload
+} from './UserListStoreClearActionPayload';

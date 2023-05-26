@@ -7,14 +7,14 @@ function AppNotificationView (): React.ReactElement | null {
 
   const component = hooks.Controls.Notification.useComponent();
 
-  const { dataOfSetAction } = hooks.Views.App.Notification.useStoreState();
+  const { resultOfSetAction } = hooks.Views.App.Notification.useStoreState();
 
   const onActionCompleted = useCallback(() => {
-      if (dataOfSetAction) {
-        component.show(dataOfSetAction);
+      if (resultOfSetAction) {
+        component.show(resultOfSetAction);
       }
     },
-    [component, dataOfSetAction]
+    [component, resultOfSetAction]
   );
 
   hooks.Views.App.Notification.useStoreClearActionOutput({
