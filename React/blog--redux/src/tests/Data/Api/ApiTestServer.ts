@@ -9,7 +9,7 @@ export function createApiTestServer (): ApiTestServer {
   return {
     forceGenerateNotifications,
     start: async () => {
-      await worker.start();
+      await worker.start({ onUnhandledRequest: 'bypass' });
     }
   };
 }

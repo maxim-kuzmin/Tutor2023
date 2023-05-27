@@ -6,7 +6,7 @@ import { createAppLocalizationSetup } from '../features';
 import { type AppInstance } from './AppInstance';
 
 export interface AppSetup {
-  readonly run: () => void;
+  readonly run: () => Promise<void>;
 }
 
 interface Options {

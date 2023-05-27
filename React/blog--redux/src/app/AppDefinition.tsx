@@ -10,17 +10,14 @@ import { createAppSetup } from './AppSetup';
 
 const instanceOfApp = createAppInstance();
 
-const setupOfApp = createAppSetup({ instanceOfApp });
-
-setupOfApp.run();
-
 const store = configureStore({
   reducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       thunk: {
         extraArgument: instanceOfApp
-      }
+      },
+      serializableCheck: false
     })
 });
 
@@ -34,17 +31,19 @@ export interface AppStoreThunkApiConfig {
   extra: AppInstance;
 }
 
-export const AppContext = createContext<AppInstance | null>(null);
+export const AppInstanceContext = createContext<AppInstance | null>(null);
 
 export const AppRoot: React.FC = memo(
 function AppRoot (): React.ReactElement | null {
   return (
     <React.StrictMode>
-      <AppContext.Provider value={instanceOfApp}>
+      <AppInstanceContext.Provider value={instanceOfApp}>
         <ReduxProvider store={store}>
           <RouterProvider router={createAppRouter()} />
         </ReduxProvider>
-      </AppContext.Provider>
+      </AppInstanceContext.Provider>
     </React.StrictMode>
   )
 });
+
+export const setupOfApp = createAppSetup({ instanceOfApp });

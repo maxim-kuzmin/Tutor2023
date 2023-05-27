@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { type TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { AppContext, type AppStoreDispatch, type AppStoreRootState } from './AppDefinition';
+import { AppInstanceContext, type AppStoreDispatch, type AppStoreRootState } from './AppDefinition';
 import { type AppInstance } from './AppInstance';
 
 export function useAppInstance (): AppInstance {
-  return useContext(AppContext)!;
+  return useContext(AppInstanceContext)!;
 }
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
