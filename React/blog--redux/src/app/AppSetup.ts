@@ -32,11 +32,15 @@ class Implementation implements AppSetup {
 
     setupOfLocalization.run();
 
-    const { modules } = this.instanceOfApp;
+    const { modules, options } = this.instanceOfApp;
 
-    const serverOfApi = modules.Tests.Data.Api.getServer();
+    if (options.Common.isTestModeEnabled) {
+      const serverOfApi = modules.Tests.Data.Api.getServer();
 
-    await serverOfApi.start();
+      await serverOfApi.start();
+    } else {
+      await Promise.resolve();
+    }
   }
 }
 
