@@ -4,6 +4,7 @@ import { OperationStatus, createStoreStateMap } from '../../../common';
 import {
   type UserDomainListGetOperationResponse,
   createUserDomainListGetOperationRequest,
+  createUserDomainListGetOperationResponse,
 } from '../../../domains';
 import {
   UserListStoreSliceName,
@@ -12,7 +13,6 @@ import {
   type UserListStoreLoadActionPayload,
   type UserListStoreLoadCompletedActionPayload,
   type UserListStoreSetActionPayload,
-  type UserListStoreLoadActionResult,
   type UserListStoreStateMap,
   createUserListStoreState,
 } from '../../../features';
@@ -26,33 +26,39 @@ const initialState: UserListStoreStateMap = createStoreStateMap({
 
 const createAsyncAction = createAsyncThunk.withTypes<AppStoreThunkApiConfig>();
 
-export function createUserListStoreLoadActionAsync ({
-  abortSignal,
-  requestHandler,
-  resourceOfUserListStore,
-  resourceOfApiResponse,
-}: UserListStoreLoadActionData) {
-  return createAsyncAction<
-    UserDomainListGetOperationResponse | null,
-    UserListStoreLoadActionResult
-  >(
-    `${name}/Load`,
-    async (payload) => {
-      return payload
-        ? await requestHandler.handle(
-            createUserDomainListGetOperationRequest(
-              payload,
-              {
-                operationName: resourceOfUserListStore.getOperationNameForGet(),
-                resourceOfApiResponse
-              }
-            ),
-            abortSignal
-          )
-        : null;
+export const createUserListStoreLoadActionAsync = createAsyncAction<
+  UserDomainListGetOperationResponse | null,
+  {
+    data: UserListStoreLoadActionData;
+    payload: UserListStoreLoadActionPayload;
+  }
+>(
+  `${name}/Load`,
+  async ({
+    data: {
+      abortSignal,
+      requestHandler,
+      resourceOfApiResponse,
+      resourceOfUserListStore,
+    },
+    payload: {
+      actionResult,
     }
-  );
-}
+  }) => {
+  return actionResult
+    ? await requestHandler.handle(
+        createUserDomainListGetOperationRequest(
+          actionResult,
+          {
+            operationName: resourceOfUserListStore.getOperationNameForGet(),
+            resourceOfApiResponse
+          }
+        ),
+        abortSignal
+      )
+    : null;
+  },
+);
 
 const slice = createSlice({
   name,
@@ -101,6 +107,28 @@ const slice = createSlice({
 
       state.resultOfSetAction = actionResult;
     },
+  },
+  extraReducers (builder) {
+    builder.addCase(createUserListStoreLoadActionAsync.fulfilled, (stateMap, action) => {
+      const { payload, meta: { arg: { payload: { actionResult, sliceName } } } } = action;
+
+      const state = stateMap[sliceName];
+
+      state.resultOfLoadCompletedAction = payload;
+      state.resultOfLoadAction = actionResult;
+      state.resultOfSetAction = payload;
+      state.statusOfLoadAction = OperationStatus.Fulfilled;
+    });
+
+    builder.addCase(createUserListStoreLoadActionAsync.rejected, (stateMap, action) => {
+      const { payload, meta: { arg: { payload: { actionResult, sliceName } } } } = action;
+
+      const state = stateMap[sliceName];
+
+      state.resultOfLoadCompletedAction = createUserDomainListGetOperationResponse(payload);
+      state.resultOfLoadAction = actionResult;
+      state.statusOfLoadAction = OperationStatus.Rejected;
+    });
   },
 });
 
