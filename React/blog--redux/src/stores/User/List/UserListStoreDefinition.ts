@@ -1,11 +1,18 @@
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { type PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { type AppStoreThunkApiConfig } from '../../../app';
 import { OperationStatus, createStoreStateMap } from '../../../common';
+import {
+  type UserDomainListGetOperationResponse,
+  createUserDomainListGetOperationRequest,
+} from '../../../domains';
 import {
   UserListStoreSliceName,
   type UserListStoreClearActionPayload,
+  type UserListStoreLoadActionData,
   type UserListStoreLoadActionPayload,
   type UserListStoreLoadCompletedActionPayload,
   type UserListStoreSetActionPayload,
+  type UserListStoreLoadActionResult,
   type UserListStoreStateMap,
   createUserListStoreState,
 } from '../../../features';
@@ -16,6 +23,36 @@ const initialState: UserListStoreStateMap = createStoreStateMap({
   functionToCreateState: () => createUserListStoreState(),
   sliceNames: [UserListStoreSliceName.Default],
 });
+
+const createAsyncAction = createAsyncThunk.withTypes<AppStoreThunkApiConfig>();
+
+export function createUserListStoreLoadActionAsync ({
+  abortSignal,
+  requestHandler,
+  resourceOfUserListStore,
+  resourceOfApiResponse,
+}: UserListStoreLoadActionData) {
+  return createAsyncAction<
+    UserDomainListGetOperationResponse | null,
+    UserListStoreLoadActionResult
+  >(
+    `${name}/Load`,
+    async (payload) => {
+      return payload
+        ? await requestHandler.handle(
+            createUserDomainListGetOperationRequest(
+              payload,
+              {
+                operationName: resourceOfUserListStore.getOperationNameForGet(),
+                resourceOfApiResponse
+              }
+            ),
+            abortSignal
+          )
+        : null;
+    }
+  );
+}
 
 const slice = createSlice({
   name,

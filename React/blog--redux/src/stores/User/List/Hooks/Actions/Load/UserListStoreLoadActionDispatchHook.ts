@@ -3,11 +3,13 @@ import { useAppInstance, useAppStoreDispatch } from '../../../../../../app';
 import { StoreDispatchType } from '../../../../../../common';
 import { createUserDomainListGetOperationRequest } from '../../../../../../domains';
 import {
+  type UserListStoreLoadActionData,
   type UserListStoreLoadActionDispatch,
   type UserListStoreLoadActionOptions,
   type UserListStoreLoadActionPayload,
   type UserListStoreLoadActionResult,
   type UserListStoreSliceName,
+  createUserListStoreLoadActionData,
   createUserListStoreLoadActionPayload,
 } from '../../../../../../features';
 import { createUserListStoreLoadAction } from '../../../UserListStoreDefinition';
@@ -29,15 +31,21 @@ export function useStoreLoadActionDispatch (
   const resourceOfUserListStore = hooks.Features.User.List.Store.useResource();
   const requestHandler = useRef(hooks.Domains.User.useListGetOperationRequestHandler()).current;
 
-  const payloadOfLoadAction = useMemo(
-    () => createUserListStoreLoadActionPayload({
-      actionResult: resultOfLoadAction,
+  const dataOfLoadAction = useMemo(
+    () => createUserListStoreLoadActionData({
       resourceOfApiResponse,
       resourceOfUserListStore,
       requestHandler,
+    }),
+    [requestHandler, resourceOfApiResponse, resourceOfUserListStore]
+  );
+
+  const payloadOfLoadAction = useMemo(
+    () => createUserListStoreLoadActionPayload({
+      actionResult: resultOfLoadAction,
       sliceName,
     }),
-    [resultOfLoadAction, requestHandler, resourceOfApiResponse, resourceOfUserListStore, sliceName]
+    [resultOfLoadAction, sliceName]
   );
 
   const { run: complete } = hooks.Features.User.List.Store.useStoreLoadCompletedActionDispatch(
@@ -46,14 +54,18 @@ export function useStoreLoadActionDispatch (
   );
 
   const run = useCallback(
-    async (payload: UserListStoreLoadActionPayload) => {
+    async (
+      payload: UserListStoreLoadActionPayload,
+      dataOfLoadAction: UserListStoreLoadActionData
+    ) => {
       const {
         abortSignal,
-        actionResult,
         requestHandler,
         resourceOfApiResponse,
         resourceOfUserListStore
-      } = payload;
+      } = dataOfLoadAction;
+
+      const { actionResult } = payload;
 
       if (abortSignal?.aborted) {
         return;
@@ -83,46 +95,52 @@ export function useStoreLoadActionDispatch (
     [complete, dispatch]
   );
 
+  const aborted = abortController?.signal.aborted;
+
   useEffect(
     () => {
-      if (abortController?.signal.aborted) {
+      if (aborted) {
         return;
       }
 
       const abortControllerInner = new AbortController();
 
-      const payloadOfLoadActionInner = createUserListStoreLoadActionPayload({
-        ...payloadOfLoadAction,
+      const dataOfLoadActionInner: UserListStoreLoadActionData = {
+        ...dataOfLoadAction,
         abortSignal: abortControllerInner.signal,
-      });
+      };
 
       if (dispatchType === StoreDispatchType.MountOrUpdate) {
-        run(payloadOfLoadActionInner);
+        run(payloadOfLoadAction, dataOfLoadActionInner);
       }
 
       return () => {
         if (dispatchType === StoreDispatchType.Unmount) {
-          run(payloadOfLoadActionInner);
+          run(payloadOfLoadAction, dataOfLoadActionInner);
         } else {
           abortControllerInner.abort();
         }
       };
     },
-    [abortController, dispatchType, payloadOfLoadAction, run]
+    [aborted, dataOfLoadAction, dispatchType, payloadOfLoadAction, run]
   );
 
   return useMemo<UserListStoreLoadActionDispatch>(
     () => ({
       run: async (actionResult: UserListStoreLoadActionResult, abortSignal?: AbortSignal) => {
+        const dataOfLoadActionInner = createUserListStoreLoadActionData({
+          ...dataOfLoadAction,
+          abortSignal,
+        });
+
         const payloadOfLoadActionInner = createUserListStoreLoadActionPayload({
           ...payloadOfLoadAction,
-          abortSignal,
           actionResult
         });
 
-        await run(payloadOfLoadActionInner);
+        await run(payloadOfLoadActionInner, dataOfLoadActionInner);
       }
     }),
-    [payloadOfLoadAction, run]
+    [dataOfLoadAction, payloadOfLoadAction, run]
   );
 }
