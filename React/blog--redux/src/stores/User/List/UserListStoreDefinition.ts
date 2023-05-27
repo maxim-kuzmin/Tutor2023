@@ -94,8 +94,12 @@ const slice = createSlice({
       const state = stateMap[sliceName];
 
       state.resultOfLoadCompletedAction = actionResult;
+
+      if (!actionResult?.error) {
+        state.resultOfSetAction = actionResult
+      }
+
       state.statusOfLoadAction = OperationStatus.Fulfilled;
-      state.resultOfSetAction = actionResult?.error ? state.resultOfSetAction : actionResult
     },
     createUserListStoreSetAction: (
       stateMap: UserListStoreStateMap,
