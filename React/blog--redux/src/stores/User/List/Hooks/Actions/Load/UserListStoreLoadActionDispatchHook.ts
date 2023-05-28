@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAppInstance, useAppStoreDispatch } from '../../../../../../app';
 import { StoreDispatchType } from '../../../../../../common';
-import { createUserDomainListGetOperationRequest } from '../../../../../../domains';
+// import { createUserDomainListGetOperationRequest } from '../../../../../../domains';
 import {
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionDispatch,
@@ -12,7 +12,10 @@ import {
   createUserListStoreLoadActionData,
   createUserListStoreLoadActionPayload,
 } from '../../../../../../features';
-import { createUserListStoreLoadAction } from '../../../UserListStoreDefinition';
+import {
+  // createUserListStoreLoadAction,
+  createUserListStoreLoadActionAsync,
+} from '../../../UserListStoreDefinition';
 
 export function useStoreLoadActionDispatch (
   sliceName: UserListStoreSliceName,
@@ -48,51 +51,59 @@ export function useStoreLoadActionDispatch (
     [resultOfLoadAction, sliceName]
   );
 
-  const { run: complete } = hooks.Features.User.List.Store.useStoreLoadCompletedActionDispatch(
-    sliceName,
-    { callback }
-  );
+  // const { run: complete } = hooks.Features.User.List.Store.useStoreLoadCompletedActionDispatch(
+  //   sliceName,
+  //   { callback }
+  // );
 
-  const run = useCallback(
+  // const runInner = useCallback(
+  //   async (payload: UserListStoreLoadActionPayload, data: UserListStoreLoadActionData
+  //   ) => {
+  //     const {
+  //       abortSignal,
+  //       requestHandler,
+  //       resourceOfApiResponse,
+  //       resourceOfUserListStore
+  //     } = data;
+
+  //     if (abortSignal?.aborted) {
+  //       return;
+  //     }
+
+  //     dispatch(createUserListStoreLoadAction(payload));
+
+  //     const { actionResult } = payload;
+
+  //     const response = actionResult
+  //       ? await requestHandler.handle(
+  //           createUserDomainListGetOperationRequest(
+  //             actionResult,
+  //             {
+  //               operationName: resourceOfUserListStore.getOperationNameForGet(),
+  //               resourceOfApiResponse
+  //             }
+  //           ),
+  //           abortSignal
+  //         )
+  //       : null;
+
+  //     if (abortSignal?.aborted) {
+  //       return;
+  //     }
+
+  //     complete(response);
+  //   },
+  //   [complete, dispatch]
+  // );
+
+  const runInner = useCallback(
     async (
       payload: UserListStoreLoadActionPayload,
-      dataOfLoadAction: UserListStoreLoadActionData
+      data: UserListStoreLoadActionData
     ) => {
-      const {
-        abortSignal,
-        requestHandler,
-        resourceOfApiResponse,
-        resourceOfUserListStore
-      } = dataOfLoadAction;
-
-      const { actionResult } = payload;
-
-      if (abortSignal?.aborted) {
-        return;
-      }
-
-      dispatch(createUserListStoreLoadAction(payload));
-
-      const response = actionResult
-        ? await requestHandler.handle(
-            createUserDomainListGetOperationRequest(
-              actionResult,
-              {
-                operationName: resourceOfUserListStore.getOperationNameForGet(),
-                resourceOfApiResponse
-              }
-            ),
-            abortSignal
-          )
-        : null;
-
-      if (abortSignal?.aborted) {
-        return;
-      }
-
-      complete(response);
+      dispatch(createUserListStoreLoadActionAsync({ data, payload }));
     },
-    [complete, dispatch]
+    [dispatch]
   );
 
   const aborted = abortController?.signal.aborted;
@@ -111,18 +122,18 @@ export function useStoreLoadActionDispatch (
       };
 
       if (dispatchType === StoreDispatchType.MountOrUpdate) {
-        run(payloadOfLoadAction, dataOfLoadActionInner);
+        runInner(payloadOfLoadAction, dataOfLoadActionInner);
       }
 
       return () => {
         if (dispatchType === StoreDispatchType.Unmount) {
-          run(payloadOfLoadAction, dataOfLoadActionInner);
+          runInner(payloadOfLoadAction, dataOfLoadActionInner);
         } else {
           abortControllerInner.abort();
         }
       };
     },
-    [aborted, dataOfLoadAction, dispatchType, payloadOfLoadAction, run]
+    [aborted, dataOfLoadAction, dispatchType, payloadOfLoadAction, runInner]
   );
 
   return useMemo<UserListStoreLoadActionDispatch>(
@@ -138,9 +149,9 @@ export function useStoreLoadActionDispatch (
           actionResult
         });
 
-        await run(payloadOfLoadActionInner, dataOfLoadActionInner);
+        await runInner(payloadOfLoadActionInner, dataOfLoadActionInner);
       }
     }),
-    [dataOfLoadAction, payloadOfLoadAction, run]
+    [dataOfLoadAction, payloadOfLoadAction, runInner]
   );
 }

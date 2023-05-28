@@ -2,7 +2,6 @@ import { type PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/tool
 import { type AppStoreThunkApiConfig } from '../../../app';
 import { OperationStatus, createStoreStateMap } from '../../../common';
 import {
-  type UserDomainListGetOperationResponse,
   createUserDomainListGetOperationRequest,
   createUserDomainListGetOperationResponse,
 } from '../../../domains';
@@ -12,6 +11,7 @@ import {
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionPayload,
   type UserListStoreLoadCompletedActionPayload,
+  type UserListStoreLoadCompletedActionResult,
   type UserListStoreSetActionPayload,
   type UserListStoreStateMap,
   createUserListStoreState,
@@ -27,7 +27,7 @@ const initialState: UserListStoreStateMap = createStoreStateMap({
 const createAsyncAction = createAsyncThunk.withTypes<AppStoreThunkApiConfig>();
 
 export const createUserListStoreLoadActionAsync = createAsyncAction<
-  UserDomainListGetOperationResponse | null,
+  UserListStoreLoadCompletedActionResult,
   {
     data: UserListStoreLoadActionData;
     payload: UserListStoreLoadActionPayload;
@@ -114,7 +114,11 @@ const slice = createSlice({
   },
   extraReducers (builder) {
     builder.addCase(createUserListStoreLoadActionAsync.fulfilled, (stateMap, action) => {
-      const { payload, meta: { arg: { payload: { actionResult, sliceName } } } } = action;
+      const { payload, meta: { arg: { data: { abortSignal }, payload: { actionResult, sliceName } } } } = action;
+
+      if (abortSignal?.aborted) {
+        return;
+      }
 
       const state = stateMap[sliceName];
 
@@ -125,7 +129,11 @@ const slice = createSlice({
     });
 
     builder.addCase(createUserListStoreLoadActionAsync.rejected, (stateMap, action) => {
-      const { payload, meta: { arg: { payload: { actionResult, sliceName } } } } = action;
+      const { payload, meta: { arg: { data: { abortSignal }, payload: { actionResult, sliceName } } } } = action;
+
+      if (abortSignal?.aborted) {
+        return;
+      }
 
       const state = stateMap[sliceName];
 
