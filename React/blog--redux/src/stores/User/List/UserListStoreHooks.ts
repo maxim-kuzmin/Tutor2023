@@ -8,9 +8,6 @@ import { useStoreClearActionDispatch } from './Hooks/Actions/Clear/UserListStore
 import { useStoreClearActionOutput } from './Hooks/Actions/Clear/UserListStoreClearActionOutputHook';
 import { useStoreLoadActionDispatch } from './Hooks/Actions/Load/UserListStoreLoadActionDispatchHook';
 import { useStoreLoadActionOutput } from './Hooks/Actions/Load/UserListStoreLoadActionOutputHook';
-import {
-  useStoreLoadCompletedActionDispatch
-} from './Hooks/Actions/LoadCompleted/UserListStoreLoadCompletedActionDispatchHook';
 import { useStoreSetActionDispatch } from './Hooks/Actions/Set/UserListStoreSetActionDispatchHook';
 import { useStoreSetActionOutput } from './Hooks/Actions/Set/UserListStoreSetActionOutputHook';
 import { useStoreState } from './Hooks/UserListStoreStateHook';
@@ -48,7 +45,7 @@ export function createUserListStoreHooks (): UserListStoreHooks {
     useStoreClearActionOutput,
     useStoreLoadActionDispatch,
     useStoreLoadActionOutput,
-    useStoreLoadCompletedActionDispatch,
+    useStoreLoadCompletedActionDispatch: () => { throw new Error('Not used'); },
     useStoreSetActionDispatch,
     useStoreSetActionOutput,
     useStoreState

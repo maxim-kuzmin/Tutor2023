@@ -11,7 +11,6 @@ import {
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionPayload,
   type UserListStoreLoadActionResult,
-  type UserListStoreLoadCompletedActionPayload,
   type UserListStoreLoadCompletedActionResult,
   type UserListStoreSetActionPayload,
   type UserListStoreStateMap,
@@ -39,6 +38,7 @@ export const createUserListStoreLoadActionAsync = createAsyncAction<
 >(
   `${name}/Load`,
   async ({
+    callback,
     data: {
       abortSignal,
       requestHandler,
@@ -49,7 +49,7 @@ export const createUserListStoreLoadActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  return actionResult
+  const result = actionResult
     ? await requestHandler.handle(
         createUserDomainListGetOperationRequest(
           actionResult,
@@ -61,6 +61,12 @@ export const createUserListStoreLoadActionAsync = createAsyncAction<
         abortSignal
       )
     : null;
+
+    if (callback && !abortSignal?.aborted && !result?.error) {
+      callback(result);
+    }
+
+    return result;
   },
 );
 
@@ -100,14 +106,6 @@ const slice = createSlice({
 
       stateMap[sliceName] = state;
     },
-    createUserListStoreLoadCompletedAction: (
-      stateMap: UserListStoreStateMap,
-      action: PayloadAction<UserListStoreLoadCompletedActionPayload>
-    ) => {
-      const { payload: { actionResult, sliceName } } = action;
-
-      handleLoadCompletedAction(stateMap[sliceName], actionResult);
-    },
     createUserListStoreSetAction: (
       stateMap: UserListStoreStateMap,
       action: PayloadAction<UserListStoreSetActionPayload>
@@ -131,17 +129,13 @@ const slice = createSlice({
     });
 
     builder.addCase(createUserListStoreLoadActionAsync.fulfilled, (stateMap, action) => {
-      const { payload, meta: { arg: { callback, data: { abortSignal }, payload: { sliceName } } } } = action;
+      const { payload, meta: { arg: { data: { abortSignal }, payload: { sliceName } } } } = action;
 
       if (abortSignal?.aborted) {
         return;
       }
 
       handleLoadCompletedAction(stateMap[sliceName], payload);
-
-      if (callback) {
-        callback(payload);
-      }
     });
 
     builder.addCase(createUserListStoreLoadActionAsync.rejected, (stateMap, action) => {
@@ -158,7 +152,6 @@ const slice = createSlice({
 
 export const {
   createUserListStoreClearAction,
-  createUserListStoreLoadCompletedAction,
   createUserListStoreSetAction,
 } = slice.actions;
 

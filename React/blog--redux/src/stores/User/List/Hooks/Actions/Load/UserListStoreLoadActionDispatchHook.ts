@@ -52,6 +52,12 @@ export function useStoreLoadActionDispatch (
       payload: UserListStoreLoadActionPayload,
       data: UserListStoreLoadActionData
     ) => {
+      const { abortSignal } = data;
+
+      if (abortSignal?.aborted) {
+        return;
+      }
+
       dispatch(createUserListStoreLoadActionAsync({ callback, data, payload }));
     },
     [callback, dispatch]
