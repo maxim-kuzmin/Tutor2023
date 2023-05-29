@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAppInstance, useAppStoreDispatch } from '../../../../../../app';
 import { StoreDispatchType } from '../../../../../../common';
-// import { createUserDomainListGetOperationRequest } from '../../../../../../domains';
 import {
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionDispatch,
@@ -12,10 +11,7 @@ import {
   createUserListStoreLoadActionData,
   createUserListStoreLoadActionPayload,
 } from '../../../../../../features';
-import {
-  // createUserListStoreLoadAction,
-  createUserListStoreLoadActionAsync,
-} from '../../../UserListStoreDefinition';
+import { createUserListStoreLoadActionAsync } from '../../../UserListStoreDefinition';
 
 export function useStoreLoadActionDispatch (
   sliceName: UserListStoreSliceName,
@@ -51,59 +47,14 @@ export function useStoreLoadActionDispatch (
     [resultOfLoadAction, sliceName]
   );
 
-  // const { run: complete } = hooks.Features.User.List.Store.useStoreLoadCompletedActionDispatch(
-  //   sliceName,
-  //   { callback }
-  // );
-
-  // const runInner = useCallback(
-  //   async (payload: UserListStoreLoadActionPayload, data: UserListStoreLoadActionData
-  //   ) => {
-  //     const {
-  //       abortSignal,
-  //       requestHandler,
-  //       resourceOfApiResponse,
-  //       resourceOfUserListStore
-  //     } = data;
-
-  //     if (abortSignal?.aborted) {
-  //       return;
-  //     }
-
-  //     dispatch(createUserListStoreLoadAction(payload));
-
-  //     const { actionResult } = payload;
-
-  //     const response = actionResult
-  //       ? await requestHandler.handle(
-  //           createUserDomainListGetOperationRequest(
-  //             actionResult,
-  //             {
-  //               operationName: resourceOfUserListStore.getOperationNameForGet(),
-  //               resourceOfApiResponse
-  //             }
-  //           ),
-  //           abortSignal
-  //         )
-  //       : null;
-
-  //     if (abortSignal?.aborted) {
-  //       return;
-  //     }
-
-  //     complete(response);
-  //   },
-  //   [complete, dispatch]
-  // );
-
   const runInner = useCallback(
     async (
       payload: UserListStoreLoadActionPayload,
       data: UserListStoreLoadActionData
     ) => {
-      dispatch(createUserListStoreLoadActionAsync({ data, payload }));
+      dispatch(createUserListStoreLoadActionAsync({ callback, data, payload }));
     },
-    [dispatch]
+    [callback, dispatch]
   );
 
   const aborted = abortController?.signal.aborted;

@@ -10,11 +10,14 @@ import {
   type UserListStoreClearActionPayload,
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionPayload,
+  type UserListStoreLoadActionResult,
   type UserListStoreLoadCompletedActionPayload,
   type UserListStoreLoadCompletedActionResult,
   type UserListStoreSetActionPayload,
   type UserListStoreStateMap,
   createUserListStoreState,
+  type UserListStoreSetActionCallback,
+  type UserListStoreState,
 } from '../../../features';
 
 const name = 'UserList';
@@ -29,6 +32,7 @@ const createAsyncAction = createAsyncThunk.withTypes<AppStoreThunkApiConfig>();
 export const createUserListStoreLoadActionAsync = createAsyncAction<
   UserListStoreLoadCompletedActionResult,
   {
+    callback?: UserListStoreSetActionCallback;
     data: UserListStoreLoadActionData;
     payload: UserListStoreLoadActionPayload;
   }
@@ -60,6 +64,28 @@ export const createUserListStoreLoadActionAsync = createAsyncAction<
   },
 );
 
+function handleLoadAction (
+  state: UserListStoreState,
+  actionResult: UserListStoreLoadActionResult
+) {
+  state.resultOfLoadAction = actionResult;
+  state.statusOfLoadAction = OperationStatus.Pending;
+}
+
+function handleLoadCompletedAction (
+  state: UserListStoreState,
+  actionResult: UserListStoreLoadCompletedActionResult
+) {
+  state.resultOfLoadCompletedAction = actionResult;
+
+  if (actionResult?.error) {
+    state.statusOfLoadAction = OperationStatus.Rejected;
+  } else {
+    state.statusOfLoadAction = OperationStatus.Fulfilled;
+    state.resultOfSetAction = actionResult;
+  }
+}
+
 const slice = createSlice({
   name,
   initialState,
@@ -74,32 +100,13 @@ const slice = createSlice({
 
       stateMap[sliceName] = state;
     },
-    createUserListStoreLoadAction: (
-      stateMap: UserListStoreStateMap,
-      action: PayloadAction<UserListStoreLoadActionPayload>
-    ) => {
-      const { payload: { actionResult, sliceName } } = action;
-
-      const state = stateMap[sliceName];
-
-      state.resultOfLoadAction = actionResult;
-      state.statusOfLoadAction = OperationStatus.Pending;
-    },
     createUserListStoreLoadCompletedAction: (
       stateMap: UserListStoreStateMap,
       action: PayloadAction<UserListStoreLoadCompletedActionPayload>
     ) => {
       const { payload: { actionResult, sliceName } } = action;
 
-      const state = stateMap[sliceName];
-
-      state.resultOfLoadCompletedAction = actionResult;
-
-      if (!actionResult?.error) {
-        state.resultOfSetAction = actionResult
-      }
-
-      state.statusOfLoadAction = OperationStatus.Fulfilled;
+      handleLoadCompletedAction(stateMap[sliceName], actionResult);
     },
     createUserListStoreSetAction: (
       stateMap: UserListStoreStateMap,
@@ -113,40 +120,44 @@ const slice = createSlice({
     },
   },
   extraReducers (builder) {
-    builder.addCase(createUserListStoreLoadActionAsync.fulfilled, (stateMap, action) => {
-      const { payload, meta: { arg: { data: { abortSignal }, payload: { actionResult, sliceName } } } } = action;
+    builder.addCase(createUserListStoreLoadActionAsync.pending, (stateMap, action) => {
+      const { meta: { arg: { data: { abortSignal }, payload: { actionResult, sliceName } } } } = action;
 
       if (abortSignal?.aborted) {
         return;
       }
 
-      const state = stateMap[sliceName];
+      handleLoadAction(stateMap[sliceName], actionResult);
+    });
 
-      state.resultOfLoadCompletedAction = payload;
-      state.resultOfLoadAction = actionResult;
-      state.resultOfSetAction = payload;
-      state.statusOfLoadAction = OperationStatus.Fulfilled;
+    builder.addCase(createUserListStoreLoadActionAsync.fulfilled, (stateMap, action) => {
+      const { payload, meta: { arg: { callback, data: { abortSignal }, payload: { sliceName } } } } = action;
+
+      if (abortSignal?.aborted) {
+        return;
+      }
+
+      handleLoadCompletedAction(stateMap[sliceName], payload);
+
+      if (callback) {
+        callback(payload);
+      }
     });
 
     builder.addCase(createUserListStoreLoadActionAsync.rejected, (stateMap, action) => {
-      const { payload, meta: { arg: { data: { abortSignal }, payload: { actionResult, sliceName } } } } = action;
+      const { payload, meta: { arg: { data: { abortSignal }, payload: { sliceName } } } } = action;
 
       if (abortSignal?.aborted) {
         return;
       }
 
-      const state = stateMap[sliceName];
-
-      state.resultOfLoadCompletedAction = createUserDomainListGetOperationResponse(payload);
-      state.resultOfLoadAction = actionResult;
-      state.statusOfLoadAction = OperationStatus.Rejected;
+      handleLoadCompletedAction(stateMap[sliceName], createUserDomainListGetOperationResponse(payload));
     });
   },
 });
 
 export const {
   createUserListStoreClearAction,
-  createUserListStoreLoadAction,
   createUserListStoreLoadCompletedAction,
   createUserListStoreSetAction,
 } = slice.actions;
