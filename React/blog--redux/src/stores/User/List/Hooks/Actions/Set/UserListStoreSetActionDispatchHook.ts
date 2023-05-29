@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAppStoreDispatch } from '../../../../../../app';
-import { StoreDispatchType } from '../../../../../../common';
+import { type StoreActionOptions, StoreDispatchType } from '../../../../../../common';
 import {
+  type UserListStoreSetActionCallback,
   type UserListStoreSetActionDispatch,
-  type UserListStoreSetActionOptions,
   type UserListStoreSetActionPayload,
   type UserListStoreSetActionResult,
   type UserListStoreSliceName,
@@ -11,13 +11,18 @@ import {
 } from '../../../../../../features';
 import { createUserListStoreSetAction } from '../../../UserListStoreDefinition';
 
+interface Options extends StoreActionOptions {
+  readonly callback?: UserListStoreSetActionCallback;
+  readonly resultOfSetAction?: UserListStoreSetActionResult;
+}
+
 export function useStoreSetActionDispatch (
   sliceName: UserListStoreSliceName,
   {
     callback,
     dispatchType,
     resultOfSetAction
-  }: UserListStoreSetActionOptions = {}
+  }: Options = {}
 ): UserListStoreSetActionDispatch {
   const dispatch = useAppStoreDispatch();
 

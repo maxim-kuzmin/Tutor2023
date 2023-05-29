@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAppInstance, useAppStoreDispatch } from '../../../../../../app';
-import { StoreDispatchType } from '../../../../../../common';
+import { type StoreActionOptions, StoreDispatchType } from '../../../../../../common';
 import {
+  type UserListStoreSetActionCallback,
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionDispatch,
-  type UserListStoreLoadActionOptions,
   type UserListStoreLoadActionPayload,
   type UserListStoreLoadActionResult,
   type UserListStoreSliceName,
@@ -13,6 +13,11 @@ import {
 } from '../../../../../../features';
 import { createUserListStoreLoadActionAsync } from '../../../UserListStoreDefinition';
 
+interface Options extends StoreActionOptions {
+  readonly callback?: UserListStoreSetActionCallback;
+  readonly resultOfLoadAction?: UserListStoreLoadActionResult;
+}
+
 export function useStoreLoadActionDispatch (
   sliceName: UserListStoreSliceName,
   {
@@ -20,7 +25,7 @@ export function useStoreLoadActionDispatch (
     dispatchType,
     abortController,
     resultOfLoadAction
-  }: UserListStoreLoadActionOptions = {}
+  }: Options = {}
 ): UserListStoreLoadActionDispatch {
   const dispatch = useAppStoreDispatch();
 

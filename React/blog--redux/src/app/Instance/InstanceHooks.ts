@@ -17,9 +17,21 @@ import {
   createPostListStoreHooks,
   createUserListStoreHooks,
 } from '../../stores';
+import {
+  useStoreSetActionDispatch
+} from '../../stores/App/Notification/Hooks/Actions/Set/AppNotificationStoreSetActionDispatchHook';
 import { type ViewsHooks, createViewsHooks } from '../../views';
 import { type InstanceComponents } from './InstanceComponents';
 import { type InstanceModules } from './InstanceModules';
+
+function useFunctionToSetNotification (): FunctionToSetNotification {
+  const { run } = useStoreSetActionDispatch(
+    AppNotificationStoreSliceName.Default,
+    {}
+  );
+
+  return run;
+}
 
 export interface InstanceHooks {
   readonly Common: CommonHooks;
@@ -63,18 +75,9 @@ class Implementation implements InstanceHooks {
       hooksOfUserListStore: this.Features.User.List.Store,
     });
 
-    function getFunctionToSetNotification (): FunctionToSetNotification {
-      const { run } = hooksOfAppNotificationStore.useStoreSetActionDispatch(
-        AppNotificationStoreSliceName.Default,
-        {}
-      );
-
-      return run;
-    }
-
     this.Common = createCommonHooks({
       componentOfConfirmControl: components.Controls.Confirm,
-      getFunctionToSetNotification,
+      useFunctionToSetNotification,
       hooksOfConfirmControl: this.Controls.Confirm,
     });
 

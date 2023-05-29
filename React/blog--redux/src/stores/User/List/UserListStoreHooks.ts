@@ -4,11 +4,8 @@ import {
   type UserListStoreResource,
   type UserListStoreHooks,
 } from '../../../features';
-import { useStoreClearActionDispatch } from './Hooks/Actions/Clear/UserListStoreClearActionDispatchHook';
 import { useStoreClearActionOutput } from './Hooks/Actions/Clear/UserListStoreClearActionOutputHook';
-import { useStoreLoadActionDispatch } from './Hooks/Actions/Load/UserListStoreLoadActionDispatchHook';
 import { useStoreLoadActionOutput } from './Hooks/Actions/Load/UserListStoreLoadActionOutputHook';
-import { useStoreSetActionDispatch } from './Hooks/Actions/Set/UserListStoreSetActionDispatchHook';
 import { useStoreSetActionOutput } from './Hooks/Actions/Set/UserListStoreSetActionOutputHook';
 import { useStoreState } from './Hooks/UserListStoreStateHook';
 import { getUserListStoreResourcePath } from '.';
@@ -41,12 +38,8 @@ export function createUserListStoreHooks (): UserListStoreHooks {
 
   return {
     useResource,
-    useStoreClearActionDispatch,
     useStoreClearActionOutput,
-    useStoreLoadActionDispatch,
     useStoreLoadActionOutput,
-    useStoreLoadCompletedActionDispatch: () => { throw new Error('Not used'); },
-    useStoreSetActionDispatch,
     useStoreSetActionOutput,
     useStoreState
   };

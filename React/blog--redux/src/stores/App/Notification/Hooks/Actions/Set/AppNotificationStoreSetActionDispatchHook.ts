@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAppStoreDispatch } from '../../../../../../app';
-import { StoreDispatchType } from '../../../../../../common';
+import { type StoreActionOptions, StoreDispatchType } from '../../../../../../common';
 import {
+  type AppNotificationStoreSetActionCallback,
   type AppNotificationStoreSetActionDispatch,
-  type AppNotificationStoreSetActionOptions,
   type AppNotificationStoreSetActionPayload,
   type AppNotificationStoreSetActionResult,
   type AppNotificationStoreSliceName,
@@ -11,13 +11,18 @@ import {
 } from '../../../../../../features';
 import { createAppNotificationStoreSetAction } from '../../../AppNotificationStoreDefinition';
 
+interface Options extends StoreActionOptions {
+  readonly callback?: AppNotificationStoreSetActionCallback;
+  readonly resultOfSetAction?: AppNotificationStoreSetActionResult;
+}
+
 export function useStoreSetActionDispatch (
   sliceName: AppNotificationStoreSliceName,
   {
     callback,
     dispatchType,
     resultOfSetAction
-  }: AppNotificationStoreSetActionOptions = {}
+  }: Options = {}
 ): AppNotificationStoreSetActionDispatch {
   const dispatch = useAppStoreDispatch();
 
