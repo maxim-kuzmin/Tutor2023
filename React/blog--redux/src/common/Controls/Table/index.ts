@@ -1,1 +1,1 @@
-export { type TableControlOptions } from './TableControlOptions';
+export { type TableControlSettings } from './TableControlSettings';

@@ -117,13 +117,13 @@ const db = factory({
   },
 });
 
-interface PostDataOptions {
+interface PostDataSettings {
   user: any;
 }
 
 function createPostData ({
   user
-}: PostDataOptions): ApiTestServerPostTypeEntity {
+}: PostDataSettings): ApiTestServerPostTypeEntity {
   return createApiTestServerPostTypeEntity({
     title: faker.lorem.words(),
     date: faker.date.recent({ days: RECENT_NOTIFICATIONS_DAYS }).toISOString(),

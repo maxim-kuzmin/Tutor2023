@@ -23,6 +23,7 @@ import {
 import { type ViewsHooks, createViewsHooks } from '../../views';
 import { type InstanceComponents } from './InstanceComponents';
 import { type InstanceModules } from './InstanceModules';
+import { type InstanceSettings } from './InstanceSettings';
 
 function useFunctionToSetNotification (): FunctionToSetNotification {
   const { run } = useStoreSetActionDispatch(
@@ -45,6 +46,7 @@ export interface InstanceHooks {
 interface Options {
   readonly components: InstanceComponents;
   readonly modules: InstanceModules;
+  readonly settings: InstanceSettings;
 }
 
 class Implementation implements InstanceHooks {
@@ -57,9 +59,16 @@ class Implementation implements InstanceHooks {
 
   constructor ({
     components,
-    modules
+    modules,
+    settings,
   }: Options) {
-    this.Controls = createControlsHooks();
+    const {
+      pathOfApiResponseResource,
+      pathOfConfirmControlResource,
+      pathOfOperationHandlerResource,
+    } = settings.Features.App.Localization;
+
+    this.Controls = createControlsHooks({ pathOfConfirmControlResource });
 
     this.Features = createFeaturesHooks({
       createAppNotificationStoreHooks,
@@ -77,12 +86,14 @@ class Implementation implements InstanceHooks {
 
     this.Common = createCommonHooks({
       componentOfConfirmControl: components.Controls.Confirm,
-      useFunctionToSetNotification,
+      pathOfOperationHandlerResource,
       hooksOfConfirmControl: this.Controls.Confirm,
+      useFunctionToSetNotification,
     });
 
     this.Data = createDataHooks({
-      hooksOfOperation: this.Common.Operation
+      hooksOfOperation: this.Common.Operation,
+      pathOfApiResponseResource,
     });
 
     this.Domains = createDomainsHooks({

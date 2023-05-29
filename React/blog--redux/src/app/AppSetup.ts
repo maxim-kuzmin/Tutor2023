@@ -1,7 +1,3 @@
-import {
-  getConfirmControlResourcePath,
-} from '../controls';
-import { getApiResponseResourcePath } from '../data';
 import { createAppLocalizationSetup } from '../features';
 import { type AppInstance } from './AppInstance';
 
@@ -23,18 +19,25 @@ class Implementation implements AppSetup {
   }
 
   async run () {
+    const {
+      pathOfApiResponseResource,
+      pathOfConfirmControlResource,
+      pathOfOperationHandlerResource,
+    } = this.instanceOfApp.settings.Features.App.Localization;
+
     const setupOfLocalization = createAppLocalizationSetup({
       paths: [
-        getApiResponseResourcePath(),
-        getConfirmControlResourcePath(),
+        pathOfApiResponseResource,
+        pathOfConfirmControlResource,
+        pathOfOperationHandlerResource,
       ]
     });
 
     setupOfLocalization.run();
 
-    const { modules, options } = this.instanceOfApp;
+    const { modules, settings } = this.instanceOfApp;
 
-    if (options.Common.isTestModeEnabled) {
+    if (settings.Common.isTestModeEnabled) {
       const serverOfApi = modules.Tests.Data.Api.getServer();
 
       await serverOfApi.start();

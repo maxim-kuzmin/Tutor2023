@@ -8,16 +8,22 @@ import {
   createNotificationControlHooks,
 } from '.';
 
+interface Options {
+  readonly pathOfConfirmControlResource: string;
+}
+
 class Implementation implements ControlsHooks {
   readonly Confirm: ConfirmControlHooks;
   readonly Notification: NotificationControlHooks;
 
-  constructor () {
-    this.Confirm = createConfirmControlHooks();
+  constructor ({
+    pathOfConfirmControlResource,
+  }: Options) {
+    this.Confirm = createConfirmControlHooks({ pathOfConfirmControlResource });
     this.Notification = createNotificationControlHooks();
   }
 }
 
-export function createControlsHooks (): ControlsHooks {
-  return new Implementation();
+export function createControlsHooks (options: Options): ControlsHooks {
+  return new Implementation(options);
 }
