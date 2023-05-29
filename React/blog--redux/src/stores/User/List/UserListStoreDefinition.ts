@@ -10,12 +10,10 @@ import {
   type UserListStoreClearActionPayload,
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionPayload,
-  type UserListStoreLoadActionResult,
   type UserListStoreLoadCompletedActionResult,
   type UserListStoreSetActionPayload,
   type UserListStoreStateMap,
   createUserListStoreState,
-  type UserListStoreState,
 } from '../../../features';
 
 const name = 'UserList';
@@ -63,28 +61,6 @@ export const createUserListStoreLoadActionAsync = createAsyncAction<
   },
 );
 
-function handleLoadAction (
-  state: UserListStoreState,
-  actionResult: UserListStoreLoadActionResult
-) {
-  state.resultOfLoadAction = actionResult;
-  state.statusOfLoadAction = OperationStatus.Pending;
-}
-
-function handleLoadCompletedAction (
-  state: UserListStoreState,
-  actionResult: UserListStoreLoadCompletedActionResult
-) {
-  state.resultOfLoadCompletedAction = actionResult;
-
-  if (actionResult?.error) {
-    state.statusOfLoadAction = OperationStatus.Rejected;
-  } else {
-    state.statusOfLoadAction = OperationStatus.Fulfilled;
-    state.resultOfSetAction = actionResult;
-  }
-}
-
 const slice = createSlice({
   name,
   initialState,
@@ -118,7 +94,10 @@ const slice = createSlice({
         return;
       }
 
-      handleLoadAction(stateMap[sliceName], actionResult);
+      const state = stateMap[sliceName];
+
+      state.statusOfLoadAction = OperationStatus.Pending;
+      state.resultOfLoadAction = actionResult;
     });
 
     builder.addCase(createUserListStoreLoadActionAsync.fulfilled, (stateMap, action) => {
@@ -128,7 +107,10 @@ const slice = createSlice({
         return;
       }
 
-      handleLoadCompletedAction(stateMap[sliceName], payload);
+      const state = stateMap[sliceName];
+
+      state.statusOfLoadAction = OperationStatus.Fulfilled;
+      state.resultOfLoadCompletedAction = state.resultOfSetAction = payload;
     });
 
     builder.addCase(createUserListStoreLoadActionAsync.rejected, (stateMap, action) => {
@@ -138,7 +120,10 @@ const slice = createSlice({
         return;
       }
 
-      handleLoadCompletedAction(stateMap[sliceName], createUserDomainListGetOperationResponse(payload));
+      const state = stateMap[sliceName];
+
+      state.statusOfLoadAction = OperationStatus.Rejected;
+      state.resultOfLoadCompletedAction = createUserDomainListGetOperationResponse(payload);
     });
   },
 });
