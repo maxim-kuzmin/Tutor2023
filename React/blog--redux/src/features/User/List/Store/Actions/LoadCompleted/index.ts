@@ -1,4 +1,3 @@
-export { type UserListStoreLoadCompletedActionCallback } from './UserListStoreLoadCompletedActionCallback';
 export { type UserListStoreLoadCompletedActionDispatch } from './UserListStoreLoadCompletedActionDispatch';
 export {
   type UserListStoreLoadCompletedActionPayload,

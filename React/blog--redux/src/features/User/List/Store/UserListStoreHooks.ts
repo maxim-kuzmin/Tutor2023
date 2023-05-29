@@ -1,9 +1,7 @@
 import {
-  type UserListStoreClearActionInput,
   type UserListStoreClearActionOutput,
   type UserListStoreLoadActionInput,
   type UserListStoreLoadActionOutput,
-  type UserListStoreSetActionInput,
   type UserListStoreSetActionOutput
 } from './Actions';
 import { type UserListStoreSliceName } from './Slice';
@@ -14,8 +12,7 @@ export interface UserListStoreHooks {
   readonly useResource: () => UserListStoreResource;
 
   readonly useStoreClearActionOutput: (
-    sliceName: UserListStoreSliceName,
-    input: UserListStoreClearActionInput
+    sliceName: UserListStoreSliceName
   ) => UserListStoreClearActionOutput;
 
   readonly useStoreLoadActionOutput: (
@@ -24,8 +21,7 @@ export interface UserListStoreHooks {
   ) => UserListStoreLoadActionOutput;
 
   readonly useStoreSetActionOutput: (
-    sliceName: UserListStoreSliceName,
-    input: UserListStoreSetActionInput
+    sliceName: UserListStoreSliceName
   ) => UserListStoreSetActionOutput;
 
   readonly useStoreState: (sliceName: UserListStoreSliceName) => UserListStoreState;

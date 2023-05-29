@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAppInstance, useAppStoreDispatch } from '../../../../../../app';
 import { type StoreActionOptions, StoreDispatchType } from '../../../../../../common';
 import {
-  type UserListStoreSetActionCallback,
   type UserListStoreLoadActionData,
   type UserListStoreLoadActionDispatch,
   type UserListStoreLoadActionPayload,
@@ -14,14 +13,12 @@ import {
 import { createUserListStoreLoadActionAsync } from '../../../UserListStoreDefinition';
 
 interface Options extends StoreActionOptions {
-  readonly callback?: UserListStoreSetActionCallback;
   readonly resultOfLoadAction?: UserListStoreLoadActionResult;
 }
 
 export function useStoreLoadActionDispatch (
   sliceName: UserListStoreSliceName,
   {
-    callback,
     dispatchType,
     abortController,
     resultOfLoadAction
@@ -63,9 +60,9 @@ export function useStoreLoadActionDispatch (
         return;
       }
 
-      dispatch(createUserListStoreLoadActionAsync({ callback, data, payload }));
+      dispatch(createUserListStoreLoadActionAsync({ data, payload }));
     },
-    [callback, dispatch]
+    [dispatch]
   );
 
   const aborted = abortController?.signal.aborted;

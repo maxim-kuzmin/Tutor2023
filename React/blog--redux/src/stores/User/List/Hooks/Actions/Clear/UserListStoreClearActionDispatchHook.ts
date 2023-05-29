@@ -2,23 +2,17 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useAppStoreDispatch } from '../../../../../../app';
 import { type StoreActionOptions, StoreDispatchType } from '../../../../../../common';
 import {
-  type UserListStoreClearActionCallback,
   type UserListStoreClearActionDispatch,
   type UserListStoreSliceName,
   createUserListStoreClearActionPayload,
 } from '../../../../../../features';
 import { createUserListStoreClearAction } from '../../../UserListStoreDefinition';
 
-interface Options extends StoreActionOptions {
-  readonly callback?: UserListStoreClearActionCallback;
-}
-
 export function useStoreClearActionDispatch (
   sliceName: UserListStoreSliceName,
   {
-    callback,
     dispatchType
-  }: Options = {}
+  }: StoreActionOptions = {}
 ): UserListStoreClearActionDispatch {
   const dispatch = useAppStoreDispatch();
 
@@ -30,12 +24,8 @@ export function useStoreClearActionDispatch (
   const runInner = useCallback(
     () => {
       dispatch(createUserListStoreClearAction(payloadOfClearAction));
-
-      if (callback) {
-        callback();
-      }
     },
-    [callback, dispatch, payloadOfClearAction]
+    [dispatch, payloadOfClearAction]
   );
 
   useEffect(

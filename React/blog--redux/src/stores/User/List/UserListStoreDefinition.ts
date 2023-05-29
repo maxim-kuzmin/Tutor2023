@@ -15,7 +15,6 @@ import {
   type UserListStoreSetActionPayload,
   type UserListStoreStateMap,
   createUserListStoreState,
-  type UserListStoreSetActionCallback,
   type UserListStoreState,
 } from '../../../features';
 
@@ -31,14 +30,12 @@ const createAsyncAction = createAsyncThunk.withTypes<AppStoreThunkApiConfig>();
 export const createUserListStoreLoadActionAsync = createAsyncAction<
   UserListStoreLoadCompletedActionResult,
   {
-    callback?: UserListStoreSetActionCallback;
     data: UserListStoreLoadActionData;
     payload: UserListStoreLoadActionPayload;
   }
 >(
   `${name}/Load`,
   async ({
-    callback,
     data: {
       abortSignal,
       requestHandler,
@@ -61,10 +58,6 @@ export const createUserListStoreLoadActionAsync = createAsyncAction<
         abortSignal
       )
     : null;
-
-    if (callback && !abortSignal?.aborted && !result?.error) {
-      callback(result);
-    }
 
     return result;
   },

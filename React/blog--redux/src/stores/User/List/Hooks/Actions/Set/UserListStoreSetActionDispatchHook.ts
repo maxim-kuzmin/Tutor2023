@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useAppStoreDispatch } from '../../../../../../app';
 import { type StoreActionOptions, StoreDispatchType } from '../../../../../../common';
 import {
-  type UserListStoreSetActionCallback,
   type UserListStoreSetActionDispatch,
   type UserListStoreSetActionPayload,
   type UserListStoreSetActionResult,
@@ -12,14 +11,12 @@ import {
 import { createUserListStoreSetAction } from '../../../UserListStoreDefinition';
 
 interface Options extends StoreActionOptions {
-  readonly callback?: UserListStoreSetActionCallback;
   readonly resultOfSetAction?: UserListStoreSetActionResult;
 }
 
 export function useStoreSetActionDispatch (
   sliceName: UserListStoreSliceName,
   {
-    callback,
     dispatchType,
     resultOfSetAction
   }: Options = {}
@@ -34,12 +31,8 @@ export function useStoreSetActionDispatch (
   const runInner = useCallback(
     (payload: UserListStoreSetActionPayload) => {
       dispatch(createUserListStoreSetAction(payload));
-
-      if (callback) {
-        callback(payload.actionResult);
-      }
     },
-    [callback, dispatch]
+    [dispatch]
   );
 
   useEffect(

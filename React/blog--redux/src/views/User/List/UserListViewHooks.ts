@@ -1,9 +1,7 @@
 import {
-  type UserListStoreClearActionInput,
   type UserListStoreClearActionOutput,
   type UserListStoreLoadActionInput,
   type UserListStoreLoadActionOutput,
-  type UserListStoreSetActionInput,
   type UserListStoreSetActionOutput,
   type UserListStoreHooks,
   type UserListStoreSliceHooks,
@@ -23,16 +21,16 @@ export function createUserListViewHooks ({
 }: Options): UserListViewHooks {
   const sliceName = UserListStoreSliceName.Default;
 
-  function useStoreClearActionOutput (input: UserListStoreClearActionInput): UserListStoreClearActionOutput {
-    return hooksOfUserListStore.useStoreClearActionOutput(sliceName, input);
+  function useStoreClearActionOutput (): UserListStoreClearActionOutput {
+    return hooksOfUserListStore.useStoreClearActionOutput(sliceName);
   }
 
   function useStoreLoadActionOutput (input: UserListStoreLoadActionInput): UserListStoreLoadActionOutput {
     return hooksOfUserListStore.useStoreLoadActionOutput(sliceName, input);
   }
 
-  function useStoreSetActionOutput (input: UserListStoreSetActionInput): UserListStoreSetActionOutput {
-    return hooksOfUserListStore.useStoreSetActionOutput(sliceName, input);
+  function useStoreSetActionOutput (): UserListStoreSetActionOutput {
+    return hooksOfUserListStore.useStoreSetActionOutput(sliceName);
   }
 
   function useStoreState (): UserListStoreState {
