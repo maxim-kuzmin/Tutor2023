@@ -1,24 +1,44 @@
 import {
+  type UserItemStoreHooks,
+  type UserItemHooks,
+  createUserItemHooks,
+} from './Item';
+import {
   type UserListStoreHooks,
   type UserListHooks,
   createUserListHooks,
 } from './List';
 
 export interface UserHooks {
+  readonly Item: UserItemHooks;
   readonly List: UserListHooks;
 }
 
 interface Options {
-  readonly createUserListStoreHooks: () => UserListStoreHooks;
+  readonly createUserItemStoreHooks: (options: {
+    readonly pathOfUserItemStoreResource: string;
+  }) => UserItemStoreHooks;
+
+  readonly createUserListStoreHooks: (options: {
+    readonly pathOfUserListStoreResource: string;
+  }) => UserListStoreHooks;
+
+  readonly pathOfUserItemStoreResource: string;
+  readonly pathOfUserListStoreResource: string;
 }
 
 class Implementation implements UserHooks {
+  readonly Item: UserItemHooks;
   readonly List: UserListHooks;
 
   constructor ({
+    createUserItemStoreHooks,
     createUserListStoreHooks,
+    pathOfUserItemStoreResource,
+    pathOfUserListStoreResource,
   }: Options) {
-    this.List = createUserListHooks({ createUserListStoreHooks });
+    this.Item = createUserItemHooks({ createUserItemStoreHooks, pathOfUserItemStoreResource });
+    this.List = createUserListHooks({ createUserListStoreHooks, pathOfUserListStoreResource });
   }
 }
 

@@ -31,6 +31,10 @@ export function createInstanceSettings (): InstanceSettings {
           pathOfApiResponseResource: 'data/Api/Response/ApiResponse',
           pathOfConfirmControlResource: 'controls/Confirm/ConfirmControl',
           pathOfOperationHandlerResource: 'common/Operation/Handler/OperationHandler',
+          pathOfPostItemStoreResource: 'stores/Post/Item/PostItemStore',
+          pathOfPostListStoreResource: 'stores/Post/List/PostListStore',
+          pathOfUserItemStoreResource: 'stores/User/Item/UserItemStore',
+          pathOfUserListStoreResource: 'stores/User/List/UserListStore',
         }
       }
     },

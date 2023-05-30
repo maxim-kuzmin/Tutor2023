@@ -1,0 +1,5 @@
+{
+  "@@OperationNameForDelete": "User. Item. Delete",
+  "@@OperationNameForGet": "User. Item. Get",
+  "@@OperationNameForSave": "User. Item. Save"
+}

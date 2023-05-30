@@ -1,1 +1,0 @@
-export { createPostListStoreDefaultSliceHooks } from './PostListStoreDefaultSliceHooks';

@@ -1,49 +1,44 @@
-import {
-  type PostListStoreHooks,
-  type PostListStoreAddCompletedActionOutput,
-  type PostListStoreAddReactionCompletedActionOutput,
-  type PostListStoreUpdateCompletedActionOutput,
-  type PostListStoreState,
-  PostListStoreSliceName,
-  type PostListStoreSliceHooks,
-} from '../../../features';
-import { createPostListStoreDefaultSliceHooks } from './Slices';
+import { useMemo } from 'react';
+import { useAppInstance } from '../../../app';
+import { type PostListStoreResource, type PostListStoreHooks } from '../../../features';
+import { useStoreClearActionOutput } from './Hooks/Actions/Clear/PostListStoreClearActionOutputHook';
+import { useStoreLoadActionOutput } from './Hooks/Actions/Load/PostListStoreLoadActionOutputHook';
+import { useStoreSetActionOutput } from './Hooks/Actions/Set/PostListStoreSetActionOutputHook';
+import { useStoreState } from './Hooks/PostListStoreStateHook';
 
-export function createPostListStoreHooks (): PostListStoreHooks {
-  const hooks = new Map<PostListStoreSliceName, PostListStoreSliceHooks>([
-    [PostListStoreSliceName.Default, createPostListStoreDefaultSliceHooks()]
-  ]);
+interface Options {
+  readonly pathOfPostListStoreResource: string;
+}
 
-  function getHook (sliceName: PostListStoreSliceName): PostListStoreSliceHooks {
-    return hooks.get(sliceName)!;
-  }
+export function createPostListStoreHooks ({
+  pathOfPostListStoreResource,
+}: Options): PostListStoreHooks {
+  function useResource (): PostListStoreResource {
+    const { hooks } = useAppInstance();
 
-  function useStoreAddCompletedActionOutput (
-    sliceName: PostListStoreSliceName
-  ): PostListStoreAddCompletedActionOutput {
-    return getHook(sliceName).useStoreAddCompletedActionOutput();
-  }
+    const translator = hooks.Features.App.Localization.useTranslator(pathOfPostListStoreResource);
 
-  function useStoreAddReactionCompletedActionOutput (
-    sliceName: PostListStoreSliceName
-  ): PostListStoreAddReactionCompletedActionOutput {
-    return getHook(sliceName).useStoreAddReactionCompletedActionOutput();
-  }
+    const tOperationNameForGet = translator.translate('@@OperationNameForGet');
 
-  function useStoreUpdateCompletedActionOutput (
-    sliceName: PostListStoreSliceName
-  ): PostListStoreUpdateCompletedActionOutput {
-    return getHook(sliceName).useStoreUpdateCompletedActionOutput();
-  }
+    const { language } = translator;
 
-  function useStoreState (sliceName: PostListStoreSliceName): PostListStoreState {
-    return getHook(sliceName).useStoreState();
+    return useMemo<PostListStoreResource>(
+      () => ({
+        getOperationNameForGet: () => tOperationNameForGet,
+        language
+      }),
+      [
+        tOperationNameForGet,
+        language
+      ]
+    );
   }
 
   return {
-    useStoreAddCompletedActionOutput,
-    useStoreAddReactionCompletedActionOutput,
-    useStoreUpdateCompletedActionOutput,
-    useStoreState,
-  }
+    useResource,
+    useStoreClearActionOutput,
+    useStoreLoadActionOutput,
+    useStoreSetActionOutput,
+    useStoreState
+  };
 }

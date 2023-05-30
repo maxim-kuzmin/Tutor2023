@@ -14,6 +14,12 @@ import {
   createPostDomainReactionsValueObject,
   type UserDomainListGetOperationOutput,
   createUserDomainListGetOperationOutput,
+  createUserDomainItemGetOperationOutput,
+  type UserDomainItemGetOperationOutput,
+  createPostDomainItemGetOperationOutput,
+  type PostDomainListGetOperationOutput,
+  createPostDomainListGetOperationOutput,
+  type PostDomainItemGetOperationOutput,
 } from '../../../../domains';
 import {
   type PostTypeEntity,
@@ -157,7 +163,9 @@ for (let i = 0; i < NUM_USERS; i++) {
     db.post.create(newPost);
   }
 }
-
+//
+// Post
+//
 function convertToPostDomainEntity (dbEntity: ApiTestServerPostTypeEntity): PostDomainEntity {
   const {
     id,
@@ -185,6 +193,31 @@ function convertToPostDomainEntity (dbEntity: ApiTestServerPostTypeEntity): Post
   });
 }
 
+function convertToPostItemApiResponse (
+  dbEntity: ApiTestServerPostTypeEntity
+): ApiResponseWithData<PostDomainItemGetOperationOutput> {
+  const data = createPostDomainItemGetOperationOutput({
+    item: convertToPostDomainEntity(dbEntity),
+  });
+
+  return createApiResponseWithData({ data });
+}
+
+function convertToPostListApiResponse (
+  dbEntities: ApiTestServerPostTypeEntity[]
+): ApiResponseWithData<PostDomainListGetOperationOutput> {
+  const items = dbEntities.map(dbEntity => convertToPostDomainEntity(dbEntity));
+
+  const data = createPostDomainListGetOperationOutput({
+    items,
+    totalCount: items.length
+  });
+
+  return createApiResponseWithData({ data });
+}
+//
+// User
+//
 function convertToUserDomainEntity (dbEntity: ApiTestServerUserTypeEntity): UserDomainEntity {
   const {
     id,
@@ -197,6 +230,16 @@ function convertToUserDomainEntity (dbEntity: ApiTestServerUserTypeEntity): User
   return createUserDomainEntity({
     data: createUserTypeEntity({ id, firstName, lastName, name, username }),
   });
+}
+
+function convertToUserItemApiResponse (
+  dbEntity: ApiTestServerUserTypeEntity
+): ApiResponseWithData<UserDomainItemGetOperationOutput> {
+  const data = createUserDomainItemGetOperationOutput({
+    item: convertToUserDomainEntity(dbEntity),
+  });
+
+  return createApiResponseWithData({ data });
 }
 
 function convertToUserListApiResponse (
@@ -220,8 +263,9 @@ function createUrl (endpoint: string) {
 
 const handlers = [
   rest.get(createUrl('posts'), async function (req, res, ctx) {
-    const posts = db.post.getAll().map(convertToPostDomainEntity);
-    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(posts));
+    const posts = db.post.getAll();
+
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostListApiResponse(posts)));
   }),
   rest.post(createUrl('posts'), async function (req, res, ctx) {
     const data: PostTypeEntity = await req.json();
@@ -257,7 +301,7 @@ const handlers = [
       where: { id: { equals: postId } },
     })!;
 
-    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostDomainEntity(post)));
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostItemApiResponse(post)));
   }),
   rest.patch(createUrl('posts/:postId'), async (req, res, ctx) => {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
@@ -315,6 +359,15 @@ const handlers = [
     const users = db.user.getAll();
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToUserListApiResponse(users)))
+  }),
+  rest.get(createUrl('users/:userId'), async function (req, res, ctx) {
+    const userId: string = Array.isArray(req.params) ? req.params.userId[0] : String(req.params.userId);
+
+    const user = db.user.findFirst({
+      where: { id: { equals: userId } },
+    })!;
+
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToUserItemApiResponse(user)));
   }),
 ];
 

@@ -5,6 +5,7 @@ export * from './Localization';
 export * from './Operation';
 export * from './Operations';
 export * from './Store';
+export * from './Test';
 export type { FunctionToSetNotification } from './CommonFunctions';
 export { type CommonHooks, createCommonHooks } from './CommonHooks';
 export { type CommonModules, createCommonModules } from './CommonModules';

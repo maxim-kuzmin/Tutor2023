@@ -5,16 +5,21 @@ export interface PostListHooks {
 }
 
 interface Options {
-  readonly createPostListStoreHooks: () => PostListStoreHooks;
+  readonly createPostListStoreHooks: (options: {
+    readonly pathOfPostListStoreResource: string;
+  }) => PostListStoreHooks;
+
+  readonly pathOfPostListStoreResource: string;
 }
 
 class Implementation implements PostListHooks {
   readonly Store: PostListStoreHooks;
 
   constructor ({
-    createPostListStoreHooks
+    createPostListStoreHooks,
+    pathOfPostListStoreResource,
   }: Options) {
-    this.Store = createPostListStoreHooks();
+    this.Store = createPostListStoreHooks({ pathOfPostListStoreResource });
   }
 }
 

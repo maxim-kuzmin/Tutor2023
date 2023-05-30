@@ -36,6 +36,8 @@ class Implementation implements InstanceModules {
 
     this.Domains = createDomainsModules({
       clientOfApi: this.Data.Api.getClient(),
+      settingsOfCommon: settings.Common,
+      serviceOfTest: this.Common.Test.getService(),
     });
 
     this.Pages = createPagesModules();

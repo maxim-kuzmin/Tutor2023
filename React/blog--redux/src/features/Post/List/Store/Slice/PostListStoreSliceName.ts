@@ -1,3 +1,3 @@
 export enum PostListStoreSliceName {
-  Default = 'DefaultPostList'
+  Default = 'DefaultPostList',
 }

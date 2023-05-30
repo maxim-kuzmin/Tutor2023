@@ -14,7 +14,9 @@ import {
 } from '../../features';
 import {
   createAppNotificationStoreHooks,
+  createPostItemStoreHooks,
   createPostListStoreHooks,
+  createUserItemStoreHooks,
   createUserListStoreHooks,
 } from '../../stores';
 import {
@@ -66,14 +68,24 @@ class Implementation implements InstanceHooks {
       pathOfApiResponseResource,
       pathOfConfirmControlResource,
       pathOfOperationHandlerResource,
+      pathOfPostItemStoreResource,
+      pathOfPostListStoreResource,
+      pathOfUserItemStoreResource,
+      pathOfUserListStoreResource,
     } = settings.Features.App.Localization;
 
     this.Controls = createControlsHooks({ pathOfConfirmControlResource });
 
     this.Features = createFeaturesHooks({
       createAppNotificationStoreHooks,
+      createPostItemStoreHooks,
       createPostListStoreHooks,
+      createUserItemStoreHooks,
       createUserListStoreHooks,
+      pathOfPostItemStoreResource,
+      pathOfPostListStoreResource,
+      pathOfUserItemStoreResource,
+      pathOfUserListStoreResource,
     });
 
     const hooksOfAppNotificationStore = this.Features.App.Notification.Store;
@@ -98,6 +110,7 @@ class Implementation implements InstanceHooks {
 
     this.Domains = createDomainsHooks({
       hooksOfApiRequest: this.Data.Api.Request,
+      moduleOfPostDomain: modules.Domains.Post,
       moduleOfUserDomain: modules.Domains.User,
     });
   }

@@ -5,16 +5,21 @@ export interface UserListHooks {
 }
 
 interface Options {
-  readonly createUserListStoreHooks: () => UserListStoreHooks;
+  readonly createUserListStoreHooks: (options: {
+    readonly pathOfUserListStoreResource: string;
+  }) => UserListStoreHooks;
+
+  readonly pathOfUserListStoreResource: string;
 }
 
 class Implementation implements UserListHooks {
   readonly Store: UserListStoreHooks;
 
   constructor ({
-    createUserListStoreHooks
+    createUserListStoreHooks,
+    pathOfUserListStoreResource,
   }: Options) {
-    this.Store = createUserListStoreHooks();
+    this.Store = createUserListStoreHooks({ pathOfUserListStoreResource });
   }
 }
 

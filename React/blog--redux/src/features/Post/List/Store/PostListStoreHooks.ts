@@ -1,23 +1,28 @@
 import {
-  type PostListStoreAddCompletedActionOutput,
-  type PostListStoreAddReactionCompletedActionOutput,
-  type PostListStoreUpdateCompletedActionOutput,
+  type PostListStoreClearActionOutput,
+  type PostListStoreLoadActionInput,
+  type PostListStoreLoadActionOutput,
+  type PostListStoreSetActionOutput
 } from './Actions';
-import { type PostListStoreSliceName } from './Slice/PostListStoreSliceName';
+import { type PostListStoreSliceName } from './Slice';
+import { type PostListStoreResource } from './PostListStoreResource';
 import { type PostListStoreState } from './PostListStoreState';
 
 export interface PostListStoreHooks {
-  readonly useStoreAddCompletedActionOutput: (
-    sliceName: PostListStoreSliceName
-  ) => PostListStoreAddCompletedActionOutput;
+  readonly useResource: () => PostListStoreResource;
 
-  readonly useStoreAddReactionCompletedActionOutput: (
+  readonly useStoreClearActionOutput: (
     sliceName: PostListStoreSliceName
-  ) => PostListStoreAddReactionCompletedActionOutput;
+  ) => PostListStoreClearActionOutput;
 
-  readonly useStoreUpdateCompletedActionOutput: (
+  readonly useStoreLoadActionOutput: (
+    sliceName: PostListStoreSliceName,
+    input: PostListStoreLoadActionInput
+  ) => PostListStoreLoadActionOutput;
+
+  readonly useStoreSetActionOutput: (
     sliceName: PostListStoreSliceName
-  ) => PostListStoreUpdateCompletedActionOutput;
+  ) => PostListStoreSetActionOutput;
 
   readonly useStoreState: (sliceName: PostListStoreSliceName) => PostListStoreState;
 }
