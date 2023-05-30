@@ -1,6 +1,8 @@
 import {
   type AppNotificationStoreHooks,
+  type PostItemStoreHooks,
   type PostListStoreHooks,
+  type UserItemStoreHooks,
   type UserListStoreHooks
 } from '../features';
 import {
@@ -20,7 +22,9 @@ export interface ViewsHooks {
 
 interface Options {
   readonly hooksOfAppNotificationStore: AppNotificationStoreHooks;
+  readonly hooksOfPostItemStore: PostItemStoreHooks;
   readonly hooksOfPostListStore: PostListStoreHooks;
+  readonly hooksOfUserItemStore: UserItemStoreHooks;
   readonly hooksOfUserListStore: UserListStoreHooks;
 }
 
@@ -31,12 +35,14 @@ class Implementation implements ViewsHooks {
 
   constructor ({
     hooksOfAppNotificationStore,
+    hooksOfPostItemStore,
     hooksOfPostListStore,
+    hooksOfUserItemStore,
     hooksOfUserListStore,
   }: Options) {
     this.App = createAppViewHooks({ hooksOfAppNotificationStore });
-    this.Post = createPostViewHooks({ hooksOfPostListStore });
-    this.User = createUserViewHooks({ hooksOfUserListStore });
+    this.Post = createPostViewHooks({ hooksOfPostItemStore, hooksOfPostListStore });
+    this.User = createUserViewHooks({ hooksOfUserItemStore, hooksOfUserListStore });
   }
 }
 

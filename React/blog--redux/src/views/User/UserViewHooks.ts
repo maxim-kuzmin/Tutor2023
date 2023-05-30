@@ -1,20 +1,31 @@
-import { type UserListStoreHooks } from '../../features';
-import { createUserListViewHooks, type UserListViewHooks } from './List';
+import { type UserItemStoreHooks, type UserListStoreHooks } from '../../features';
+import { type UserItemViewHooks, createUserItemViewHooks } from './Item';
+import { type UserListViewHooks } from './List';
+import { createUserListViewHooks } from './List/UserListViewHooks';
 
 export interface UserViewHooks {
+  readonly Item: UserItemViewHooks;
   readonly List: UserListViewHooks;
 }
 
 interface Options {
+  readonly hooksOfUserItemStore: UserItemStoreHooks;
   readonly hooksOfUserListStore: UserListStoreHooks;
 }
 
-export function createUserViewHooks ({
-  hooksOfUserListStore
-}: Options): UserViewHooks {
-  const hooksOfList = createUserListViewHooks({ hooksOfUserListStore });
+class Implementation implements UserViewHooks {
+  readonly Item: UserItemViewHooks;
+  readonly List: UserListViewHooks;
 
-  return {
-    List: hooksOfList,
-  };
+  constructor ({
+    hooksOfUserItemStore,
+    hooksOfUserListStore,
+  }: Options) {
+    this.Item = createUserItemViewHooks({ hooksOfUserItemStore });
+    this.List = createUserListViewHooks({ hooksOfUserListStore });
+  }
+}
+
+export function createUserViewHooks (options: Options): UserViewHooks {
+  return new Implementation(options);
 }

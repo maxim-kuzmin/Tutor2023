@@ -9,8 +9,7 @@ import {
   type UserListStoreState,
 } from '../../../features';
 
-export interface UserListViewHooks extends UserListStoreSliceHooks {
-}
+export interface UserListViewHooks extends UserListStoreSliceHooks {}
 
 interface Options {
   readonly hooksOfUserListStore: UserListStoreHooks;

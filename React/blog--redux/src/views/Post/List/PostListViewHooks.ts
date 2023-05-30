@@ -1,11 +1,12 @@
 import {
+  type PostListStoreClearActionOutput,
+  type PostListStoreLoadActionInput,
+  type PostListStoreLoadActionOutput,
+  type PostListStoreSetActionOutput,
   type PostListStoreHooks,
-  type PostListStoreAddCompletedActionOutput,
-  type PostListStoreAddReactionCompletedActionOutput,
-  type PostListStoreUpdateCompletedActionOutput,
-  type PostListStoreState,
-  PostListStoreSliceName,
   type PostListStoreSliceHooks,
+  PostListStoreSliceName,
+  type PostListStoreState,
 } from '../../../features';
 
 export interface PostListViewHooks extends PostListStoreSliceHooks {}
@@ -15,20 +16,20 @@ interface Options {
 }
 
 export function createPostListViewHooks ({
-  hooksOfPostListStore
+  hooksOfPostListStore,
 }: Options): PostListViewHooks {
   const sliceName = PostListStoreSliceName.Default;
 
-  function useStoreAddCompletedActionOutput (): PostListStoreAddCompletedActionOutput {
-    return hooksOfPostListStore.useStoreAddCompletedActionOutput(sliceName);
+  function useStoreClearActionOutput (): PostListStoreClearActionOutput {
+    return hooksOfPostListStore.useStoreClearActionOutput(sliceName);
   }
 
-  function useStoreAddReactionCompletedActionOutput (): PostListStoreAddReactionCompletedActionOutput {
-    return hooksOfPostListStore.useStoreAddReactionCompletedActionOutput(sliceName);
+  function useStoreLoadActionOutput (input: PostListStoreLoadActionInput): PostListStoreLoadActionOutput {
+    return hooksOfPostListStore.useStoreLoadActionOutput(sliceName, input);
   }
 
-  function useStoreUpdateCompletedActionOutput (): PostListStoreUpdateCompletedActionOutput {
-    return hooksOfPostListStore.useStoreUpdateCompletedActionOutput(sliceName);
+  function useStoreSetActionOutput (): PostListStoreSetActionOutput {
+    return hooksOfPostListStore.useStoreSetActionOutput(sliceName);
   }
 
   function useStoreState (): PostListStoreState {
@@ -36,9 +37,9 @@ export function createPostListViewHooks ({
   }
 
   return {
-    useStoreAddCompletedActionOutput,
-    useStoreAddReactionCompletedActionOutput,
-    useStoreUpdateCompletedActionOutput,
-    useStoreState,
+    useStoreClearActionOutput,
+    useStoreLoadActionOutput,
+    useStoreSetActionOutput,
+    useStoreState
   };
 }
