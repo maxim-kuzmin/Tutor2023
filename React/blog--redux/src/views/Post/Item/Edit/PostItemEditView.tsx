@@ -14,15 +14,15 @@ function PostItemEditView ({
 
   const stateOfPostList = hooks.Views.Post.List.useStoreState();
 
-  const { payloadOfSetAction } = stateOfPostList;
+  const { resultOfSetAction } = stateOfPostList;
 
   const entity = useMemo(
-    () => payloadOfSetAction?.find(
+    () => resultOfSetAction?.data?.items?.find(
         (item) => item.data.id === postId
       ) ?? createPostDomainEntity({
         data: createPostTypeEntity({ id: postId })
       }),
-    [payloadOfSetAction, postId]
+    [resultOfSetAction, postId]
   );
 
   const { data } = entity;
@@ -32,22 +32,20 @@ function PostItemEditView ({
 
   const navigate = useNavigate()
 
-  const { dispatchOfUpdateCompletedAction } = hooks.Views.Post.List.useStoreUpdateCompletedActionOutput();
+  const { dispatchOfSaveAction } = hooks.Views.Post.Item.useStoreSaveActionOutput();
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => { setTitle(e.target.value); }
   const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => { setContent(e.target.value); }
 
   const onSavePostClicked = () => {
     if (title && content) {
-      const payload = createPostDomainEntity({
-        data: createPostTypeEntity({
-          id: postId,
-          title,
-          content,
-        }),
+      const payload = createPostTypeEntity({
+        id: postId,
+        title,
+        content,
       });
 
-      dispatchOfUpdateCompletedAction.run(payload);
+      dispatchOfSaveAction.run(payload);
 
       navigate(displayPageUrl);
     }

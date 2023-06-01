@@ -13,9 +13,9 @@ function PostItemView ({
 }: PostItemViewProps): React.ReactElement<PostItemViewProps> | null {
   const { hooks } = useAppInstance();
 
-  const { payloadOfSetAction } = hooks.Views.Post.List.useStoreState();
+  const { resultOfSetAction } = hooks.Views.Post.List.useStoreState();
 
-  const entity = payloadOfSetAction?.find((item) => item.data.id === postId);
+  const entity = resultOfSetAction?.data?.items?.find((item) => item.data.id === postId);
 
   if (!entity) {
     return (

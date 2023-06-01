@@ -1,7 +1,6 @@
 import React, { memo, useState, type ChangeEvent } from 'react';
 import { useAppInstance } from '../../../../app';
 import { createPostTypeEntity } from '../../../../data';
-import { createPostDomainEntity } from '../../../../domains';
 
 export const PostItemAddView: React.FC = memo(
 function PostItemAddView (): React.ReactElement | null {
@@ -10,21 +9,19 @@ function PostItemAddView (): React.ReactElement | null {
 
   const { hooks } = useAppInstance();
 
-  const { dispatchOfAddCompletedAction } = hooks.Views.Post.List.useStoreAddCompletedActionOutput();
+  const { dispatchOfSaveAction } = hooks.Views.Post.Item.useStoreSaveActionOutput();
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => { setTitle(e.target.value); }
   const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => { setContent(e.target.value); }
 
   const onSavePostClicked = () => {
     if (title && content) {
-      const payload = createPostDomainEntity({
-        data: createPostTypeEntity({
-          title,
-          content,
-        }),
+      const payload = createPostTypeEntity({
+        title,
+        content,
       });
 
-      dispatchOfAddCompletedAction.run(payload);
+      dispatchOfSaveAction.run(payload);
 
       setTitle('');
       setContent('');

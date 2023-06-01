@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { useAppInstance } from '../../../app';
+// import { useAppInstance } from '../../../app';
 import { type PostDomainReactionType } from '../../../domains';
 import { type PostReactionButtonsViewProps } from './PostReactionButtonsViewProps';
 
@@ -16,9 +16,13 @@ function PostReactionButtonsView ({
   postId,
   reactions
 }: PostReactionButtonsViewProps): React.ReactElement<PostReactionButtonsViewProps> | null {
-  const { hooks } = useAppInstance();
+  // const { hooks } = useAppInstance();
 
-  const { dispatchOfAddReactionCompletedAction } = hooks.Views.Post.List.useStoreAddReactionCompletedActionOutput();
+  // const { dispatchOfAddReactionCompletedAction } = hooks.Views.Post.List.useStoreAddReactionCompletedActionOutput();
+
+  const onReactionClicked = (reactionName: string) => {
+    console.log('MAKC:reactionName', reactionName);
+  };
 
   const reactionButtons: React.ReactElement[] = [];
 
@@ -28,8 +32,7 @@ function PostReactionButtonsView ({
         key={name}
         type="button"
         className="muted-button reaction-button"
-        onClick={() => { dispatchOfAddReactionCompletedAction.run({ postId, reaction: name }); }
-        }
+        onClick={() => { onReactionClicked(name); }}
       >
         {emoji} {reactions[name]}
       </button>

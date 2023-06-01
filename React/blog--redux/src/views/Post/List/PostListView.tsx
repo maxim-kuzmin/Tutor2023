@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppInstance } from '../../../app';
 import { PostAuthorView } from '../Author';
@@ -12,32 +12,39 @@ function PostListView ({
 }: PostListViewProps): React.ReactElement<PostListViewProps> | null {
   const { hooks } = useAppInstance();
 
-  const { payloadOfSetAction } = hooks.Views.Post.List.useStoreState();
+  const resultOfLoadAction = useMemo(
+    () => ({}),
+    []
+  );
+
+  const { resultOfLoadCompletedAction } = hooks.Views.Post.List.useStoreLoadActionOutput({
+    resultOfLoadAction
+  });
 
   // Sort posts in reverse chronological order by datetime string
-  const orderedPosts = (payloadOfSetAction ?? [])
+  const orderedPosts = (resultOfLoadCompletedAction?.data?.items ?? [])
     .slice()
     .sort((a, b) => b.data.date.localeCompare(a.data.date));
 
-    const renderedPosts = orderedPosts.map((item) => {
-      const { data: { id, title, userId, date, content }, reactions } = item;
+  const renderedPosts = orderedPosts.map((item) => {
+    const { data: { id, title, userId, date, content }, reactions } = item;
 
-      return (
-        <article className="post-excerpt" key={id}>
-          <h3>{title}</h3>
-          <div>
-            <PostAuthorView userId={userId} />
-            <PostTimeAgoView timestamp={date} />
-          </div>
-          <p className="post-content">{content.substring(0, 100)}</p>
+    return (
+      <article className="post-excerpt" key={id}>
+        <h3>{title}</h3>
+        <div>
+          <PostAuthorView userId={userId} />
+          <PostTimeAgoView timestamp={date} />
+        </div>
+        <p className="post-content">{content.substring(0, 100)}</p>
 
-          <PostReactionButtonsView postId={id} reactions={reactions} />
-          <Link to={createDisplayItemPageUrl(id)} className="button muted-button">
-            View Post
-          </Link>
-        </article>
-      )
-    });
+        <PostReactionButtonsView postId={id} reactions={reactions} />
+        <Link to={createDisplayItemPageUrl(id)} className="button muted-button">
+          View Post
+        </Link>
+      </article>
+    )
+  });
 
   return (
     <section className="posts-list">
