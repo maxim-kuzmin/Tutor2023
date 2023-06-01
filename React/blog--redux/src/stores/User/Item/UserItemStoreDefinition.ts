@@ -52,20 +52,18 @@ export const createUserItemStoreDeleteActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  const result = actionResult
-    ? await requestHandler.handle(
-        createUserDomainItemDeleteOperationRequest(
-          actionResult,
-          {
-            operationName: resourceOfUserItemStore.getOperationNameForDelete(),
-            resourceOfApiResponse
-          }
-        ),
-        abortSignal
-      )
-    : null;
-
-    return result;
+    return actionResult
+      ? await requestHandler.handle(
+          createUserDomainItemDeleteOperationRequest(
+            actionResult,
+            {
+              operationName: resourceOfUserItemStore.getOperationNameForDelete(),
+              resourceOfApiResponse
+            }
+          ),
+          abortSignal
+        )
+      : null;
   },
 );
 
@@ -88,20 +86,18 @@ export const createUserItemStoreLoadActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  const result = actionResult
-    ? await requestHandler.handle(
-        createUserDomainItemGetOperationRequest(
-          actionResult,
-          {
-            operationName: resourceOfUserItemStore.getOperationNameForGet(),
-            resourceOfApiResponse
-          }
-        ),
-        abortSignal
-      )
-    : null;
-
-    return result;
+    return actionResult
+      ? await requestHandler.handle(
+          createUserDomainItemGetOperationRequest(
+            actionResult,
+            {
+              operationName: resourceOfUserItemStore.getOperationNameForGet(),
+              resourceOfApiResponse
+            }
+          ),
+          abortSignal
+        )
+      : null;
   },
 );
 
@@ -124,20 +120,18 @@ export const createUserItemStoreSaveActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  const result = actionResult
-    ? await requestHandler.handle(
-        createUserDomainItemSaveOperationRequest(
-          actionResult,
-          {
-            operationName: resourceOfUserItemStore.getOperationNameForSave(),
-            resourceOfApiResponse
-          }
-        ),
-        abortSignal
-      )
-    : null;
-
-    return result;
+    return actionResult
+      ? await requestHandler.handle(
+          createUserDomainItemSaveOperationRequest(
+            actionResult,
+            {
+              operationName: resourceOfUserItemStore.getOperationNameForSave(),
+              resourceOfApiResponse
+            }
+          ),
+          abortSignal
+        )
+      : null;
   },
 );
 

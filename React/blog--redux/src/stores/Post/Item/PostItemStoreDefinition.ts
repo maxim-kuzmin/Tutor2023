@@ -52,20 +52,18 @@ export const createPostItemStoreDeleteActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  const result = actionResult
-    ? await requestHandler.handle(
-        createPostDomainItemDeleteOperationRequest(
-          actionResult,
-          {
-            operationName: resourceOfPostItemStore.getOperationNameForDelete(),
-            resourceOfApiResponse
-          }
-        ),
-        abortSignal
-      )
-    : null;
-
-    return result;
+    return actionResult
+      ? await requestHandler.handle(
+          createPostDomainItemDeleteOperationRequest(
+            actionResult,
+            {
+              operationName: resourceOfPostItemStore.getOperationNameForDelete(),
+              resourceOfApiResponse
+            }
+          ),
+          abortSignal
+        )
+      : null;
   },
 );
 
@@ -88,20 +86,18 @@ export const createPostItemStoreLoadActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  const result = actionResult
-    ? await requestHandler.handle(
-        createPostDomainItemGetOperationRequest(
-          actionResult,
-          {
-            operationName: resourceOfPostItemStore.getOperationNameForGet(),
-            resourceOfApiResponse
-          }
-        ),
-        abortSignal
-      )
-    : null;
-
-    return result;
+    return actionResult
+      ? await requestHandler.handle(
+          createPostDomainItemGetOperationRequest(
+            actionResult,
+            {
+              operationName: resourceOfPostItemStore.getOperationNameForGet(),
+              resourceOfApiResponse
+            }
+          ),
+          abortSignal
+        )
+      : null;
   },
 );
 
@@ -124,20 +120,18 @@ export const createPostItemStoreSaveActionAsync = createAsyncAction<
       actionResult,
     }
   }) => {
-  const result = actionResult
-    ? await requestHandler.handle(
-        createPostDomainItemSaveOperationRequest(
-          actionResult,
-          {
-            operationName: resourceOfPostItemStore.getOperationNameForSave(),
-            resourceOfApiResponse
-          }
-        ),
-        abortSignal
-      )
-    : null;
-
-    return result;
+    return actionResult
+      ? await requestHandler.handle(
+          createPostDomainItemSaveOperationRequest(
+            actionResult,
+            {
+              operationName: resourceOfPostItemStore.getOperationNameForSave(),
+              resourceOfApiResponse
+            }
+          ),
+          abortSignal
+        )
+      : null;
   },
 );
 
