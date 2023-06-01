@@ -38,9 +38,9 @@ class Implementation implements PostDomainItemGetOperationRequestHandler {
     >(
       request,
       async () => {
-        const { id, title, topicId } = request.input;
+        const { id } = request.input;
 
-        const isInputValid = Number(id ?? 0) > 0 || (title && Number(topicId ?? 0) > 0);
+        const isInputValid = id !== '0';
 
         if (isInputValid) {
           return await this.repository.getItem(request, abortSignal);

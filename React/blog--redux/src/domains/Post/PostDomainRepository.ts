@@ -53,25 +53,19 @@ class Implementation implements PostDomainRepository {
   ): Promise<ApiOperationResponse> {
     const { operationCode, operationName, resourceOfApiResponse, input } = request;
 
-    const endpoint = `${controller}/${Number(input.id ?? 0)}`;
+    const inputId = String(input.id ?? '');
 
-    try {
-      return await this.clientOfApi.delete({
-        abortSignal,
-        endpoint,
-        operationName,
-        operationCode,
-        resourceOfApiResponse
-      });
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
+    const id = inputId.length > 0 ? inputId : '0';
 
-      if (response) {
-        return response;
-      }
+    const endpoint = `${controller}/${id}`;
 
-      throw error;
-    }
+    return await this.clientOfApi.delete({
+      abortSignal,
+      endpoint,
+      operationName,
+      operationCode,
+      resourceOfApiResponse
+    });
   }
 
   async getItem (
@@ -80,27 +74,21 @@ class Implementation implements PostDomainRepository {
   ): Promise<PostDomainItemGetOperationResponse> {
     const { operationCode, operationName, resourceOfApiResponse, input } = request;
 
-    const endpoint = `${controller}/${Number(input.id ?? 0)}`;
+    const inputId = String(input.id ?? '');
 
-    try {
-      const response = await this.clientOfApi.get<PostDomainItemGetOperationOutput>({
-        abortSignal,
-        endpoint,
-        operationName,
-        operationCode,
-        resourceOfApiResponse
-      });
+    const id = inputId.length > 0 ? inputId : '0';
 
-      return createPostDomainItemGetOperationResponse(response);
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
+    const endpoint = `${controller}/${id}`;
 
-      if (response) {
-        return createPostDomainItemGetOperationResponse(response);
-      }
+    const response = await this.clientOfApi.get<PostDomainItemGetOperationOutput>({
+      abortSignal,
+      endpoint,
+      operationName,
+      operationCode,
+      resourceOfApiResponse
+    });
 
-      throw error;
-    }
+    return createPostDomainItemGetOperationResponse(response);
   }
 
   async getList (
@@ -111,26 +99,16 @@ class Implementation implements PostDomainRepository {
 
     const endpoint = controller;
 
-    try {
-      const response = await this.clientOfApi.get<PostDomainListGetOperationOutput>({
-        abortSignal,
-        endpoint,
-        operationName,
-        operationCode,
-        query,
-        resourceOfApiResponse
-      });
+    const response = await this.clientOfApi.get<PostDomainListGetOperationOutput>({
+      abortSignal,
+      endpoint,
+      operationName,
+      operationCode,
+      query,
+      resourceOfApiResponse
+    });
 
-      return createPostDomainListGetOperationResponse(response);
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
-
-      if (response) {
-        return createPostDomainListGetOperationResponse(response);
-      }
-
-      throw error;
-    }
+    return createPostDomainListGetOperationResponse(response);
   }
 
   async saveItem (
@@ -139,9 +117,9 @@ class Implementation implements PostDomainRepository {
   ): Promise<PostDomainItemGetOperationResponse> {
     const { operationCode, operationName, resourceOfApiResponse, input: body } = request;
 
-    const id = Number(body.id ?? 0);
+    const id = body.id.length > 0 ? body.id : '0';
 
-    const endpoint = id > 0 ? `${controller}/${id}` : controller;
+    const endpoint = id !== '0' ? `${controller}/${id}` : controller;
 
     const options: ApiRequestOptionsWithBody = {
       abortSignal,
@@ -152,21 +130,11 @@ class Implementation implements PostDomainRepository {
       resourceOfApiResponse
     };
 
-    try {
-      const response = id > 0
-        ? await this.clientOfApi.put<PostDomainItemGetOperationOutput>(options)
-        : await this.clientOfApi.post<PostDomainItemGetOperationOutput>(options);
+    const response = id !== '0'
+      ? await this.clientOfApi.put<PostDomainItemGetOperationOutput>(options)
+      : await this.clientOfApi.post<PostDomainItemGetOperationOutput>(options);
 
-      return createPostDomainItemGetOperationResponse(response);
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
-
-      if (response) {
-        return createPostDomainItemGetOperationResponse(response);
-      }
-
-      throw error;
-    }
+    return createPostDomainItemGetOperationResponse(response);
   }
 }
 

@@ -1,6 +1,7 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppInstance } from '../../../app';
+import { createPostDomainListGetOperationInput } from '../../../domains';
 import { PostAuthorView } from '../Author';
 import { PostTimeAgoView } from '../TimeAgo';
 import { PostReactionButtonsView } from '../ReactionButtons';
@@ -8,18 +9,32 @@ import { type PostListViewProps } from './PostListViewProps';
 
 export const PostListView: React.FC<PostListViewProps> = memo(
 function PostListView ({
-  createDisplayItemPageUrl
+  createDisplayItemPageUrl,
+  shouldBeReloaded,
 }: PostListViewProps): React.ReactElement<PostListViewProps> | null {
-  const { hooks } = useAppInstance();
+  const { controls, hooks } = useAppInstance();
 
   const resultOfLoadAction = useMemo(
-    () => ({}),
+    () => createPostDomainListGetOperationInput(),
     []
   );
 
-  const { resultOfLoadCompletedAction } = hooks.Views.Post.List.useStoreLoadActionOutput({
+  const {
+    dispatchOfLoadAction,
+    pendingOfLoadAction,
+    resultOfLoadCompletedAction,
+  } = hooks.Views.Post.List.useStoreLoadActionOutput({
     resultOfLoadAction
   });
+
+  useEffect(
+    () => {
+      if (shouldBeReloaded) {
+        dispatchOfLoadAction.run(resultOfLoadAction);
+      }
+    },
+    [dispatchOfLoadAction, resultOfLoadAction, shouldBeReloaded]
+  );
 
   // Sort posts in reverse chronological order by datetime string
   const orderedPosts = (resultOfLoadCompletedAction?.data?.items ?? [])
@@ -43,13 +58,17 @@ function PostListView ({
           View Post
         </Link>
       </article>
-    )
+    );
   });
 
   return (
     <section className="posts-list">
       <h2>Posts</h2>
-      {renderedPosts}
+      {
+        pendingOfLoadAction
+        ? <controls.Spinner text='Loading posts...'/>
+        : renderedPosts
+      }
     </section>
   );
 });

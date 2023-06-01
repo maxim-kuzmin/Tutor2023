@@ -1,8 +1,7 @@
 import { type ItemGetOperationInput, createItemGetOperationInput } from '../../../../../common';
 
 export interface UserDomainItemGetOperationInput extends ItemGetOperationInput {
-  title?: string;
-  topicId?: number | string;
+  username?: string;
 }
 
 export function createUserDomainItemGetOperationInput (
@@ -12,7 +11,6 @@ export function createUserDomainItemGetOperationInput (
 
   return {
     ...base,
-    title: options?.title,
-    topicId: options?.topicId,
+    username: options?.username,
   };
 }

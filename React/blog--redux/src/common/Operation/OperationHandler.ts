@@ -39,7 +39,7 @@ class Implementation implements OperationHandler {
     if (shouldBeLogged) {
       console.error(title, error);
     }
-
+console.log('shouldBeNotified', shouldBeNotified);
     if (shouldBeNotified) {
       functionToSetNotification({
         type: NotificationControlType.Error,

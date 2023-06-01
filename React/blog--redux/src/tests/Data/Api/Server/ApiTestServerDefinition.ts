@@ -25,8 +25,10 @@ import {
   type PostTypeEntity,
   createPostTypeEntity,
   createUserTypeEntity,
+  type ApiResponse,
   type ApiResponseWithData,
-  createApiResponseWithData
+  createApiResponseWithData,
+  createApiResponse,
 } from '../../../../data';
 import {
   type ApiTestServerPostTypeEntity,
@@ -195,12 +197,14 @@ function convertToPostDomainEntity (dbEntity: ApiTestServerPostTypeEntity): Post
 
 function convertToPostItemApiResponse (
   dbEntity: ApiTestServerPostTypeEntity
-): ApiResponseWithData<PostDomainItemGetOperationOutput> {
-  const data = createPostDomainItemGetOperationOutput({
-    item: convertToPostDomainEntity(dbEntity),
-  });
+): ApiResponseWithData<PostDomainItemGetOperationOutput> | ApiResponse {
+  const data = dbEntity
+    ? createPostDomainItemGetOperationOutput({
+        item: convertToPostDomainEntity(dbEntity),
+      })
+    : null;
 
-  return createApiResponseWithData({ data });
+  return data ? createApiResponseWithData({ data }) : createApiResponse();
 }
 
 function convertToPostListApiResponse (
@@ -262,6 +266,9 @@ function createUrl (endpoint: string) {
 }
 
 const handlers = [
+  //
+  // Post
+  //
   rest.get(createUrl('posts'), async function (req, res, ctx) {
     const posts = db.post.getAll();
 
@@ -290,9 +297,7 @@ const handlers = [
       })
     );
 
-    const domainEntity = convertToPostDomainEntity(post);
-
-    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(domainEntity));
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostItemApiResponse(post)));
   }),
   rest.get(createUrl('posts/:postId'), async function (req, res, ctx) {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
@@ -303,17 +308,25 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostItemApiResponse(post)));
   }),
-  rest.patch(createUrl('posts/:postId'), async (req, res, ctx) => {
+  rest.put(createUrl('posts/:postId'), async (req, res, ctx) => {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
 
     const { id, ...data }: PostTypeEntity = await req.json();
+
+    if (data.content === 'error') {
+      return await res(
+        ctx.delay(ARTIFICIAL_DELAY_MS),
+        ctx.status(500),
+        ctx.json('Server error saving this post!')
+      );
+    }
 
     const post = db.post.update({
       where: { id: { equals: postId } },
       data,
     })!;
 
-    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostDomainEntity(post)));
+    return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostItemApiResponse(post)));
   }),
   rest.get(createUrl('posts/:postId/comments'), async (req, res, ctx) => {
     const postId: string = Array.isArray(req.params) ? req.params.postId[0] : String(req.params.postId);
@@ -348,6 +361,9 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(convertToPostDomainEntity(updatedPost)));
   }),
+  //
+  // Notification
+  //
   rest.get(createUrl('notifications'), async (req, res, ctx) => {
     const numNotifications = getRandomInt(1, 5);
 
@@ -355,6 +371,9 @@ const handlers = [
 
     return await res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(notifications))
   }),
+  //
+  // User
+  //
   rest.get(createUrl('users'), async (req, res, ctx) => {
     const users = db.user.getAll();
 

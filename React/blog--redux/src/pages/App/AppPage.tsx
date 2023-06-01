@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppNavbarView } from '../../views';
+import { AppNavbarView, AppNotificationView } from '../../views';
 import { useAppInstance } from '../../app';
 import { createUserDomainListGetOperationInput } from '../../domains';
 
@@ -27,6 +27,7 @@ function AppPage (): React.ReactElement | null {
 
   return (
     <>
+      <AppNotificationView/>
       <AppNavbarView postListPageUrl={postListPageUrl}/>
       <Outlet/>
     </>

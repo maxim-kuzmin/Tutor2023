@@ -38,7 +38,7 @@ class Implementation implements PostDomainItemSaveOperationRequestHandler {
       async () => {
         const { title, content, userId } = request.input;
 
-        const isInputValid = title && content && Number(userId ?? 0) > 0;
+        const isInputValid = title && content && userId && userId !== '0';
 
         if (isInputValid) {
           return await this.repository.saveItem(request, abortSignal);

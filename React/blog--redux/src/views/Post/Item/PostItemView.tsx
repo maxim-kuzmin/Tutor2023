@@ -1,21 +1,36 @@
-import React, { memo } from 'react';
-import { Link } from 'react-router-dom'
+import React, { memo, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppInstance } from '../../../app';
 import { PostAuthorView } from '../Author';
 import { PostReactionButtonsView } from '../ReactionButtons';
 import { PostTimeAgoView } from '../TimeAgo';
 import { type PostItemViewProps } from './PostItemViewProps';
+import { createPostDomainItemGetOperationInput } from '../../../domains';
 
 export const PostItemView: React.FC<PostItemViewProps> = memo(
 function PostItemView ({
   postId,
   editPageUrl,
 }: PostItemViewProps): React.ReactElement<PostItemViewProps> | null {
-  const { hooks } = useAppInstance();
+  const { controls, hooks } = useAppInstance();
 
-  const { resultOfSetAction } = hooks.Views.Post.List.useStoreState();
+  const resultOfLoadAction = useMemo(
+    () => createPostDomainItemGetOperationInput({ id: postId }),
+    [postId]
+  );
 
-  const entity = resultOfSetAction?.data?.items?.find((item) => item.data.id === postId);
+  const {
+    pendingOfLoadAction,
+    resultOfLoadCompletedAction,
+  } = hooks.Views.Post.Item.useStoreLoadActionOutput({ resultOfLoadAction });
+
+  const entity = resultOfLoadCompletedAction?.data?.item;
+
+  if (pendingOfLoadAction) {
+    return (
+      <controls.Spinner text='Loading post...'/>
+    );
+  }
 
   if (!entity) {
     return (
@@ -29,18 +44,24 @@ function PostItemView ({
 
   return (
     <section>
-      <article className="post">
-        <h2>{title}</h2>
-        <div>
-          <PostAuthorView userId={userId} />
-          <PostTimeAgoView timestamp={date} />
-        </div>
-        <p className="post-content">{content}</p>
-        <PostReactionButtonsView postId={id} reactions={reactions} />
-        <Link to={editPageUrl} className="button">
-          Edit Post
-        </Link>
-      </article>
+      {
+        pendingOfLoadAction
+          ? <controls.Spinner text='Loading post...'/>
+          : entity
+            ? <article className="post">
+                <h2>{title}</h2>
+                <div>
+                  <PostAuthorView userId={userId} />
+                  <PostTimeAgoView timestamp={date} />
+                </div>
+                <p className="post-content">{content}</p>
+                <PostReactionButtonsView postId={id} reactions={reactions} />
+                <Link to={editPageUrl} className="button">
+                  Edit Post
+                </Link>
+              </article>
+            : <h2>Post not found!</h2>
+      }
     </section>
-  )
+  );
 });

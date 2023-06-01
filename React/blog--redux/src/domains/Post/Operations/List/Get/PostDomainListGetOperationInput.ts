@@ -2,9 +2,6 @@ import { type ListGetOperationInput, createListGetOperationInput } from '../../.
 
 export interface PostDomainListGetOperationInput extends ListGetOperationInput {
   ids?: number[];
-  title?: string;
-  topicId?: number;
-  topicIds?: number[];
 }
 
 export function createPostDomainListGetOperationInput (
@@ -15,8 +12,5 @@ export function createPostDomainListGetOperationInput (
   return {
     ...base,
     ids: options?.ids,
-    title: options?.title,
-    topicId: options?.topicId,
-    topicIds: options?.topicIds,
   };
 }

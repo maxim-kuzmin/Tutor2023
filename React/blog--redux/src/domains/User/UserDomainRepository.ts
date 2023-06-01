@@ -53,25 +53,19 @@ class Implementation implements UserDomainRepository {
   ): Promise<ApiOperationResponse> {
     const { operationCode, operationName, resourceOfApiResponse, input } = request;
 
-    const endpoint = `${controller}/${Number(input.id ?? 0)}`;
+    const inputId = String(input.id ?? '');
 
-    try {
-      return await this.clientOfApi.delete({
-        abortSignal,
-        endpoint,
-        operationName,
-        operationCode,
-        resourceOfApiResponse
-      });
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
+    const id = inputId.length > 0 ? inputId : '0';
 
-      if (response) {
-        return response;
-      }
+    const endpoint = `${controller}/${id}`;
 
-      throw error;
-    }
+    return await this.clientOfApi.delete({
+      abortSignal,
+      endpoint,
+      operationName,
+      operationCode,
+      resourceOfApiResponse
+    });
   }
 
   async getItem (
@@ -80,27 +74,21 @@ class Implementation implements UserDomainRepository {
   ): Promise<UserDomainItemGetOperationResponse> {
     const { operationCode, operationName, resourceOfApiResponse, input } = request;
 
-    const endpoint = `${controller}/${Number(input.id ?? 0)}`;
+    const inputId = String(input.id ?? '');
 
-    try {
-      const response = await this.clientOfApi.get<UserDomainItemGetOperationOutput>({
-        abortSignal,
-        endpoint,
-        operationName,
-        operationCode,
-        resourceOfApiResponse
-      });
+    const id = inputId.length > 0 ? inputId : '0';
 
-      return createUserDomainItemGetOperationResponse(response);
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
+    const endpoint = `${controller}/${id}`;
 
-      if (response) {
-        return createUserDomainItemGetOperationResponse(response);
-      }
+    const response = await this.clientOfApi.get<UserDomainItemGetOperationOutput>({
+      abortSignal,
+      endpoint,
+      operationName,
+      operationCode,
+      resourceOfApiResponse
+    });
 
-      throw error;
-    }
+    return createUserDomainItemGetOperationResponse(response);
   }
 
   async getList (
@@ -111,26 +99,16 @@ class Implementation implements UserDomainRepository {
 
     const endpoint = controller;
 
-    try {
-      const response = await this.clientOfApi.get<UserDomainListGetOperationOutput>({
-        abortSignal,
-        endpoint,
-        operationName,
-        operationCode,
-        query,
-        resourceOfApiResponse
-      });
+    const response = await this.clientOfApi.get<UserDomainListGetOperationOutput>({
+      abortSignal,
+      endpoint,
+      operationName,
+      operationCode,
+      query,
+      resourceOfApiResponse
+    });
 
-      return createUserDomainListGetOperationResponse(response);
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
-
-      if (response) {
-        return createUserDomainListGetOperationResponse(response);
-      }
-
-      throw error;
-    }
+    return createUserDomainListGetOperationResponse(response);
   }
 
   async saveItem (
@@ -139,9 +117,9 @@ class Implementation implements UserDomainRepository {
   ): Promise<UserDomainItemGetOperationResponse> {
     const { operationCode, operationName, resourceOfApiResponse, input: body } = request;
 
-    const id = Number(body.id ?? 0);
+    const id = body.id.length > 0 ? body.id : '0';
 
-    const endpoint = id > 0 ? `${controller}/${id}` : controller;
+    const endpoint = id !== '0' ? `${controller}/${id}` : controller;
 
     const options: ApiRequestOptionsWithBody = {
       abortSignal,
@@ -152,21 +130,11 @@ class Implementation implements UserDomainRepository {
       resourceOfApiResponse
     };
 
-    try {
-      const response = id > 0
-        ? await this.clientOfApi.put<UserDomainItemGetOperationOutput>(options)
-        : await this.clientOfApi.post<UserDomainItemGetOperationOutput>(options);
+    const response = id !== '0'
+      ? await this.clientOfApi.put<UserDomainItemGetOperationOutput>(options)
+      : await this.clientOfApi.post<UserDomainItemGetOperationOutput>(options);
 
-      return createUserDomainItemGetOperationResponse(response);
-    } catch (error: unknown) {
-      const response = error as ApiOperationResponse;
-
-      if (response) {
-        return createUserDomainItemGetOperationResponse(response);
-      }
-
-      throw error;
-    }
+    return createUserDomainItemGetOperationResponse(response);
   }
 }
 

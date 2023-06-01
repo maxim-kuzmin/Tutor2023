@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useAppInstance } from '../../../app';
 import { PostItemAddView, PostItemViewMode, PostListView } from '../../../views';
 
@@ -8,6 +8,17 @@ function PostListPage (): React.ReactElement | null {
 
   const serviceOfPostItemPage = modules.Pages.Post.Item.getService();
 
+  const [shouldBeReloaded, setShouldBeReloaded] = useState(false);
+
+  useEffect(
+    () => {
+      if (shouldBeReloaded) {
+        setShouldBeReloaded(false);
+      }
+    },
+    [shouldBeReloaded]
+  );
+
   const createDisplayItemPageUrl = useCallback(
     (postId: string) => serviceOfPostItemPage.createUrl({
       postId,
@@ -16,10 +27,17 @@ function PostListPage (): React.ReactElement | null {
     [serviceOfPostItemPage]
   );
 
+  const handleSaveActionCompleted = useCallback(
+    () => {
+      setShouldBeReloaded(true);
+    },
+    []
+  );
+
   return (
     <>
-      <PostItemAddView/>
-      <PostListView createDisplayItemPageUrl={createDisplayItemPageUrl}/>
+      <PostItemAddView onSaveActionCompleted={handleSaveActionCompleted}/>
+      <PostListView createDisplayItemPageUrl={createDisplayItemPageUrl} shouldBeReloaded={shouldBeReloaded}/>
     </>
   );
 });
